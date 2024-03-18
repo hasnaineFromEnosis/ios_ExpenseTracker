@@ -19,7 +19,7 @@ struct ContentView: View {
     
     mutating func generatePaidExpense() {
         for index in 1...10{
-            pendingExpenseList.append(Expense.getRandomExpense(value: index, isPaid: true))
+            paidExpenseList.append(Expense.getRandomExpense(value: index, isPaid: true))
         }
     }
     

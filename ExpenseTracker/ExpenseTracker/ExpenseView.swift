@@ -17,13 +17,15 @@ struct ExpenseView: View {
     }
     
     var body: some View {
-        self.color
+        List(expenses) { expense in
+            ExpenseRowView(expense: expense)
+        }
     }
     
 }
 
 #Preview {
     ExpenseView(color: Color.green, expenses: [Expense.getRandomExpense(value: 1),
-         Expense.getRandomExpense(value: 2),
+         Expense.getRandomExpense(value: 2, isPaid: true),
          Expense.getRandomExpense(value: 3)])
 }
