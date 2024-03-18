@@ -23,5 +23,7 @@ struct ExpenseView: View {
 }
 
 #Preview {
-    ExpenseView(color: Color.green, expenses: [])
+    ExpenseView(color: Color.green, expenses: [Expense.getRandomExpense(value: 1),
+         Expense.getRandomExpense(value: 2),
+         Expense.getRandomExpense(value: 3)])
 }

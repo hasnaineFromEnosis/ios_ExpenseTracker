@@ -13,29 +13,13 @@ struct ContentView: View {
     
     mutating func generatePendingExpense() {
         for index in 1...10{
-            let expense: Expense
-            = Expense(title: String("Title \(index)"),
-                      description: String("Des \(index)"),
-                      amount: Int.random(in: 1...100),
-                      category: String("Cate \(index)"),
-                      type: Expense.ExpenseType.random)
-            
-            pendingExpenseList.append(expense)
+            pendingExpenseList.append(Expense.getRandomExpense(value: index))
         }
     }
     
     mutating func generatePaidExpense() {
         for index in 1...10{
-            let expense: Expense
-            = Expense(title: String("Title pending \(index)"),
-                      description: String("Des pending \(index)"),
-                      amount: Int.random(in: 1...100),
-                      category: String("Cate pending \(index)"),
-                      type: Expense.ExpenseType.random,
-                      date: Date.distantPast
-            )
-            
-            paidExpenseList.append(expense)
+            pendingExpenseList.append(Expense.getRandomExpense(value: index, isPaid: true))
         }
     }
     
