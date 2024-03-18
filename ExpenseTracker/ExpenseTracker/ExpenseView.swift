@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ExpenseView: View {
     private var color: Color
+    private var expenses: [Expense]
     
-    init(color: Color) {
+    init(color: Color, expenses: [Expense]) {
         self.color = color
+        self.expenses = expenses
     }
     
     var body: some View {
@@ -21,5 +23,5 @@ struct ExpenseView: View {
 }
 
 #Preview {
-    ExpenseView(color: Color.green)
+    ExpenseView(color: Color.green, expenses: [])
 }
