@@ -37,6 +37,11 @@ struct ContentView: View {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
             
+            CreateExpenseView()
+                .tabItem {
+                    Label("Create New", systemImage: "plus.circle")
+                }
+            
             ExpenseView(color: .green, 
                         expenses: self.paidExpenseList,
                         navTitle: "Paid Expense")
