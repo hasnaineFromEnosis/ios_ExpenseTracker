@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum ExpenseType {
-    case random
-    case recurrent
+enum ExpenseType: String {
+    case random = "Random"
+    case recurrent = "Recurrent"
 }
 
 struct Expense: Identifiable {
