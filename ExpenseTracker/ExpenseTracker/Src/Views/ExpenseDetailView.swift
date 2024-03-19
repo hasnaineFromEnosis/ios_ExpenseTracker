@@ -94,11 +94,11 @@ struct ExpenseDetailView: View {
 }
 
 #Preview {
-    ExpenseDetailView(expense: Generator.singleExpenseGenerator(value: 78, isPaid: true))
+    ExpenseDetailView(expense: ExpenseData.getRandomExpenseData(value: 78, isPaid: true))
         .environmentObject(ExpenseViewModel())
 }
 
 #Preview {
-    ExpenseDetailView(expense: Generator.singleExpenseGenerator(value: 77))
+    ExpenseDetailView(expense: ExpenseData.getRandomExpenseData(value: 77))
         .environmentObject(ExpenseViewModel())
 }

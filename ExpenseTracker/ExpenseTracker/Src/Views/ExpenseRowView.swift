@@ -54,16 +54,16 @@ struct ExpenseRowView: View {
 
 #Preview {
     Group {
-        ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 5))
+        ExpenseRowView(expense: ExpenseData.getRandomExpenseData(value: 5))
         Divider()
-        ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 6, isPaid: true))
+        ExpenseRowView(expense: ExpenseData.getRandomExpenseData(value: 6, isPaid: true))
     }
 }
 
 #Preview {
-    ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 2, isPaid: true))
+    ExpenseRowView(expense: ExpenseData.getRandomExpenseData(value: 2, isPaid: true))
 }
 
 #Preview {
-    ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 4))
+    ExpenseRowView(expense: ExpenseData.getRandomExpenseData(value: 4))
 }
