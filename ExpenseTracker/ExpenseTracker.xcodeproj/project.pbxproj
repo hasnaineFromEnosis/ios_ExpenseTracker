@@ -45,6 +45,7 @@
 		1A5316BA2BA9991300062171 /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				1A5316C12BA99DE600062171 /* New Group */,
 				1A917DDB2BA87AEB00009A5B /* ExpenseTrackerApp.swift */,
 				1A5316BD2BA9994400062171 /* Model */,
 				1A5316BC2BA9992F00062171 /* Views */,
@@ -78,6 +79,13 @@
 				1A41EFAC2BA8CB6800CE4FB9 /* Expense.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		1A5316C12BA99DE600062171 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		1A917DCF2BA87AEB00009A5B = {
