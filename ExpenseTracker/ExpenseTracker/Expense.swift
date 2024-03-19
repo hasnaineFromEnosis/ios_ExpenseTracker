@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum ExpenseType {
-    case random
-    case recurrent
+enum ExpenseType: String {
+    case random = "Random"
+    case recurrent = "Recurrent"
 }
 
-class Expense: Identifiable {
+struct Expense: Identifiable {
     var id: UUID
     var title: String
     var description: String
@@ -33,7 +33,7 @@ class Expense: Identifiable {
         self.paidDate = paidDate
     }
     
-    class func getRandomExpense(value: Int, isPaid: Bool = false, isRecurrent: Bool = false) -> Expense {
+    static func getRandomExpense(value: Int, isPaid: Bool = false, isRecurrent: Bool = false) -> Expense {
         return Expense(title: "Dummy Title \(value)",
                        description: "Dummy Description \(value)",
                        amount: Int.random(in: 1...1000),
@@ -44,9 +44,14 @@ class Expense: Identifiable {
         )
     }
     
-    func markAsPaid() {
+    mutating func markAsPaid() {
         assert(isExpensePending())
         self.paidDate = Date.now
+    }
+    
+    mutating func markAsPending() {
+        assert(isExpensePending() == false)
+        self.paidDate = nil
     }
     
     func isExpensePending() -> Bool {

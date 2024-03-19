@@ -30,12 +30,16 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            ExpenseView(color: .red, expenses: self.pendingExpenseList)
+            ExpenseView(color: .red, 
+                        expenses: self.pendingExpenseList,
+                        navTitle: "Pending Expense")
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
             
-            ExpenseView(color: .green, expenses: self.paidExpenseList)
+            ExpenseView(color: .green, 
+                        expenses: self.paidExpenseList,
+                        navTitle: "Paid Expense")
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
