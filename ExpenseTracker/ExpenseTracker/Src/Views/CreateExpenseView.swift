@@ -33,8 +33,9 @@ struct CreateExpenseView: View {
                         }
                     }
                 Picker("Expense Type", selection: $expenseViewModel.expenseType) {
-                    Text(ExpenseType.random.rawValue).tag(ExpenseType.random)
-                    Text(ExpenseType.recurrent.rawValue).tag(ExpenseType.recurrent)
+                    ForEach(ExpenseType.allCases, id: \.self) { type in
+                        Text(type.rawValue).tag(type)
+                    }
                 }
             }
             

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ExpenseType: String {
+enum ExpenseType: String, CaseIterable {
     case random = "Random"
     case recurrent = "Recurrent"
 }
@@ -26,7 +26,6 @@ class ExpenseViewModel: ObservableObject {
     @Published var expenseCategory: String = ""
     @Published var expenseAmount: String = ""
     @Published var expenseType: ExpenseType = ExpenseType.random
-    
     
     init() {
         getAllExpenseData()
