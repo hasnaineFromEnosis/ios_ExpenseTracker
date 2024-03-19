@@ -49,6 +49,11 @@ struct Expense: Identifiable {
         self.paidDate = Date.now
     }
     
+    mutating func markAsPending() {
+        assert(isExpensePending() == false)
+        self.paidDate = nil
+    }
+    
     func isExpensePending() -> Bool {
         return self.paidDate == nil
     }

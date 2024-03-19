@@ -40,17 +40,17 @@ struct ExpenseDetailView: View {
                                     value: formatDate(date: paidDate))
                     
                 }
-            }
-            
-            Button {
                 
-            } label: {
-                Text(expense.paidDate == nil 
-                     ? "Mark as Paid"
-                     : "Mark as Pending")
+                Section {
+                    Button {
+                        print("yolo")
+                    } label: {
+                        getPrimaryTextView(label: expense.isExpensePending()
+                                           ? "Pay Expense"
+                                           : "Withdraw Expense")
+                    }
+                }
             }
-            .frame(width: 200, height: 40)
-            
         }
     }
     
@@ -61,23 +61,29 @@ struct ExpenseDetailView: View {
     
     private func getHorizontalView(label: String, value: String) -> some View {
         return HStack {
-            Text(label)
-                .fontWeight(.medium)
-                .font(.title3)
+            getPrimaryTextView(label: label)
             Spacer()
-            Text(value)
-                .fontWeight(.light)
+            getSecondaryTextView(label: value)
         }
     }
     
     private func getVerticalView(label: String, value: String) -> some View {
         return VStack(alignment: .leading) {
-            Text(label)
-                .fontWeight(.medium)
-                .font(.title3)
-            Text(value)
-                .fontWeight(.light)
+            getPrimaryTextView(label: label)
+            getSecondaryTextView(label: value)
         }
+    }
+    
+    private func getPrimaryTextView(label: String) -> some View {
+        return Text(label)
+            .fontWeight(.medium)
+            .font(.headline)
+    }
+    
+    private func getSecondaryTextView(label: String) -> some View {
+        return Text(label)
+            .fontWeight(.thin)
+            .font(.subheadline)
     }
 }
 
