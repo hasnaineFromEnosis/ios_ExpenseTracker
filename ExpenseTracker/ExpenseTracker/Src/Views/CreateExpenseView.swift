@@ -11,6 +11,7 @@ import Combine
 struct CreateExpenseView: View {
     
     @EnvironmentObject var expenseViewModel: ExpenseViewModel
+    @State var showAlert: Bool = false
     
     var body: some View {
         Form {
@@ -41,11 +42,22 @@ struct CreateExpenseView: View {
             
             Section {
                 Button {
-                    expenseViewModel.createExpense()
+                    if expenseViewModel.isDataValid() {
+                        expenseViewModel.createExpense()
+                    } else {
+                        showAlert = true
+                    }
                 } label: {
                     Text("Create Expense")
                 }
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Please add data properly"),
+                message: Text("Please ensure that each field is filled out accurately " +
+                              "and provide a standard amount.")
+            )
         }
     }
   
