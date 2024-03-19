@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum ExpenseType: String {
+    case random = "Random"
+    case recurrent = "Recurrent"
+}
+
 class ExpenseViewModel: ObservableObject {
     // save fetched notes for view loading
     @Published var expenseData: [ExpenseData] = []
