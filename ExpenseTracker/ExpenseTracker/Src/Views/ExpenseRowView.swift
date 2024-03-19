@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct ExpenseRowView: View {
-    private var expense: Expense
+    private var expense: ExpenseData
     
-    init(expense: Expense) {
+    init(expense: ExpenseData) {
         self.expense = expense
     }
     
     var body: some View {
         HStack {
             VStack(alignment: .leading){
-                Text(expense.title)
+                Text(expense.title!)
                     .fontWeight(.medium)
                     .font(.headline)
                 
-                Text(expense.category)
+                Text(expense.category!)
                     .fontWeight(.thin)
                     .font(.caption)
             }
             Spacer()
             VStack(alignment: .trailing) {
-                Text(formatDate(date: expense.creationDate))
+                Text(formatDate(date: expense.creationDate!))
                     .fontWeight(.light)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -54,16 +54,16 @@ struct ExpenseRowView: View {
 
 #Preview {
     Group {
-        ExpenseRowView(expense: Expense.getRandomExpense(value: 5))
+        ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 5))
         Divider()
-        ExpenseRowView(expense: Expense.getRandomExpense(value: 6, isPaid: true))
+        ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 6, isPaid: true))
     }
 }
 
 #Preview {
-    ExpenseRowView(expense: Expense.getRandomExpense(value: 2, isPaid: true))
+    ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 2, isPaid: true))
 }
 
 #Preview {
-    ExpenseRowView(expense: Expense.getRandomExpense(value: 4))
+    ExpenseRowView(expense: Generator.singleExpenseGenerator(value: 4))
 }

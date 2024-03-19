@@ -46,7 +46,7 @@ class PersistentContainer {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType, creationDate: Date) {
+    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) {
         let entity = ExpenseData(context: container.viewContext)
         
         entity.id = UUID()
@@ -55,6 +55,7 @@ class PersistentContainer {
         entity.category = category
         entity.amount = Int32(amount)
         entity.creationDate = Date()
+        entity.type = type.rawValue
         
         saveChanges()
     }
@@ -92,7 +93,8 @@ class PersistentContainer {
                 category: String? = nil, 
                 amount: Int? = nil,
                 type: ExpenseType? = nil,
-                creationDate: Date? = nil) {
+                creationDate: Date? = nil,
+                paidDate: Date? = nil) {
         var hasChanges: Bool = false
         
         if let title {
@@ -122,6 +124,11 @@ class PersistentContainer {
         
         if let creationDate {
             entity.creationDate = creationDate
+            hasChanges = true
+        }
+        
+        if let paidDate {
+            entity.paidDate = paidDate
             hasChanges = true
         }
         
