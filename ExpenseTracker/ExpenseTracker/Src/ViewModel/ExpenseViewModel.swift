@@ -29,6 +29,13 @@ class ExpenseViewModel: ObservableObject {
     
     init() {
         getAllExpenseData()
+    }
+    
+    func getAllExpenseData() {
+        expenseData = dataService.read()
+        
+        paidExpenseData.removeAll()
+        pendingExpenseData.removeAll()
         
         for expense in expenseData {
             if expense.paidDate != nil {
@@ -37,10 +44,6 @@ class ExpenseViewModel: ObservableObject {
                 pendingExpenseData.append(expense)
             }
         }
-    }
-    
-    func getAllExpenseData() {
-        expenseData = dataService.read()
     }
     
     func createExpense() {
@@ -63,6 +66,10 @@ class ExpenseViewModel: ObservableObject {
         getAllExpenseData()
     }
     
+    func markAsPendingExpense(expenseData: ExpenseData) {
+        dataService.markExpenseAsPending(entity: expenseData)
+        getAllExpenseData()
+    }
     
     func clearState() {
         expenseTitle = ""

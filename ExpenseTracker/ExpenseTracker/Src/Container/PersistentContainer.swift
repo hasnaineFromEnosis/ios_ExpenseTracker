@@ -137,6 +137,11 @@ class PersistentContainer {
         }
     }
     
+    func markExpenseAsPending(entity: ExpenseData) {
+        entity.paidDate = nil
+        saveChanges()
+    }
+    
     func delete(entity: ExpenseData) {
         container.viewContext.delete(entity)
         saveChanges()

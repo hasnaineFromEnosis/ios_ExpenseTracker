@@ -45,7 +45,11 @@ struct ExpenseDetailView: View {
                 
                 Section {
                     Button {
-                        expenseViewModel.markAsPaidExpense(expenseData: expense)
+                        if expense.isExpensePending() {
+                            expenseViewModel.markAsPaidExpense(expenseData: expense)
+                        } else {
+                            expenseViewModel.markAsPendingExpense(expenseData: expense)
+                        }
                     } label: {
                         getPrimaryTextView(label: expense.isExpensePending()
                                            ? "Pay Expense"
