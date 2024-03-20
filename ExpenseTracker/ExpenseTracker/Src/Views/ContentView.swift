@@ -12,19 +12,21 @@ struct ContentView: View {
     @StateObject var expenseViewModel: ExpenseViewModel = ExpenseViewModel()
     
     var body: some View {
-        TabView {
+        TabView(selection: $expenseViewModel.tabSelection) {
             ExpenseView(viewType: .pendingExpenseView,
                         navTitle: "Pending Expense")
                 .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
+                .tag(1)
             
             CreateExpenseView()
                 .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Create New", systemImage: "plus.circle")
                 }
+                .tag(2)
             
             ExpenseView(viewType: .paidExpenseView,
                         navTitle: "Paid Expense")
@@ -32,6 +34,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
+                .tag(3)
         }
     }
 }

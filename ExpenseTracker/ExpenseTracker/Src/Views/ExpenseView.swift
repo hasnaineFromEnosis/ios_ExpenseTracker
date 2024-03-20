@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum ExpenseViewType {
-    case pendingExpenseView
-    case paidExpenseView
-}
-
 struct ExpenseView: View {
     private var viewType: ExpenseViewType
     private var navTitle: String
@@ -42,6 +37,9 @@ struct ExpenseView: View {
             return expenseViewModel.pendingExpenseData
         case .paidExpenseView:
             return expenseViewModel.paidExpenseData
+        case .createNewView:
+            fatalError("ExpenseView: Something wrong with the codeflow")
+            return []
         }
     }
     
