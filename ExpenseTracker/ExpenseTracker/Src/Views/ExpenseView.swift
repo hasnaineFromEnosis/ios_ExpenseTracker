@@ -25,7 +25,8 @@ struct ExpenseView: View {
                         .navigationTitle(expense.title!)
                         .environmentObject(ExpenseDetailViewModel(expenseData: expense))
                 } label: {
-                    ExpenseRowView(expense: expense)
+                    ExpenseRowView()
+                        .environmentObject(ExpenseRowViewModel(expenseData: expense))
                 }
             }
             .navigationTitle(self.navTitle)

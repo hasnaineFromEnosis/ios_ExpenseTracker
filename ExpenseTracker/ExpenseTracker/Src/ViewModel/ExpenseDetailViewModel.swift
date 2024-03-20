@@ -59,9 +59,6 @@ class ExpenseDetailViewModel: ObservableObject {
         self.amount = "\(expenseData.amount) taka"
         self.category = expenseData.category ?? "Empty Category"
         self.type = expenseData.type ?? ExpenseType.random.rawValue
-        self.creationDate = ""
-        self.paidDate = nil
-        self.buttonText = ""
         
         self.creationDate = formatDate(date: expenseData.creationDate ?? Date.distantPast)
         self.paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
