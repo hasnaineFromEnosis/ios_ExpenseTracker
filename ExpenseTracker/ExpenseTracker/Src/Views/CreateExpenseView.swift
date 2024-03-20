@@ -48,7 +48,7 @@ struct CreateExpenseView: View {
                             dismiss()
                         }
                     } label: {
-                        Text("Create Expense")
+                        Text(viewModel.createExpenseButtonText)
                     }
                 }
             }
@@ -59,10 +59,9 @@ struct CreateExpenseView: View {
                 )
             }
             .scrollDismissesKeyboard(.immediately)
-            .navigationTitle("Create Expense")
+            .navigationTitle(viewModel.navigationTitle)
         }
     }
-  
 }
 
 #Preview {
