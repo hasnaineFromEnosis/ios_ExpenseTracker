@@ -56,7 +56,7 @@
 				1A5316BD2BA9994400062171 /* Model */,
 				1A5316C82BA9D00500062171 /* ViewModel */,
 				1A5316BC2BA9992F00062171 /* Views */,
-				1A5316CB2BAA188300062171 /* Utilites */,
+				1A5316CB2BAA188300062171 /* Extensions */,
 			);
 			path = Src;
 			sourceTree = "<group>";
@@ -105,12 +105,12 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		1A5316CB2BAA188300062171 /* Utilites */ = {
+		1A5316CB2BAA188300062171 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				1A5316CE2BAA1A4A00062171 /* ExpenseData + Extension.swift */,
 			);
-			path = Utilites;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		1A917DCF2BA87AEB00009A5B = {
