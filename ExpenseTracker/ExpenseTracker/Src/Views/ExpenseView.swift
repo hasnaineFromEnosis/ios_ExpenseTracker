@@ -13,17 +13,36 @@ struct ExpenseView: View {
     
     var body: some View {
         NavigationStack {
-            List(getExpenseList()) { expense in
-                NavigationLink {
-                    ExpenseDetailView()
-                        .navigationTitle(expense.title!)
-                        .environmentObject(ExpenseDetailViewModel(expenseData: expense))
-                } label: {
-                    ExpenseRowView()
-                        .environmentObject(ExpenseRowViewModel(expenseData: expense))
+            ZStack {
+                List(getExpenseList()) { expense in
+                    NavigationLink {
+                        ExpenseDetailView()
+                            .navigationTitle(expense.title!)
+                            .environmentObject(ExpenseDetailViewModel(expenseData: expense))
+                    } label: {
+                        ExpenseRowView()
+                            .environmentObject(ExpenseRowViewModel(expenseData: expense))
+                    }
+                }
+                .navigationTitle(viewModel.navigationTitle)
+                
+                if viewModel.viewType == ExpenseViewType.pendingExpenseView {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            NavigationLink {
+                                CreateExpenseView()
+                                    .environmentObject(CreateExpenseViewModel())
+                            } label: {
+                                PlusCircleView()
+                            }
+                            .padding()
+                            .padding([.trailing, .bottom], 20)
+                        }
+                    }
                 }
             }
-            .navigationTitle(viewModel.navigationTitle)
         }
     }
     
