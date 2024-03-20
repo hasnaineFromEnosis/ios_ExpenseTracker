@@ -10,54 +10,52 @@ import Combine
 
 struct CreateExpenseView: View {
     
-    @EnvironmentObject var expenseViewModel: ExpenseViewModel
-    @State var showAlert: Bool = false
+    @EnvironmentObject var viewModel: CreateExpenseViewModel
     
     var body: some View {
-        Form {
-            Section("Expense Info") {
-                TextField("Title", text: $expenseViewModel.expenseTitle)
-                TextField("Description", text: $expenseViewModel.expenseDetails)
-            }
-            
-            Section("Category") {
-                TextField("Category", text: $expenseViewModel.expenseCategory)
-            }
-            
-            Section("Expense Details") {
-                TextField("Amount (in taka)", text: $expenseViewModel.expenseAmount)
-                    .keyboardType(.numberPad)
-                    .onReceive(Just(expenseViewModel.expenseAmount)) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.expenseViewModel.expenseAmount = filtered
+        NavigationStack {
+            Form {
+                Section("Expense Info") {
+                    TextField("Title", text: $viewModel.expenseTitle)
+                    TextField("Description", text: $viewModel.expenseDetails)
+                }
+                
+                Section("Category") {
+                    TextField("Category", text: $viewModel.expenseCategory)
+                }
+                
+                Section("Expense Details") {
+                    TextField("Amount (in taka)", text: $viewModel.expenseAmount)
+                        .keyboardType(.numberPad)
+                        .onReceive(Just(viewModel.expenseAmount)) { newValue in
+                            let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                self.viewModel.expenseAmount = filtered
+                            }
+                        }
+                    Picker("Expense Type", selection: $viewModel.expenseType) {
+                        ForEach(ExpenseType.allCases, id: \.self) { type in
+                            Text(type.rawValue).tag(type)
                         }
                     }
-                Picker("Expense Type", selection: $expenseViewModel.expenseType) {
-                    ForEach(ExpenseType.allCases, id: \.self) { type in
-                        Text(type.rawValue).tag(type)
+                }
+                
+                Section {
+                    Button {
+                        viewModel.validateData()
+                    } label: {
+                        Text("Create Expense")
                     }
                 }
             }
-            
-            Section {
-                Button {
-                    if expenseViewModel.isDataValid() {
-                        expenseViewModel.createExpense()
-                    } else {
-                        showAlert = true
-                    }
-                } label: {
-                    Text("Create Expense")
-                }
+            .alert(isPresented: $viewModel.showInvalidDataAlert) {
+                Alert(
+                    title: Text(viewModel.alertTitle),
+                    message: Text(viewModel.alertMessage)
+                )
             }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Please add data properly"),
-                message: Text("Please ensure that each field is filled out accurately " +
-                              "and provide a standard amount.")
-            )
+            .scrollDismissesKeyboard(.immediately)
+            .navigationTitle("Create Expense")
         }
     }
   
@@ -65,5 +63,5 @@ struct CreateExpenseView: View {
 
 #Preview {
     CreateExpenseView()
-        .environmentObject(ExpenseViewModel())
+        .environmentObject(CreateExpenseViewModel())
 }

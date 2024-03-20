@@ -10,21 +10,24 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var expenseViewModel: ExpenseViewModel = ExpenseViewModel()
+    @StateObject var createExpenseViewModel: CreateExpenseViewModel = CreateExpenseViewModel()
     
     var body: some View {
-        TabView {
+        TabView(selection: $expenseViewModel.tabSelection) {
             ExpenseView(viewType: .pendingExpenseView,
                         navTitle: "Pending Expense")
                 .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
+                .tag(ExpenseViewType.pendingExpenseView)
             
             CreateExpenseView()
-                .environmentObject(expenseViewModel)
+                .environmentObject(createExpenseViewModel)
                 .tabItem {
                     Label("Create New", systemImage: "plus.circle")
                 }
+                .tag(ExpenseViewType.createNewView)
             
             ExpenseView(viewType: .paidExpenseView,
                         navTitle: "Paid Expense")
@@ -32,6 +35,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
+                .tag(ExpenseViewType.paidExpenseView)
         }
     }
 }

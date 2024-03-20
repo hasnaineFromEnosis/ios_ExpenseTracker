@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum ExpenseViewType {
-    case pendingExpenseView
-    case paidExpenseView
-}
-
 struct ExpenseView: View {
     private var viewType: ExpenseViewType
     private var navTitle: String
@@ -26,10 +21,12 @@ struct ExpenseView: View {
         NavigationStack {
             List(getExpenseList()) { expense in
                 NavigationLink {
-                    ExpenseDetailView(expense: expense)
+                    ExpenseDetailView()
                         .navigationTitle(expense.title!)
+                        .environmentObject(ExpenseDetailViewModel(expenseData: expense))
                 } label: {
-                    ExpenseRowView(expense: expense)
+                    ExpenseRowView()
+                        .environmentObject(ExpenseRowViewModel(expenseData: expense))
                 }
             }
             .navigationTitle(self.navTitle)
@@ -42,9 +39,10 @@ struct ExpenseView: View {
             return expenseViewModel.pendingExpenseData
         case .paidExpenseView:
             return expenseViewModel.paidExpenseData
+        case .createNewView:
+            fatalError("ExpenseView: Something wrong with the codeflow")
         }
     }
-    
 }
 
 #Preview {

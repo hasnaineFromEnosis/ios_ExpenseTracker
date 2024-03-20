@@ -8,62 +8,48 @@
 import SwiftUI
 
 struct ExpenseDetailView: View {
-    private var expense: ExpenseData
     
-    @EnvironmentObject var expenseViewModel: ExpenseViewModel
-    
-    init(expense: ExpenseData) {
-        self.expense = expense
-    }
+    @EnvironmentObject var viewModel: ExpenseDetailViewModel
     
     var body: some View {
         VStack {
             List {
                 getHorizontalView(label: "Title",
-                                  value: expense.title!)
+                                  value: viewModel.title)
                 
                 getVerticalView(label: "Description",
-                                value: expense.details!)
+                                value: viewModel.details)
                 
                 getHorizontalView(label: "Amount",
-                                  value: "\(expense.amount) taka")
+                                  value: viewModel.amount)
                 
                 getHorizontalView(label: "Category",
-                                  value: expense.category!)
+                                  value: viewModel.category)
                 
                 getHorizontalView(label: "Type",
-                                  value: expense.type!)
+                                  value: viewModel.type)
                 
                 getVerticalView(label: "Creation Date",
-                                value: formatDate(date: expense.creationDate!))
+                                value: viewModel.creationDate)
 
-                if let paidDate = expense.paidDate {
+                if let paidDateFormatted = viewModel.paidDate {
                     getVerticalView(label: "Paid Date",
-                                    value: formatDate(date: paidDate))
+                                    value: paidDateFormatted)
                     
                 }
                 
                 Section {
                     Button {
-                        if expense.isExpensePending() {
-                            expenseViewModel.markAsPaidExpense(expenseData: expense)
-                        } else {
-                            expenseViewModel.markAsPendingExpense(expenseData: expense)
-                        }
+                        viewModel.paidWithdrawButtonPressed()
                     } label: {
-                        getPrimaryTextView(label: expense.isExpensePending()
-                                           ? "Pay Expense"
-                                           : "Withdraw Expense")
+                        getPrimaryTextView(label: viewModel.buttonText)
                     }
                 }
             }
         }
     }
     
-    private func formatDate(date: Date) -> String {
-        return date.formatted(date: .complete,
-                              time: .standard)
-    }
+    
     
     private func getHorizontalView(label: String, value: String) -> some View {
         return HStack {
@@ -94,11 +80,11 @@ struct ExpenseDetailView: View {
 }
 
 #Preview {
-    ExpenseDetailView(expense: ExpenseData.getRandomExpenseData(value: 78, isPaid: true))
-        .environmentObject(ExpenseViewModel())
+    ExpenseDetailView()
+        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 78, isPaid: true)))
 }
 
 #Preview {
-    ExpenseDetailView(expense: ExpenseData.getRandomExpenseData(value: 77))
-        .environmentObject(ExpenseViewModel())
+    ExpenseDetailView()
+        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 77)))
 }

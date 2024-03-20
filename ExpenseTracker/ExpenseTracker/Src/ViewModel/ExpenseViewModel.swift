@@ -12,6 +12,12 @@ enum ExpenseType: String, CaseIterable {
     case recurrent = "Recurrent"
 }
 
+enum ExpenseViewType {
+    case pendingExpenseView
+    case createNewView
+    case paidExpenseView
+}
+
 class ExpenseViewModel: ObservableObject {
     // save fetched notes for view loading
     @Published var expenseData: [ExpenseData] = []
@@ -19,6 +25,8 @@ class ExpenseViewModel: ObservableObject {
     @Published var paidExpenseData: [ExpenseData] = []
     
     let dataService = PersistentContainer.shared
+    
+    @Published var tabSelection: ExpenseViewType = .pendingExpenseView
     
     // states
     @Published var expenseTitle: String = ""
@@ -46,6 +54,27 @@ class ExpenseViewModel: ObservableObject {
         }
     }
     
+    func isDataValid() -> Bool {
+        if expenseTitle.isEmpty {
+            return false
+        }
+        
+        if expenseDetails.isEmpty {
+            return false
+        }
+        
+        if expenseCategory.isEmpty {
+            return false
+        }
+        
+        if expenseAmount.isEmpty,
+           Int32(expenseAmount) == nil {
+            return false
+        }
+        
+        return true
+    }
+    
     func createExpense() {
         dataService.create(title: expenseTitle,
                            details: expenseDetails,
@@ -63,11 +92,13 @@ class ExpenseViewModel: ObservableObject {
     
     func markAsPaidExpense(expenseData: ExpenseData) {
         dataService.update(entity: expenseData, paidDate: Date())
+        tabSelection = .paidExpenseView
         getAllExpenseData()
     }
     
     func markAsPendingExpense(expenseData: ExpenseData) {
         dataService.markExpenseAsPending(entity: expenseData)
+        tabSelection = .pendingExpenseView
         getAllExpenseData()
     }
     
