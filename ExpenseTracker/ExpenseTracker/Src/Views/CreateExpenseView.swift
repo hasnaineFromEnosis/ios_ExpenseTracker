@@ -14,50 +14,53 @@ struct CreateExpenseView: View {
     @State var showAlert: Bool = false
     
     var body: some View {
-        Form {
-            Section("Expense Info") {
-                TextField("Title", text: $expenseViewModel.expenseTitle)
-                TextField("Description", text: $expenseViewModel.expenseDetails)
-            }
-            
-            Section("Category") {
-                TextField("Category", text: $expenseViewModel.expenseCategory)
-            }
-            
-            Section("Expense Details") {
-                TextField("Amount (in taka)", text: $expenseViewModel.expenseAmount)
-                    .keyboardType(.numberPad)
-                    .onReceive(Just(expenseViewModel.expenseAmount)) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.expenseViewModel.expenseAmount = filtered
+        NavigationStack {
+            Form {
+                Section("Expense Info") {
+                    TextField("Title", text: $expenseViewModel.expenseTitle)
+                    TextField("Description", text: $expenseViewModel.expenseDetails)
+                }
+                
+                Section("Category") {
+                    TextField("Category", text: $expenseViewModel.expenseCategory)
+                }
+                
+                Section("Expense Details") {
+                    TextField("Amount (in taka)", text: $expenseViewModel.expenseAmount)
+                        .keyboardType(.numberPad)
+                        .onReceive(Just(expenseViewModel.expenseAmount)) { newValue in
+                            let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                self.expenseViewModel.expenseAmount = filtered
+                            }
+                        }
+                    Picker("Expense Type", selection: $expenseViewModel.expenseType) {
+                        ForEach(ExpenseType.allCases, id: \.self) { type in
+                            Text(type.rawValue).tag(type)
                         }
                     }
-                Picker("Expense Type", selection: $expenseViewModel.expenseType) {
-                    ForEach(ExpenseType.allCases, id: \.self) { type in
-                        Text(type.rawValue).tag(type)
+                }
+                
+                Section {
+                    Button {
+                        if expenseViewModel.isDataValid() {
+                            expenseViewModel.createExpense()
+                        } else {
+                            showAlert = true
+                        }
+                    } label: {
+                        Text("Create Expense")
                     }
                 }
             }
-            
-            Section {
-                Button {
-                    if expenseViewModel.isDataValid() {
-                        expenseViewModel.createExpense()
-                    } else {
-                        showAlert = true
-                    }
-                } label: {
-                    Text("Create Expense")
-                }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Please add data properly"),
+                    message: Text("Please ensure that each field is filled out accurately " +
+                                  "and provide a standard amount.")
+                )
             }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Please add data properly"),
-                message: Text("Please ensure that each field is filled out accurately " +
-                              "and provide a standard amount.")
-            )
+            .navigationTitle("Create Expense")
         }
     }
   
