@@ -61,6 +61,7 @@ struct CreateExpenseView: View {
                                   "and provide a standard amount.")
                 )
             }
+            .scrollDismissesKeyboard(.immediately)
             .navigationTitle("Create Expense")
         }
     }
