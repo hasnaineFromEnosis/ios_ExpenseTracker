@@ -8,44 +8,50 @@
 import SwiftUI
 
 struct ExpenseView: View {
-    private var viewType: ExpenseViewType
-    private var navTitle: String
     
-    @EnvironmentObject var expenseViewModel: ExpenseViewModel
-    init(viewType: ExpenseViewType, navTitle: String) {
-        self.viewType = viewType
-        self.navTitle = navTitle
-    }
+    @EnvironmentObject var viewModel: ExpenseViewModel
     
     var body: some View {
         NavigationStack {
-            List(getExpenseList()) { expense in
-                NavigationLink {
-                    ExpenseDetailView()
-                        .navigationTitle(expense.title!)
-                        .environmentObject(ExpenseDetailViewModel(expenseData: expense))
-                } label: {
-                    ExpenseRowView()
-                        .environmentObject(ExpenseRowViewModel(expenseData: expense))
+            ZStack {
+                List(getExpenseList()) { expense in
+                    NavigationLink {
+                        ExpenseDetailView()
+                            .navigationTitle(expense.title!)
+                            .environmentObject(ExpenseDetailViewModel(expenseData: expense))
+                    } label: {
+                        ExpenseRowView()
+                            .environmentObject(ExpenseRowViewModel(expenseData: expense))
+                    }
+                }
+                .navigationTitle(viewModel.navigationTitle)
+                
+                if viewModel.viewType == ExpenseViewType.pendingExpenseView {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            NavigationLink {
+                                CreateExpenseView()
+                                    .environmentObject(CreateExpenseViewModel())
+                            } label: {
+                                PlusCircleView()
+                            }
+                            .padding()
+                            .padding([.trailing, .bottom], 20)
+                        }
+                    }
                 }
             }
-            .navigationTitle(self.navTitle)
         }
     }
     
     private func getExpenseList() -> [ExpenseData] {
-        switch(viewType) {
-        case .pendingExpenseView:
-            return expenseViewModel.pendingExpenseData
-        case .paidExpenseView:
-            return expenseViewModel.paidExpenseData
-        case .createNewView:
-            fatalError("ExpenseView: Something wrong with the codeflow")
-        }
+        return viewModel.expenseData
     }
 }
 
 #Preview {
-    ExpenseView(viewType: .pendingExpenseView, navTitle: "Pending Expenses")
-        .environmentObject(ExpenseViewModel())
+    ExpenseView()
+        .environmentObject(ExpenseViewModel(viewType: .pendingExpenseView))
 }

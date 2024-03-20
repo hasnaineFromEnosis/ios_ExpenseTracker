@@ -12,6 +12,8 @@ struct CreateExpenseView: View {
     
     @EnvironmentObject var viewModel: CreateExpenseViewModel
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -42,7 +44,9 @@ struct CreateExpenseView: View {
                 
                 Section {
                     Button {
-                        viewModel.validateData()
+                        if viewModel.validateData() {
+                            dismiss()
+                        }
                     } label: {
                         Text("Create Expense")
                     }

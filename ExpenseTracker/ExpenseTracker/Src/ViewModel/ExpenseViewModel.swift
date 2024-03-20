@@ -14,100 +14,51 @@ enum ExpenseType: String, CaseIterable {
 
 enum ExpenseViewType {
     case pendingExpenseView
-    case createNewView
     case paidExpenseView
 }
 
 class ExpenseViewModel: ObservableObject {
     // save fetched notes for view loading
     @Published var expenseData: [ExpenseData] = []
-    @Published var pendingExpenseData: [ExpenseData] = []
-    @Published var paidExpenseData: [ExpenseData] = []
     
     let dataService = PersistentContainer.shared
     
-    @Published var tabSelection: ExpenseViewType = .pendingExpenseView
-    
     // states
-    @Published var expenseTitle: String = ""
-    @Published var expenseDetails: String = ""
-    @Published var expenseCategory: String = ""
-    @Published var expenseAmount: String = ""
-    @Published var expenseType: ExpenseType = ExpenseType.random
+    @Published var navigationTitle: String
+    @Published var viewType: ExpenseViewType
     
-    init() {
+    init(viewType: ExpenseViewType) {
+        self.viewType = viewType
+        
+        switch (viewType) {
+        case .paidExpenseView:
+            self.navigationTitle = "Paid Expenses"
+        case.pendingExpenseView:
+            self.navigationTitle = "Pending Expenses"
+        }
+        
         getAllExpenseData()
     }
     
     func getAllExpenseData() {
-        expenseData = dataService.read()
+        let allExpenseData = dataService.read()
         
-        paidExpenseData.removeAll()
-        pendingExpenseData.removeAll()
+        expenseData.removeAll()
         
-        for expense in expenseData {
-            if expense.paidDate != nil {
-                paidExpenseData.append(expense)
-            } else {
-                pendingExpenseData.append(expense)
+        for expense in allExpenseData {
+            if viewType == .paidExpenseView,
+               expense.paidDate != nil {
+                expenseData.append(expense)
+            } else if viewType == .pendingExpenseView,
+                      expense.paidDate == nil {
+                expenseData.append(expense)
             }
         }
-    }
-    
-    func isDataValid() -> Bool {
-        if expenseTitle.isEmpty {
-            return false
-        }
-        
-        if expenseDetails.isEmpty {
-            return false
-        }
-        
-        if expenseCategory.isEmpty {
-            return false
-        }
-        
-        if expenseAmount.isEmpty,
-           Int32(expenseAmount) == nil {
-            return false
-        }
-        
-        return true
-    }
-    
-    func createExpense() {
-        dataService.create(title: expenseTitle,
-                           details: expenseDetails,
-                           category: expenseCategory,
-                           amount: Int(expenseAmount)!,
-                           type: expenseType)
-        getAllExpenseData()
-        clearState()
     }
     
     func deleteNotes(expenseData: ExpenseData) {
         dataService.delete(entity: expenseData)
         getAllExpenseData()
-    }
-    
-    func markAsPaidExpense(expenseData: ExpenseData) {
-        dataService.update(entity: expenseData, paidDate: Date())
-        tabSelection = .paidExpenseView
-        getAllExpenseData()
-    }
-    
-    func markAsPendingExpense(expenseData: ExpenseData) {
-        dataService.markExpenseAsPending(entity: expenseData)
-        tabSelection = .pendingExpenseView
-        getAllExpenseData()
-    }
-    
-    func clearState() {
-        expenseTitle = ""
-        expenseDetails = ""
-        expenseCategory = ""
-        expenseAmount = ""
-        expenseType = ExpenseType.random
     }
 }
 
