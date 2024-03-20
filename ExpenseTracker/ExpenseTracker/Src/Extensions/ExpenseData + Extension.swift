@@ -8,10 +8,6 @@
 import SwiftUI
 
 extension ExpenseData {
-    func isExpensePending() -> Bool {
-        return self.paidDate == nil
-    }
-    
     class func getRandomExpenseData(value: Int, isPaid: Bool = false, isRecurrent: Bool = false) -> ExpenseData {
         let expenseData: ExpenseData = ExpenseData()
         expenseData.title = "Dummy Title \(value)"

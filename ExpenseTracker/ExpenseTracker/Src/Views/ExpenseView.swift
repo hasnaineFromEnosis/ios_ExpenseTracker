@@ -21,8 +21,9 @@ struct ExpenseView: View {
         NavigationStack {
             List(getExpenseList()) { expense in
                 NavigationLink {
-                    ExpenseDetailView(expense: expense)
+                    ExpenseDetailView()
                         .navigationTitle(expense.title!)
+                        .environmentObject(ExpenseDetailViewModel(expenseData: expense))
                 } label: {
                     ExpenseRowView(expense: expense)
                 }
@@ -39,10 +40,8 @@ struct ExpenseView: View {
             return expenseViewModel.paidExpenseData
         case .createNewView:
             fatalError("ExpenseView: Something wrong with the codeflow")
-            return []
         }
     }
-    
 }
 
 #Preview {

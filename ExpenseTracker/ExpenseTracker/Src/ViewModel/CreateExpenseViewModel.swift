@@ -8,7 +8,9 @@
 import Foundation
 
 class CreateExpenseViewModel: ObservableObject {
+    
     let dataService = PersistentContainer.shared
+    
     // states
     @Published var expenseTitle: String = ""
     @Published var expenseDetails: String = ""
