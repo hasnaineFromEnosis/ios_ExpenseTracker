@@ -8,14 +8,8 @@
 import SwiftUI
 
 struct ExpenseView: View {
-    private var viewType: ExpenseViewType
-    private var navTitle: String
     
-    @EnvironmentObject var expenseViewModel: ExpenseViewModel
-    init(viewType: ExpenseViewType, navTitle: String) {
-        self.viewType = viewType
-        self.navTitle = navTitle
-    }
+    @EnvironmentObject var viewModel: ExpenseViewModel
     
     var body: some View {
         NavigationStack {
@@ -29,23 +23,16 @@ struct ExpenseView: View {
                         .environmentObject(ExpenseRowViewModel(expenseData: expense))
                 }
             }
-            .navigationTitle(self.navTitle)
+            .navigationTitle(viewModel.navigationTitle)
         }
     }
     
     private func getExpenseList() -> [ExpenseData] {
-        switch(viewType) {
-        case .pendingExpenseView:
-            return expenseViewModel.pendingExpenseData
-        case .paidExpenseView:
-            return expenseViewModel.paidExpenseData
-        case .createNewView:
-            fatalError("ExpenseView: Something wrong with the codeflow")
-        }
+        return viewModel.expenseData
     }
 }
 
 #Preview {
-    ExpenseView(viewType: .pendingExpenseView, navTitle: "Pending Expenses")
-        .environmentObject(ExpenseViewModel())
+    ExpenseView()
+        .environmentObject(ExpenseViewModel(viewType: .pendingExpenseView))
 }
