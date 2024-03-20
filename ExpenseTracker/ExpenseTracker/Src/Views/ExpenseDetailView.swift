@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ExpenseDetailView: View {
-    private var expense: Expense
+    private var expense: ExpenseData
     
-    init(expense: Expense) {
+    @EnvironmentObject var expenseViewModel: ExpenseViewModel
+    
+    init(expense: ExpenseData) {
         self.expense = expense
     }
     
@@ -18,22 +20,22 @@ struct ExpenseDetailView: View {
         VStack {
             List {
                 getHorizontalView(label: "Title",
-                                  value: expense.title)
+                                  value: expense.title!)
                 
                 getVerticalView(label: "Description",
-                                value: expense.description)
+                                value: expense.details!)
                 
                 getHorizontalView(label: "Amount",
                                   value: "\(expense.amount) taka")
                 
                 getHorizontalView(label: "Category",
-                                  value: expense.category)
+                                  value: expense.category!)
                 
                 getHorizontalView(label: "Type",
-                                  value: expense.type.rawValue)
+                                  value: expense.type!)
                 
                 getVerticalView(label: "Creation Date",
-                                value: formatDate(date: expense.creationDate))
+                                value: formatDate(date: expense.creationDate!))
 
                 if let paidDate = expense.paidDate {
                     getVerticalView(label: "Paid Date",
@@ -43,7 +45,11 @@ struct ExpenseDetailView: View {
                 
                 Section {
                     Button {
-                        print("yolo")
+                        if expense.isExpensePending() {
+                            expenseViewModel.markAsPaidExpense(expenseData: expense)
+                        } else {
+                            expenseViewModel.markAsPendingExpense(expenseData: expense)
+                        }
                     } label: {
                         getPrimaryTextView(label: expense.isExpensePending()
                                            ? "Pay Expense"
@@ -88,9 +94,11 @@ struct ExpenseDetailView: View {
 }
 
 #Preview {
-    ExpenseDetailView(expense: Expense.getRandomExpense(value: 78, isPaid: true))
+    ExpenseDetailView(expense: ExpenseData.getRandomExpenseData(value: 78, isPaid: true))
+        .environmentObject(ExpenseViewModel())
 }
 
 #Preview {
-    ExpenseDetailView(expense: Expense.getRandomExpense(value: 77))
+    ExpenseDetailView(expense: ExpenseData.getRandomExpenseData(value: 77))
+        .environmentObject(ExpenseViewModel())
 }

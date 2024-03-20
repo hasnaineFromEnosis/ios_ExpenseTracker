@@ -7,23 +7,27 @@
 
 import SwiftUI
 
+enum ExpenseViewType {
+    case pendingExpenseView
+    case paidExpenseView
+}
+
 struct ExpenseView: View {
-    private var color: Color
-    private var expenses: [Expense]
+    private var viewType: ExpenseViewType
     private var navTitle: String
     
-    init(color: Color, expenses: [Expense], navTitle: String) {
-        self.color = color
-        self.expenses = expenses
+    @EnvironmentObject var expenseViewModel: ExpenseViewModel
+    init(viewType: ExpenseViewType, navTitle: String) {
+        self.viewType = viewType
         self.navTitle = navTitle
     }
     
     var body: some View {
         NavigationStack {
-            List(expenses) { expense in
+            List(getExpenseList()) { expense in
                 NavigationLink {
                     ExpenseDetailView(expense: expense)
-                        .navigationTitle(expense.title)
+                        .navigationTitle(expense.title!)
                 } label: {
                     ExpenseRowView(expense: expense)
                 }
@@ -32,12 +36,18 @@ struct ExpenseView: View {
         }
     }
     
+    private func getExpenseList() -> [ExpenseData] {
+        switch(viewType) {
+        case .pendingExpenseView:
+            return expenseViewModel.pendingExpenseData
+        case .paidExpenseView:
+            return expenseViewModel.paidExpenseData
+        }
+    }
+    
 }
 
 #Preview {
-    ExpenseView(color: Color.green, expenses: [Expense.getRandomExpense(value: 1),
-         Expense.getRandomExpense(value: 2, isPaid: true),
-         Expense.getRandomExpense(value: 3)],
-            navTitle: "Pending Expense"
-    )
+    ExpenseView(viewType: .pendingExpenseView, navTitle: "Pending Expenses")
+        .environmentObject(ExpenseViewModel())
 }

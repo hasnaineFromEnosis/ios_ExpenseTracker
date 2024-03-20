@@ -8,43 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    var pendingExpenseList: [Expense] = []
-    var paidExpenseList: [Expense] = []
     
-    mutating func generatePendingExpense() {
-        for index in 1...10{
-            pendingExpenseList.append(Expense.getRandomExpense(value: index))
-        }
-    }
-    
-    mutating func generatePaidExpense() {
-        for index in 1...10{
-            paidExpenseList.append(Expense.getRandomExpense(value: index, isPaid: true))
-        }
-    }
-    
-    init() {
-        generatePaidExpense()
-        generatePendingExpense()
-    }
+    @StateObject var expenseViewModel: ExpenseViewModel = ExpenseViewModel()
     
     var body: some View {
         TabView {
-            ExpenseView(color: .red, 
-                        expenses: self.pendingExpenseList,
+            ExpenseView(viewType: .pendingExpenseView,
                         navTitle: "Pending Expense")
+                .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
             
             CreateExpenseView()
+                .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Create New", systemImage: "plus.circle")
                 }
             
-            ExpenseView(color: .green, 
-                        expenses: self.paidExpenseList,
+            ExpenseView(viewType: .paidExpenseView,
                         navTitle: "Paid Expense")
+                .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
