@@ -22,6 +22,9 @@ class CreateExpenseViewModel: ObservableObject {
     @Published var alertTitle: String = "Invalid Data"
     @Published var alertMessage: String = "Please ensure that each field is filled out accurately."
     
+    @Published var navigationTitle: String = "Create Expense"
+    @Published var createExpenseButtonText: String = "Create New Expense"
+    
     func validateData() -> Bool {
         if expenseTitle.isEmpty {
             showInvalidDataAlert = true
