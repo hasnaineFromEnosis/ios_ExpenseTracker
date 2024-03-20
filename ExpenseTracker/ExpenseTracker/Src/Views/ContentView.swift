@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var expenseViewModel: ExpenseViewModel = ExpenseViewModel()
+    @StateObject var createExpenseViewModel: CreateExpenseViewModel = CreateExpenseViewModel()
     
     var body: some View {
         TabView(selection: $expenseViewModel.tabSelection) {
@@ -22,7 +23,7 @@ struct ContentView: View {
                 .tag(ExpenseViewType.pendingExpenseView)
             
             CreateExpenseView()
-                .environmentObject(expenseViewModel)
+                .environmentObject(createExpenseViewModel)
                 .tabItem {
                     Label("Create New", systemImage: "plus.circle")
                 }
