@@ -17,11 +17,18 @@ struct ExpenseView: View {
                 List(getExpenseList()) { expense in
                     NavigationLink {
                         ExpenseDetailView()
-                            .navigationTitle(expense.title!)
+                            .navigationTitle(expense.title ?? "Untitled")
                             .environmentObject(ExpenseDetailViewModel(expenseData: expense))
                     } label: {
                         ExpenseRowView()
                             .environmentObject(ExpenseRowViewModel(expenseData: expense))
+                    }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            viewModel.deleteExpense(expenseData: expense)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
                     }
                 }
                 .navigationTitle(viewModel.navigationTitle)

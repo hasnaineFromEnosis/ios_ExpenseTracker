@@ -56,7 +56,7 @@ class ExpenseViewModel: ObservableObject {
         }
     }
     
-    func deleteNotes(expenseData: ExpenseData) {
+    func deleteExpense(expenseData: ExpenseData) {
         dataService.delete(entity: expenseData)
         getAllExpenseData()
     }
