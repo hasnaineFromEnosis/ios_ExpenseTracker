@@ -22,32 +22,31 @@ class CreateExpenseViewModel: ObservableObject {
     @Published var alertTitle: String = "Invalid Data"
     @Published var alertMessage: String = "Please ensure that each field is filled out accurately."
     
-    func validateData() {
+    func validateData() -> Bool {
         if expenseTitle.isEmpty {
             showInvalidDataAlert = true
-            return
+            return false
         }
         
         if expenseDetails.isEmpty {
             showInvalidDataAlert = true
-            return
+            return false
         }
         
         if expenseCategory.isEmpty {
             showInvalidDataAlert = true
-            return
+            return false
         }
         
         if expenseAmount.isEmpty {
             showInvalidDataAlert = true
-            return
+            return false
         }
-        
-        createExpense()
-        return
+    
+        return createExpense()
     }
     
-    func createExpense() {
+    private func createExpense() -> Bool {
         if let expenseAmount = Int(expenseAmount) {
             dataService.create(title: expenseTitle,
                                details: expenseDetails,
@@ -56,10 +55,13 @@ class CreateExpenseViewModel: ObservableObject {
                                type: expenseType)
             
             clearState()
-        } else {
-            alertMessage = "Please enter a realistic amount of money."
-            showInvalidDataAlert = true
+            return true
         }
+        
+        alertMessage = "Please enter a realistic amount of money."
+        showInvalidDataAlert = true
+        
+        return false
     }
     
     func clearState() {
