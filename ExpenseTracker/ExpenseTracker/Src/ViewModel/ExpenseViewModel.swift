@@ -26,7 +26,7 @@ class ExpenseViewModel: ObservableObject {
     
     let dataService = PersistentContainer.shared
     
-    @Published var tabSelection: Int = 2
+    @Published var tabSelection: ExpenseViewType = .createNewView
     
     // states
     @Published var expenseTitle: String = ""

@@ -19,14 +19,14 @@ struct ContentView: View {
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
-                .tag(1)
+                .tag(ExpenseViewType.pendingExpenseView)
             
             CreateExpenseView()
                 .environmentObject(expenseViewModel)
                 .tabItem {
                     Label("Create New", systemImage: "plus.circle")
                 }
-                .tag(2)
+                .tag(ExpenseViewType.createNewView)
             
             ExpenseView(viewType: .paidExpenseView,
                         navTitle: "Paid Expense")
@@ -34,7 +34,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
-                .tag(3)
+                .tag(ExpenseViewType.paidExpenseView)
         }
     }
 }
