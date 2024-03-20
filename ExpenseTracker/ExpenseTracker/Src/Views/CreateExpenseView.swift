@@ -44,6 +44,7 @@ struct CreateExpenseView: View {
                 Section {
                     Button {
                         if expenseViewModel.isDataValid() {
+                            expenseViewModel.tabSelection = .pendingExpenseView
                             expenseViewModel.createExpense()
                         } else {
                             showAlert = true

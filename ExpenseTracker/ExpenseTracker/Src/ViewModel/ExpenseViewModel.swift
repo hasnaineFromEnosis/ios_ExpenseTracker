@@ -26,7 +26,7 @@ class ExpenseViewModel: ObservableObject {
     
     let dataService = PersistentContainer.shared
     
-    @Published var tabSelection: ExpenseViewType = .createNewView
+    @Published var tabSelection: ExpenseViewType = .pendingExpenseView
     
     // states
     @Published var expenseTitle: String = ""
@@ -92,11 +92,13 @@ class ExpenseViewModel: ObservableObject {
     
     func markAsPaidExpense(expenseData: ExpenseData) {
         dataService.update(entity: expenseData, paidDate: Date())
+        tabSelection = .paidExpenseView
         getAllExpenseData()
     }
     
     func markAsPendingExpense(expenseData: ExpenseData) {
         dataService.markExpenseAsPending(entity: expenseData)
+        tabSelection = .pendingExpenseView
         getAllExpenseData()
     }
     
