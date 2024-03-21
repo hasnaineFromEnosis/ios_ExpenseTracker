@@ -14,7 +14,7 @@ struct ExpenseView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                List(getExpenseList()) { expense in
+                List(viewModel.expenseList) { expense in
                     NavigationLink {
                         ExpenseDetailView()
                             .navigationTitle(expense.title)
@@ -51,10 +51,6 @@ struct ExpenseView: View {
                 }
             }
         }
-    }
-    
-    private func getExpenseList() -> [ExpenseDataWrapper] {
-        return viewModel.getExpenseData()
     }
 }
 

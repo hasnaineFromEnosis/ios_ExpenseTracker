@@ -31,12 +31,13 @@ class ExpenseDetailViewModel: ObservableObject {
     }
     
     func markAsPaidExpense() {
-        coreDataService.update(expenseData: expenseData, paidDate: Date())
+        expenseData.paidDate = Date()
+        coreDataService.markExpenseAsPaid(expenseData: expenseData)
         updateData()
-        
     }
     
     func markAsPendingExpense() {
+        expenseData.paidDate = nil
         coreDataService.markExpenseAsPending(expenseData: expenseData)
         updateData()
     }

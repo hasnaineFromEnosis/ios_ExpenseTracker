@@ -20,6 +20,15 @@ class ExpenseViewModel: ObservableObject {
     @Published var navigationTitle: String
     @Published var viewType: ExpenseViewType
     
+    var expenseList: [ExpenseDataWrapper] {
+        switch(viewType) {
+        case .paidExpenseView:
+            return coreDataService.paidExpenseList
+        case .pendingExpenseView:
+            return coreDataService.pendingExpenseList
+        }
+    }
+    
     init(viewType: ExpenseViewType) {
         self.viewType = viewType
         
@@ -28,15 +37,6 @@ class ExpenseViewModel: ObservableObject {
             self.navigationTitle = "Paid Expenses"
         case.pendingExpenseView:
             self.navigationTitle = "Pending Expenses"
-        }
-    }
-    
-    func getExpenseData() -> [ExpenseDataWrapper] {
-        switch(viewType) {
-        case .paidExpenseView:
-            return coreDataService.paidExpenseList
-        case .pendingExpenseView:
-            return coreDataService.pendingExpenseList
         }
     }
     

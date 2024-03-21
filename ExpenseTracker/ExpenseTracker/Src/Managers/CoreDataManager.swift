@@ -36,12 +36,24 @@ class CoreDataManager {
     }
     
     func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) {
-        dataService.create(title: title,
+        let expenseData = ExpenseDataWrapper(id: UUID(), 
+                                             title: title,
+                                             details: details,
+                                             category: category,
+                                             amount: amount,
+                                             creationDate: Date(),
+                                             paidDate: nil,
+                                             type: type)
+        
+        dataService.create(id: expenseData.id,
+                           title: title,
                            details: details,
                            category: category,
                            amount: amount,
+                           creationDate: expenseData.creationDate,
                            type: type)
-        getAllExpenseData()
+        
+        pendingExpenseList.append(expenseData)
     }
     
     func read(viewType: ExpenseViewType) ->[ExpenseDataWrapper] {
@@ -69,9 +81,25 @@ class CoreDataManager {
         }
     }
     
+    func markExpenseAsPaid(expenseData: ExpenseDataWrapper) {
+        if let entity = expenseData.entity {
+            dataService.update(entity: entity, paidDate: expenseData.paidDate)
+            
+            if let index = pendingExpenseList.firstIndex(where: { $0.id == expenseData.id} ) {
+                pendingExpenseList.remove(at: index)
+                paidExpenseList.append(expenseData)
+            }
+        }
+    }
+    
     func markExpenseAsPending(expenseData: ExpenseDataWrapper) {
         if let entity = expenseData.entity {
             dataService.markExpenseAsPending(entity: entity)
+            
+            if let index = paidExpenseList.firstIndex(where: { $0.id == expenseData.id} ) {
+                paidExpenseList.remove(at: index)
+                pendingExpenseList.append(expenseData)
+            }
         }
     }
     

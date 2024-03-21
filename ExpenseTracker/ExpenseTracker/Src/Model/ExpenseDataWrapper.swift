@@ -21,7 +21,7 @@ struct ExpenseDataWrapper: Identifiable {
     
     let amount: Int
     let creationDate: Date
-    let paidDate: Date?
+    var paidDate: Date?
     
     let type: ExpenseType
     

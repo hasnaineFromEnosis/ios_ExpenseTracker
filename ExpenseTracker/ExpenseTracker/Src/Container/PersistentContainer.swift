@@ -45,15 +45,15 @@ class PersistentContainer {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) {
+    func create(id: UUID, title: String, details: String, category: String, amount: Int, creationDate: Date, type: ExpenseType) {
         let entity = ExpenseData(context: container.viewContext)
         
-        entity.id = UUID()
+        entity.id = id
         entity.title = title
         entity.details = details
         entity.category = category
         entity.amount = Int32(amount)
-        entity.creationDate = Date()
+        entity.creationDate = creationDate
         entity.type = type.rawValue
         
         saveChanges()
