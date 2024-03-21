@@ -9,10 +9,10 @@ import Foundation
 
 class ExpenseDetailViewModel: ObservableObject {
 
-    let dataService = PersistentContainer.shared
+    let coreDataService: CoreDataManager = CoreDataManager.shared
     
     // states
-    @Published var expenseData: ExpenseData
+    @Published var expenseData: ExpenseDataWrapper
     
     @Published var title: String = "Untitled"
     @Published var details: String = "Empty Details"
@@ -25,19 +25,19 @@ class ExpenseDetailViewModel: ObservableObject {
     @Published var buttonText: String = ""
 
     
-    init(expenseData: ExpenseData) {
+    init(expenseData: ExpenseDataWrapper) {
         self.expenseData = expenseData
         self.updateData()
     }
     
     func markAsPaidExpense() {
-        dataService.update(entity: expenseData, paidDate: Date())
+        coreDataService.update(expenseData: expenseData, paidDate: Date())
         updateData()
         
     }
     
     func markAsPendingExpense() {
-        dataService.markExpenseAsPending(entity: expenseData)
+        coreDataService.markExpenseAsPending(expenseData: expenseData)
         updateData()
     }
     
@@ -54,13 +54,13 @@ class ExpenseDetailViewModel: ObservableObject {
     }
     
     private func updateData() {
-        self.title = expenseData.title ?? "Untitled"
-        self.details = expenseData.details ?? "Empty Details"
+        self.title = expenseData.title
+        self.details = expenseData.details
         self.amount = "\(expenseData.amount) taka"
-        self.category = expenseData.category ?? "Empty Category"
-        self.type = expenseData.type ?? ExpenseType.random.rawValue
+        self.category = expenseData.category
+        self.type = expenseData.type.rawValue
         
-        self.creationDate = formatDate(date: expenseData.creationDate ?? Date.distantPast)
+        self.creationDate = formatDate(date: expenseData.creationDate)
         self.paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
         
         self.buttonText = isExpensePending() ? "Pay Expense" : "Withdraw Expense"

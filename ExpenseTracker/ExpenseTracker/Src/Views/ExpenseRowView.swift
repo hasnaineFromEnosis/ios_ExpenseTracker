@@ -48,19 +48,19 @@ struct ExpenseRowView: View {
 #Preview {
     Group {
         ExpenseRowView()
-            .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 77)))
+            .environmentObject(ExpenseRowViewModel(expenseData: ExpenseDataWrapper.getRandomExpenseData()))
         Divider()
         ExpenseRowView()
-            .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 78, isPaid: true)))
+            .environmentObject(ExpenseRowViewModel(expenseData: ExpenseDataWrapper.getRandomExpenseData(isPaid: true)))
     }
 }
 
 #Preview {
     ExpenseRowView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 79, isPaid: true)))
+        .environmentObject(ExpenseRowViewModel(expenseData: ExpenseDataWrapper.getRandomExpenseData(isPaid: true)))
 }
 
 #Preview {
     ExpenseRowView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 76)))
+        .environmentObject(ExpenseRowViewModel(expenseData: ExpenseDataWrapper.getRandomExpenseData()))
 }

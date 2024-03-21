@@ -9,7 +9,7 @@ import Foundation
 
 class CreateExpenseViewModel: ObservableObject {
     
-    let dataService = PersistentContainer.shared
+    let coreDataService: CoreDataManager = CoreDataManager.shared
     
     // states
     @Published var expenseTitle: String = ""
@@ -51,7 +51,7 @@ class CreateExpenseViewModel: ObservableObject {
     
     private func createExpense() -> Bool {
         if let expenseAmount = Int(expenseAmount) {
-            dataService.create(title: expenseTitle,
+            coreDataService.create(title: expenseTitle,
                                details: expenseDetails,
                                category: expenseCategory,
                                amount: expenseAmount,

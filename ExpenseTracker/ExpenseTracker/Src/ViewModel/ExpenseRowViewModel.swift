@@ -9,10 +9,10 @@ import Foundation
 
 class ExpenseRowViewModel: ObservableObject {
 
-    let dataService = PersistentContainer.shared
+    let coreDataService: CoreDataManager = CoreDataManager.shared
     
     // states
-    @Published var expenseData: ExpenseData
+    @Published var expenseData: ExpenseDataWrapper
     
     @Published var title: String = "Untitled"
     @Published var amount: String = "0 taka"
@@ -20,16 +20,16 @@ class ExpenseRowViewModel: ObservableObject {
     @Published var creationDate: String = ""
     @Published var paidDate: String? = nil
     
-    init(expenseData: ExpenseData) {
+    init(expenseData: ExpenseDataWrapper) {
         self.expenseData = expenseData
         self.updateData()
     }
     
     private func updateData() {
-        self.title = expenseData.title ?? "Untitled"
+        self.title = expenseData.title
         self.amount = "\(expenseData.amount) taka"
-        self.category = expenseData.category ?? "Empty Category"
-        self.creationDate = formatDate(date: expenseData.creationDate ?? Date.distantPast)
+        self.category = expenseData.category
+        self.creationDate = formatDate(date: expenseData.creationDate)
         self.paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
     }
     

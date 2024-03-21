@@ -17,7 +17,7 @@ struct ExpenseView: View {
                 List(getExpenseList()) { expense in
                     NavigationLink {
                         ExpenseDetailView()
-                            .navigationTitle(expense.title ?? "Untitled")
+                            .navigationTitle(expense.title)
                             .environmentObject(ExpenseDetailViewModel(expenseData: expense))
                     } label: {
                         ExpenseRowView()
@@ -53,8 +53,8 @@ struct ExpenseView: View {
         }
     }
     
-    private func getExpenseList() -> [ExpenseData] {
-        return viewModel.expenseData
+    private func getExpenseList() -> [ExpenseDataWrapper] {
+        return viewModel.getExpenseData()
     }
 }
 

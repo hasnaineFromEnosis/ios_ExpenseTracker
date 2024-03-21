@@ -8,7 +8,6 @@
 import CoreData
 
 class PersistentContainer {
-    static let shared = PersistentContainer()
     let container: NSPersistentContainer
     
     private init() {

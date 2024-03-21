@@ -35,7 +35,6 @@ struct ExpenseDetailView: View {
                 if let paidDateFormatted = viewModel.paidDate {
                     getVerticalView(label: "Paid Date",
                                     value: paidDateFormatted)
-                    
                 }
                 
                 Section {
@@ -48,8 +47,6 @@ struct ExpenseDetailView: View {
             }
         }
     }
-    
-    
     
     private func getHorizontalView(label: String, value: String) -> some View {
         return HStack {
@@ -81,10 +78,10 @@ struct ExpenseDetailView: View {
 
 #Preview {
     ExpenseDetailView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 78, isPaid: true)))
+        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseDataWrapper.getRandomExpenseData(isPaid: true)))
 }
 
 #Preview {
     ExpenseDetailView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 77)))
+        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseDataWrapper.getRandomExpenseData()))
 }

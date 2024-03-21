@@ -7,21 +7,14 @@
 
 import Foundation
 
-enum ExpenseType: String, CaseIterable {
-    case random = "Random"
-    case recurrent = "Recurrent"
-}
-
 enum ExpenseViewType {
     case pendingExpenseView
     case paidExpenseView
 }
 
 class ExpenseViewModel: ObservableObject {
-    // save fetched notes for view loading
-    @Published var expenseData: [ExpenseData] = []
     
-    let dataService = PersistentContainer.shared
+    let coreDataService: CoreDataManager = CoreDataManager.shared
     
     // states
     @Published var navigationTitle: String
@@ -36,29 +29,19 @@ class ExpenseViewModel: ObservableObject {
         case.pendingExpenseView:
             self.navigationTitle = "Pending Expenses"
         }
-        
-        getAllExpenseData()
     }
     
-    func getAllExpenseData() {
-        let allExpenseData = dataService.read()
-        
-        expenseData.removeAll()
-        
-        for expense in allExpenseData {
-            if viewType == .paidExpenseView,
-               expense.paidDate != nil {
-                expenseData.append(expense)
-            } else if viewType == .pendingExpenseView,
-                      expense.paidDate == nil {
-                expenseData.append(expense)
-            }
+    func getExpenseData() -> [ExpenseDataWrapper] {
+        switch(viewType) {
+        case .paidExpenseView:
+            return coreDataService.paidExpenseList
+        case .pendingExpenseView:
+            return coreDataService.pendingExpenseList
         }
     }
     
-    func deleteExpense(expenseData: ExpenseData) {
-        dataService.delete(entity: expenseData)
-        getAllExpenseData()
+    func deleteExpense(expenseData: ExpenseDataWrapper) {
+        coreDataService.delete(expenseData: expenseData)
     }
 }
 
