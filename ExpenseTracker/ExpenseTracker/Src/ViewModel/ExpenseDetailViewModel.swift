@@ -9,7 +9,7 @@ import Foundation
 
 class ExpenseDetailViewModel: ObservableObject {
 
-    let dataService = PersistentContainer.shared
+    let dataService = PersistenceController.shared
     
     // states
     @Published var expenseData: ExpenseData

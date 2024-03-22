@@ -21,7 +21,7 @@ class ExpenseViewModel: ObservableObject {
     // save fetched notes for view loading
     @Published var expenseData: [ExpenseData] = []
     
-    let dataService = PersistentContainer.shared
+    let dataService = PersistenceController.shared
     
     // states
     @Published var navigationTitle: String
