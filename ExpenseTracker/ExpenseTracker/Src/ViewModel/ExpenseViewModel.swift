@@ -57,4 +57,3 @@ class ExpenseViewModel: ObservableObject {
         dataManager.delete(entity: expenseData)
     }
 }
-
