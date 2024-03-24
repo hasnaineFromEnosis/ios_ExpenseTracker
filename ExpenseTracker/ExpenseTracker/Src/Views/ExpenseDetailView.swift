@@ -11,6 +11,8 @@ struct ExpenseDetailView: View {
     
     @EnvironmentObject var viewModel: ExpenseDetailViewModel
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         VStack {
             List {
@@ -41,6 +43,7 @@ struct ExpenseDetailView: View {
                 Section {
                     Button {
                         viewModel.paidWithdrawButtonPressed()
+                        dismiss()
                     } label: {
                         getPrimaryTextView(label: viewModel.buttonText)
                     }

@@ -1,5 +1,5 @@
 //
-//  PersistentContainer.swift
+//  PersistenceController.swift
 //  ExpenseTracker
 //
 //  Created by Shahwat Hasnaine on 19/3/24.
@@ -7,8 +7,7 @@
 
 import CoreData
 
-class PersistentContainer {
-    static let shared = PersistentContainer()
+struct PersistenceController {
     let container: NSPersistentContainer
     
     private init() {
@@ -32,6 +31,8 @@ class PersistentContainer {
                 fatalError("Could not load Core Data persistence sotres. Error: \(error)")
             }
         }
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     func saveChanges() {
@@ -46,7 +47,7 @@ class PersistentContainer {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) {
+    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) -> ExpenseData {
         let entity = ExpenseData(context: container.viewContext)
         
         entity.id = UUID()
@@ -58,6 +59,8 @@ class PersistentContainer {
         entity.type = type.rawValue
         
         saveChanges()
+        
+        return entity
     }
     
     func read(predicateFormat: String? = nil, fetchLimit: Int? = nil) ->[ExpenseData] {

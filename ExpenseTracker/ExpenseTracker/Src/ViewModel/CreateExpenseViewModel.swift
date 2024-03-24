@@ -9,13 +9,13 @@ import Foundation
 
 class CreateExpenseViewModel: ObservableObject {
     
-    let dataService = PersistentContainer.shared
+    let dataManager = DataManager.shared
     
     // states
-    @Published var expenseTitle: String = ""
-    @Published var expenseDetails: String = ""
-    @Published var expenseCategory: String = ""
-    @Published var expenseAmount: String = ""
+    @Published var expenseTitle: String = "Test \(Int.random(in: 1...100))"
+    @Published var expenseDetails: String = "xx"
+    @Published var expenseCategory: String = "xx"
+    @Published var expenseAmount: String = "xx"
     @Published var expenseType: ExpenseType = ExpenseType.random
     
     @Published var showInvalidDataAlert: Bool = false
@@ -51,7 +51,7 @@ class CreateExpenseViewModel: ObservableObject {
     
     private func createExpense() -> Bool {
         if let expenseAmount = Int(expenseAmount) {
-            dataService.create(title: expenseTitle,
+            dataManager.create(title: expenseTitle,
                                details: expenseDetails,
                                category: expenseCategory,
                                amount: expenseAmount,

@@ -9,7 +9,7 @@ import Foundation
 
 class ExpenseDetailViewModel: ObservableObject {
 
-    let dataService = PersistentContainer.shared
+    let dataManager = DataManager.shared
     
     // states
     @Published var expenseData: ExpenseData
@@ -31,13 +31,13 @@ class ExpenseDetailViewModel: ObservableObject {
     }
     
     func markAsPaidExpense() {
-        dataService.update(entity: expenseData, paidDate: Date())
+        dataManager.markExpenseAsPaid(entity: expenseData)
         updateData()
         
     }
     
     func markAsPendingExpense() {
-        dataService.markExpenseAsPending(entity: expenseData)
+        dataManager.markExpenseAsPending(entity: expenseData)
         updateData()
     }
     
