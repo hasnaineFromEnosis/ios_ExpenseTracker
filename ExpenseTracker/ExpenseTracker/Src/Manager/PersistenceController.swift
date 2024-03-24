@@ -8,8 +8,6 @@
 import CoreData
 
 struct PersistenceController {
-    static let shared = PersistenceController()
-    
     let container: NSPersistentContainer
     
     private init() {
@@ -49,7 +47,7 @@ struct PersistenceController {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) {
+    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) -> ExpenseData {
         let entity = ExpenseData(context: container.viewContext)
         
         entity.id = UUID()
@@ -61,6 +59,8 @@ struct PersistenceController {
         entity.type = type.rawValue
         
         saveChanges()
+        
+        return entity
     }
     
     func read(predicateFormat: String? = nil, fetchLimit: Int? = nil) ->[ExpenseData] {
