@@ -54,8 +54,7 @@ struct ExpenseDetailView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     NavigationLink {
-                        ExpenseEditorView()
-                            .environmentObject(ExpenseEditorViewModel(expenseData: viewModel.expenseData))
+                        ExpenseEditorView(viewModel: ExpenseEditorViewModel(expenseData: viewModel.expenseData))
                     } label: {
                         Label("Edit", systemImage: "square.and.pencil.circle")
                     }
