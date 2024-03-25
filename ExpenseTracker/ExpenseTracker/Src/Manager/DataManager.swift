@@ -33,13 +33,19 @@ class DataManager: NSObject, ObservableObject {
         self.read()
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) {
+    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType) {
         let entity = persistenceController.create(title: title,
                                      details: details,
                                      category: category,
                                      amount: amount,
+                                     creationDate: creationDate,
+                                     paidDate: paidDate,
                                      type: type)
-        pendingExpensesList.append(entity)
+        if let _ = paidDate {
+            paidExpensesList.append(entity)
+        } else {
+            pendingExpensesList.append(entity)
+        }
     }
     
     func read() {

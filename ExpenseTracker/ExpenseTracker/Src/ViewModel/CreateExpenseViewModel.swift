@@ -16,6 +16,9 @@ class CreateExpenseViewModel: ObservableObject {
     @Published var expenseDetails: String = "xx"
     @Published var expenseCategory: String = "xx"
     @Published var expenseAmount: String = "xx"
+    @Published var creationDate: Date = Date()
+    @Published var paidDate: Date = Date()
+    @Published var isExpensePaid: Bool = false
     @Published var expenseType: ExpenseType = ExpenseType.random
     
     @Published var showInvalidDataAlert: Bool = false
@@ -55,6 +58,8 @@ class CreateExpenseViewModel: ObservableObject {
                                details: expenseDetails,
                                category: expenseCategory,
                                amount: expenseAmount,
+                               creationDate: creationDate,
+                               paidDate: isExpensePaid ? paidDate : nil,
                                type: expenseType)
             
             clearState()

@@ -47,7 +47,7 @@ struct PersistenceController {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) -> ExpenseData {
+    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType) -> ExpenseData {
         let entity = ExpenseData(context: container.viewContext)
         
         entity.id = UUID()
@@ -55,7 +55,8 @@ struct PersistenceController {
         entity.details = details
         entity.category = category
         entity.amount = Int32(amount)
-        entity.creationDate = Date()
+        entity.creationDate = creationDate
+        entity.paidDate = paidDate
         entity.type = type.rawValue
         
         saveChanges()

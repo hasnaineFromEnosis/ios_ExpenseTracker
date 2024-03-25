@@ -22,6 +22,14 @@ struct CreateExpenseView: View {
                     TextField("Description", text: $viewModel.expenseDetails)
                 }
                 
+                Section("Date") {
+                    DatePicker("Creation Date", selection: $viewModel.creationDate)
+                    Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
+                    if viewModel.isExpensePaid {
+                        DatePicker("Paid Date", selection: $viewModel.paidDate)
+                    }
+                }
+                
                 Section("Category") {
                     TextField("Category", text: $viewModel.expenseCategory)
                 }
