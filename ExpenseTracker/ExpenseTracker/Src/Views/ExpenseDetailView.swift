@@ -84,10 +84,10 @@ struct ExpenseDetailView: View {
 
 #Preview {
     ExpenseDetailView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 78, isPaid: true)))
+        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
 }
 
 #Preview {
     ExpenseDetailView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(value: 77)))
+        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()))
 }

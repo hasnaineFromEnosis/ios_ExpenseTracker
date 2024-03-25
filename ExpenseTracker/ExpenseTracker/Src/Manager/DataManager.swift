@@ -42,18 +42,21 @@ class DataManager: NSObject, ObservableObject {
                                      paidDate: paidDate,
                                      type: type)
         if let _ = paidDate {
-            paidExpensesList.append(entity)
+            paidExpensesList.append(ExpenseData(entity: entity))
         } else {
-            pendingExpensesList.append(entity)
+            pendingExpensesList.append(ExpenseData(entity: entity))
         }
     }
     
     func read() {
-        self.pendingExpensesList = self.persistenceController.read(predicateFormat: "paidDate == nil")
-        self.paidExpensesList = self.persistenceController.read(predicateFormat: "paidDate != nil")
+        let pendingData = self.persistenceController.read(predicateFormat: "paidDate == nil")
+        let paidData = self.persistenceController.read(predicateFormat: "paidDate != nil")
+        
+        self.pendingExpensesList = convertEntityArrayToData(entities: pendingData)
+        self.paidExpensesList = convertEntityArrayToData(entities: paidData)
     }
     
-    func update(entity: ExpenseData,
+    func update(expenseData: ExpenseData,
                 title: String? = nil,
                 details: String? = nil,
                 category: String? = nil,
@@ -61,42 +64,49 @@ class DataManager: NSObject, ObservableObject {
                 type: ExpenseType? = nil,
                 creationDate: Date? = nil,
                 paidDate: Date? = nil) {
-        self.persistenceController.update(entity: entity,
-                                          title: title,
-                                          details: details,
-                                          category: category, 
-                                          amount: amount,
-                                          type: type,
-                                          creationDate: creationDate,
-                                          paidDate: paidDate)
-        self.updatePaidList(for: entity)
-        self.updatePendingList(for: entity)
-        
-    }
-    
-    func markExpenseAsPaid(entity: ExpenseData) {
-        entity.paidDate = Date()
-        self.persistenceController.update(entity: entity, paidDate: entity.paidDate)
-        if let id = entity.id {
-            self.deletePendingExpense(withID: id)
-            self.addPaidExpense(entity)
+        if let entity = getExpenseDataEntity(expenseData: expenseData) {
+            self.persistenceController.update(entity: entity,
+                                              title: title,
+                                              details: details,
+                                              category: category,
+                                              amount: amount,
+                                              type: type,
+                                              creationDate: creationDate,
+                                              paidDate: paidDate)
+            self.updatePaidList(for: expenseData)
+            self.updatePendingList(for: expenseData)
         }
     }
     
-    func markExpenseAsPending(entity: ExpenseData) {
-        entity.paidDate = nil
-        self.persistenceController.markExpenseAsPending(entity: entity)
-        if let id = entity.id {
-            self.deletePaidExpense(withID: id)
-            self.addPendingExpense(entity)
+    func markExpenseAsPaid(expnseData: ExpenseData) {
+        if let entity = getExpenseDataEntity(expenseData: expnseData) {
+            entity.paidDate = Date()
+            self.persistenceController.update(entity: entity, paidDate: entity.paidDate)
+            if let id = entity.id {
+                self.deletePendingExpense(withID: id)
+                self.addPaidExpense(ExpenseData(entity: entity))
+            }
         }
     }
     
-    func delete(entity: ExpenseData) {
-        self.persistenceController.delete(entity: entity)
-        if let id = entity.id {
-            self.deletePaidExpense(withID: id)
-            self.deletePendingExpense(withID: id)
+    func markExpenseAsPending(expnseData: ExpenseData) {
+        if let entity = getExpenseDataEntity(expenseData: expnseData) {
+            entity.paidDate = nil
+            self.persistenceController.markExpenseAsPending(entity: entity)
+            if let id = entity.id {
+                self.deletePaidExpense(withID: id)
+                self.addPendingExpense(ExpenseData(entity: entity))
+            }
+        }
+    }
+    
+    func delete(expnseData: ExpenseData) {
+        if let entity = getExpenseDataEntity(expenseData: expnseData) {
+            self.persistenceController.delete(entity: entity)
+            if let id = entity.id {
+                self.deletePaidExpense(withID: id)
+                self.deletePendingExpense(withID: id)
+            }
         }
     }
     
@@ -137,5 +147,29 @@ class DataManager: NSObject, ObservableObject {
     private func addPaidExpense(_ newExpense: ExpenseData) {
         self.paidExpensesList.append(newExpense)
     }
-
+    
+    private func getExpenseDataEntity(expenseData: ExpenseData) -> ExpenseDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", expenseData.id as CVarArg)
+        let result = self.persistenceController.fetchFirst(ExpenseDataEntity.self, predicate: predicate)
+        switch result {
+        case .success(let managedObject):
+            if let entity = managedObject {
+                return entity
+            } else {
+                return nil
+            }
+        case .failure(_):
+            return nil
+        }
+    }
+    
+    private func convertEntityArrayToData(entities: [ExpenseDataEntity]) -> [ExpenseData] {
+        var results: [ExpenseData] = []
+        
+        for entity in entities {
+            results.append(ExpenseData(entity: entity))
+        }
+        
+        return results
+    }
 }
