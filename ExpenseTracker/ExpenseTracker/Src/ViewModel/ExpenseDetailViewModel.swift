@@ -24,7 +24,6 @@ class ExpenseDetailViewModel: ObservableObject {
     
     @Published var buttonText: String = ""
 
-    
     init(expenseData: ExpenseData) {
         self.expenseData = expenseData
         self.updateData()
@@ -54,13 +53,12 @@ class ExpenseDetailViewModel: ObservableObject {
     }
     
     private func updateData() {
-        self.title = expenseData.title ?? "Untitled"
-        self.details = expenseData.details ?? "Empty Details"
+        self.title = expenseData.title
+        self.details = expenseData.details
         self.amount = "\(expenseData.amount) taka"
-        self.category = expenseData.category ?? "Empty Category"
-        self.type = expenseData.type ?? ExpenseType.random.rawValue
-        
-        self.creationDate = formatDate(date: expenseData.creationDate ?? Date.distantPast)
+        self.category = expenseData.category
+        self.type = expenseData.type
+        self.creationDate = formatDate(date: expenseData.creationDate)
         self.paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
         
         self.buttonText = isExpensePending() ? "Pay Expense" : "Withdraw Expense"
