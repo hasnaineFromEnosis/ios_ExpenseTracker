@@ -31,7 +31,27 @@ struct ExpenseView: View {
                     }
                 }
                 .navigationTitle(viewModel.navigationTitle)
-                
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            viewModel.showAlert.toggle()
+                        }) {
+                            Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFilteredByDate ?  ".fill" : ""))
+                        }
+                        .popover(isPresented: $viewModel.showAlert) {
+                            Form() {
+                                Section("Filter By Date") {
+                                    Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
+                                    
+                                    if viewModel.isFilteredByDate {
+                                        DatePicker("Start Date", selection: $viewModel.startDate)
+                                        DatePicker("End Date", selection: $viewModel.endDate)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 if viewModel.viewType == ExpenseViewType.pendingExpenseView {
                     VStack {
                         Spacer()
