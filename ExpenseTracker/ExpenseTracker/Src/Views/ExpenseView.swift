@@ -16,8 +16,7 @@ struct ExpenseView: View {
             ZStack {
                 List(getExpenseList()) { expense in
                     NavigationLink {
-                        ExpenseDetailView()
-                            .environmentObject(ExpenseDetailViewModel(expenseData: expense))
+                        ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: expense))
                     } label: {
                         ExpenseRowView()
                             .environmentObject(ExpenseRowViewModel(expenseData: expense))

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExpenseDetailView: View {
     
-    @EnvironmentObject var viewModel: ExpenseDetailViewModel
+    @ObservedObject var viewModel: ExpenseDetailViewModel
     
     @Environment(\.dismiss) var dismiss
     
@@ -38,7 +38,6 @@ struct ExpenseDetailView: View {
                     if let paidDateFormatted = viewModel.paidDate {
                         getVerticalView(label: "Paid Date",
                                         value: paidDateFormatted)
-                        
                     }
                     
                     Section {
@@ -64,8 +63,6 @@ struct ExpenseDetailView: View {
             }
         }
     }
-    
-    
     
     private func getHorizontalView(label: String, value: String) -> some View {
         return HStack {
@@ -96,11 +93,9 @@ struct ExpenseDetailView: View {
 }
 
 #Preview {
-    ExpenseDetailView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
+    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
 }
 
 #Preview {
-    ExpenseDetailView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()))
+    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()))
 }
