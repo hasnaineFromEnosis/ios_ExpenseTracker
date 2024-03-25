@@ -104,11 +104,7 @@ class DataManager: NSObject, ObservableObject {
     
     func delete(expnseData: ExpenseData) {
         if let entity = getExpenseDataEntity(expenseData: expnseData) {
-            self.persistenceController.delete(entity: entity)
-            if let id = entity.id {
-                self.deletePaidExpense(withID: id)
-                self.deletePendingExpense(withID: id)
-            }
+            self.delete(entity: entity)
         }
     }
     
@@ -117,7 +113,6 @@ class DataManager: NSObject, ObservableObject {
             self.deletePaidExpense(withID: id)
             self.deletePendingExpense(withID: id)
         }
-        
         self.persistenceController.delete(entity: entity)
     }
     
