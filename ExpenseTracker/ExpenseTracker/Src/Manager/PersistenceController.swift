@@ -47,15 +47,16 @@ struct PersistenceController {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, type: ExpenseType) -> ExpenseData {
-        let entity = ExpenseData(context: container.viewContext)
+    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType) -> ExpenseDataEntity {
+        let entity = ExpenseDataEntity(context: container.viewContext)
         
         entity.id = UUID()
         entity.title = title
         entity.details = details
         entity.category = category
         entity.amount = Int32(amount)
-        entity.creationDate = Date()
+        entity.creationDate = creationDate
+        entity.paidDate = paidDate
         entity.type = type.rawValue
         
         saveChanges()
@@ -63,12 +64,12 @@ struct PersistenceController {
         return entity
     }
     
-    func read(predicateFormat: String? = nil, fetchLimit: Int? = nil) ->[ExpenseData] {
+    func read(predicateFormat: String? = nil, fetchLimit: Int? = nil) ->[ExpenseDataEntity] {
         // For saving fetched notes
-        var results: [ExpenseData] = []
+        var results: [ExpenseDataEntity] = []
         
         // Init fetch request
-        let request = NSFetchRequest<ExpenseData>(entityName: "ExpenseData")
+        let request = NSFetchRequest<ExpenseDataEntity>(entityName: "ExpenseDataEntity")
         
         // define filter && || limit if needed
         if let predicateFormat {
@@ -90,7 +91,7 @@ struct PersistenceController {
         return results
     }
     
-    func update(entity: ExpenseData,
+    func update(entity: ExpenseDataEntity,
                 title: String? = nil,
                 details: String? = nil,
                 category: String? = nil, 
@@ -140,14 +141,25 @@ struct PersistenceController {
         }
     }
     
-    func markExpenseAsPending(entity: ExpenseData) {
+    func markExpenseAsPending(entity: ExpenseDataEntity) {
         entity.paidDate = nil
         saveChanges()
     }
     
-    func delete(entity: ExpenseData) {
+    func delete(entity: ExpenseDataEntity) {
         container.viewContext.delete(entity)
         saveChanges()
     }
+    
+    func fetchFirst<T: NSManagedObject>(_ objectType: T.Type, predicate: NSPredicate?) -> Result<T?, Error> {
+        let request = objectType.fetchRequest()
+        request.predicate = predicate
+        request.fetchLimit = 1
+        do {
+            let result = try container.viewContext.fetch(request) as? [T]
+            return .success(result?.first)
+        } catch {
+            return .failure(error)
+        }
+    }
 }
-

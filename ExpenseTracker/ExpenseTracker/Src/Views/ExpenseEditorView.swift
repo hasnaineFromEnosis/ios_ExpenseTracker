@@ -8,9 +8,9 @@
 import SwiftUI
 import Combine
 
-struct CreateExpenseView: View {
+struct ExpenseEditorView: View {
     
-    @EnvironmentObject var viewModel: CreateExpenseViewModel
+    @EnvironmentObject var viewModel: ExpenseEditorViewModel
     
     @Environment(\.dismiss) var dismiss
     
@@ -20,6 +20,14 @@ struct CreateExpenseView: View {
                 Section("Expense Info") {
                     TextField("Title", text: $viewModel.expenseTitle)
                     TextField("Description", text: $viewModel.expenseDetails)
+                }
+                
+                Section("Date") {
+                    DatePicker("Creation Date", selection: $viewModel.creationDate)
+                    Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
+                    if viewModel.isExpensePaid {
+                        DatePicker("Paid Date", selection: $viewModel.paidDate)
+                    }
                 }
                 
                 Section("Category") {
@@ -41,16 +49,6 @@ struct CreateExpenseView: View {
                         }
                     }
                 }
-                
-                Section {
-                    Button {
-                        if viewModel.validateData() {
-                            dismiss()
-                        }
-                    } label: {
-                        Text(viewModel.createExpenseButtonText)
-                    }
-                }
             }
             .alert(isPresented: $viewModel.showInvalidDataAlert) {
                 Alert(
@@ -60,11 +58,22 @@ struct CreateExpenseView: View {
             }
             .scrollDismissesKeyboard(.immediately)
             .navigationTitle(viewModel.navigationTitle)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        if viewModel.validateData() {
+                            dismiss()
+                        }
+                    } label: {
+                        Text(viewModel.createExpenseButtonText)
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
-    CreateExpenseView()
-        .environmentObject(CreateExpenseViewModel())
+    ExpenseEditorView()
+        .environmentObject(ExpenseEditorViewModel())
 }
