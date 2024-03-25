@@ -75,12 +75,18 @@ class DataManager: NSObject, ObservableObject {
                                               paidDate: paidDate)
             self.updatePaidList(for: expenseData)
             self.updatePendingList(for: expenseData)
+            
+            if let paidDate {
+                markExpenseAsPaid(expnseData: expenseData, paidDate: paidDate)
+            } else {
+                markExpenseAsPending(expnseData: expenseData)
+            }
         }
     }
     
-    func markExpenseAsPaid(expnseData: ExpenseData) {
+    func markExpenseAsPaid(expnseData: ExpenseData, paidDate: Date? = nil) {
         if let entity = getExpenseDataEntity(expenseData: expnseData) {
-            entity.paidDate = Date()
+            entity.paidDate = paidDate == nil ? Date() : paidDate
             self.persistenceController.update(entity: entity, paidDate: entity.paidDate)
             if let id = entity.id {
                 self.deletePendingExpense(withID: id)
@@ -111,20 +117,14 @@ class DataManager: NSObject, ObservableObject {
     }
     
     private func updatePendingList(for updatedExpenseData: ExpenseData) {
-        for var expenseData in self.pendingExpensesList {
-            if expenseData.id == updatedExpenseData.id {
-                expenseData = updatedExpenseData
-                return
-            }
+        if let index = self.pendingExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
+            self.pendingExpensesList[index] = updatedExpenseData
         }
     }
 
     private func updatePaidList(for updatedExpenseData: ExpenseData) {
-        for var expenseData in self.paidExpensesList {
-            if expenseData.id == updatedExpenseData.id {
-                expenseData = updatedExpenseData
-                return
-            }
+        if let index = self.paidExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
+            self.paidExpensesList[index] = updatedExpenseData
         }
     }
     

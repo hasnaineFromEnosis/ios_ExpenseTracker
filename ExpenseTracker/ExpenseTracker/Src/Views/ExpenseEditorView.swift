@@ -8,9 +8,9 @@
 import SwiftUI
 import Combine
 
-struct CreateExpenseView: View {
+struct ExpenseEditorView: View {
     
-    @EnvironmentObject var viewModel: CreateExpenseViewModel
+    @EnvironmentObject var viewModel: ExpenseEditorViewModel
     
     @Environment(\.dismiss) var dismiss
     
@@ -73,6 +73,6 @@ struct CreateExpenseView: View {
 }
 
 #Preview {
-    CreateExpenseView()
-        .environmentObject(CreateExpenseViewModel())
+    ExpenseEditorView()
+        .environmentObject(ExpenseEditorViewModel())
 }

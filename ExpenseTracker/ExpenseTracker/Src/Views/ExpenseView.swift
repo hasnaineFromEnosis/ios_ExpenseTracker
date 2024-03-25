@@ -17,7 +17,6 @@ struct ExpenseView: View {
                 List(getExpenseList()) { expense in
                     NavigationLink {
                         ExpenseDetailView()
-                            .navigationTitle(expense.title ?? "Untitled")
                             .environmentObject(ExpenseDetailViewModel(expenseData: expense))
                     } label: {
                         ExpenseRowView()
@@ -39,8 +38,8 @@ struct ExpenseView: View {
                         HStack {
                             Spacer()
                             NavigationLink {
-                                CreateExpenseView()
-                                    .environmentObject(CreateExpenseViewModel())
+                                ExpenseEditorView()
+                                    .environmentObject(ExpenseEditorViewModel())
                             } label: {
                                 PlusCircleView()
                             }

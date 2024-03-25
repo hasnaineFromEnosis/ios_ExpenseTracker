@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CreateExpenseViewModel: ObservableObject {
+class ExpenseEditorViewModel: ObservableObject {
     
     let dataManager = DataManager.shared
     
@@ -15,7 +15,7 @@ class CreateExpenseViewModel: ObservableObject {
     @Published var expenseTitle: String = "Test \(Int.random(in: 1...100))"
     @Published var expenseDetails: String = "xx"
     @Published var expenseCategory: String = "xx"
-    @Published var expenseAmount: String = "xx"
+    @Published var expenseAmount: String = "455"
     @Published var creationDate: Date = Date()
     @Published var paidDate: Date = Date()
     @Published var isExpensePaid: Bool = false
@@ -27,6 +27,25 @@ class CreateExpenseViewModel: ObservableObject {
     
     @Published var navigationTitle: String = "Create Expense"
     @Published var createExpenseButtonText: String = "Create New Expense"
+    
+    private var expenseData: ExpenseData?
+    
+    init(expenseData: ExpenseData? = nil) {
+        self.expenseData = expenseData
+        if let expenseData {
+            expenseTitle = expenseData.title
+            expenseDetails = expenseData.details
+            expenseCategory = expenseData.category
+            expenseAmount = String(expenseData.amount)
+            creationDate = expenseData.creationDate
+            paidDate = expenseData.paidDate ?? Date()
+            isExpensePaid = expenseData.paidDate != nil
+            expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? ExpenseType.recurrent : ExpenseType.random
+            
+            navigationTitle = "Update Expense"
+            createExpenseButtonText = "Update Expense"
+        }
+    }
     
     func validateData() -> Bool {
         if expenseTitle.isEmpty {
@@ -48,8 +67,12 @@ class CreateExpenseViewModel: ObservableObject {
             showInvalidDataAlert = true
             return false
         }
-    
-        return createExpense()
+        
+        if expenseData != nil {
+            return updateExpense()
+        } else {
+            return createExpense()
+        }
     }
     
     private func createExpense() -> Bool {
@@ -63,6 +86,32 @@ class CreateExpenseViewModel: ObservableObject {
                                type: expenseType)
             
             clearState()
+            return true
+        }
+        
+        alertMessage = "Please enter a realistic amount of money."
+        showInvalidDataAlert = true
+        
+        return false
+    }
+    
+    func updateExpense() -> Bool {
+        if var expenseData,
+           let amount = Int(expenseAmount) {
+            expenseData.title = expenseTitle
+            expenseData.details = expenseDetails
+            expenseData.amount = amount
+            expenseData.type = expenseType.rawValue
+            expenseData.creationDate = creationDate
+            expenseData.paidDate = isExpensePaid ? paidDate : nil
+            
+            dataManager.update(expenseData: expenseData,
+                               title: expenseTitle,
+                               details: expenseDetails,
+                               amount: amount,
+                               type: expenseType,
+                               creationDate: creationDate,
+                               paidDate: isExpensePaid ? paidDate : nil)
             return true
         }
         

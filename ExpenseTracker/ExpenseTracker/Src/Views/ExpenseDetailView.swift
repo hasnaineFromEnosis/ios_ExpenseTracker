@@ -14,38 +14,51 @@ struct ExpenseDetailView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack {
-            List {
-                getHorizontalView(label: "Title",
-                                  value: viewModel.title)
-                
-                getVerticalView(label: "Description",
-                                value: viewModel.details)
-                
-                getHorizontalView(label: "Amount",
-                                  value: viewModel.amount)
-                
-                getHorizontalView(label: "Category",
-                                  value: viewModel.category)
-                
-                getHorizontalView(label: "Type",
-                                  value: viewModel.type)
-                
-                getVerticalView(label: "Creation Date",
-                                value: viewModel.creationDate)
-
-                if let paidDateFormatted = viewModel.paidDate {
-                    getVerticalView(label: "Paid Date",
-                                    value: paidDateFormatted)
+        NavigationStack {
+            VStack {
+                List {
+                    getHorizontalView(label: "Title",
+                                      value: viewModel.title)
                     
+                    getVerticalView(label: "Description",
+                                    value: viewModel.details)
+                    
+                    getHorizontalView(label: "Amount",
+                                      value: viewModel.amount)
+                    
+                    getHorizontalView(label: "Category",
+                                      value: viewModel.category)
+                    
+                    getHorizontalView(label: "Type",
+                                      value: viewModel.type)
+                    
+                    getVerticalView(label: "Creation Date",
+                                    value: viewModel.creationDate)
+
+                    if let paidDateFormatted = viewModel.paidDate {
+                        getVerticalView(label: "Paid Date",
+                                        value: paidDateFormatted)
+                        
+                    }
+                    
+                    Section {
+                        Button {
+                            viewModel.paidWithdrawButtonPressed()
+                            dismiss()
+                        } label: {
+                            getPrimaryTextView(label: viewModel.buttonText)
+                        }
+                    }
                 }
-                
-                Section {
-                    Button {
-                        viewModel.paidWithdrawButtonPressed()
-                        dismiss()
+            }
+            .navigationTitle(viewModel.title)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ExpenseEditorView()
+                            .environmentObject(ExpenseEditorViewModel(expenseData: viewModel.expenseData))
                     } label: {
-                        getPrimaryTextView(label: viewModel.buttonText)
+                        Label("Filter", systemImage: "square.and.pencil.circle")
                     }
                 }
             }
