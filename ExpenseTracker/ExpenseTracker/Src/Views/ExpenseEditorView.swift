@@ -49,16 +49,6 @@ struct ExpenseEditorView: View {
                         }
                     }
                 }
-                
-                Section {
-                    Button {
-                        if viewModel.validateData() {
-                            dismiss()
-                        }
-                    } label: {
-                        Text(viewModel.createExpenseButtonText)
-                    }
-                }
             }
             .alert(isPresented: $viewModel.showInvalidDataAlert) {
                 Alert(
@@ -68,6 +58,17 @@ struct ExpenseEditorView: View {
             }
             .scrollDismissesKeyboard(.immediately)
             .navigationTitle(viewModel.navigationTitle)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        if viewModel.validateData() {
+                            dismiss()
+                        }
+                    } label: {
+                        Text(viewModel.createExpenseButtonText)
+                    }
+                }
+            }
         }
     }
 }

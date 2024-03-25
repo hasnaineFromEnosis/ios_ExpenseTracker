@@ -58,7 +58,7 @@ struct ExpenseDetailView: View {
                         ExpenseEditorView()
                             .environmentObject(ExpenseEditorViewModel(expenseData: viewModel.expenseData))
                     } label: {
-                        Label("Filter", systemImage: "square.and.pencil.circle")
+                        Label("Edit", systemImage: "square.and.pencil.circle")
                     }
                 }
             }

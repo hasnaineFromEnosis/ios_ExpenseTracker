@@ -26,7 +26,7 @@ class ExpenseEditorViewModel: ObservableObject {
     @Published var alertMessage: String = "Please ensure that each field is filled out accurately."
     
     @Published var navigationTitle: String = "Create Expense"
-    @Published var createExpenseButtonText: String = "Create New Expense"
+    @Published var createExpenseButtonText: String = "Create"
     
     private var expenseData: ExpenseData?
     
@@ -43,7 +43,7 @@ class ExpenseEditorViewModel: ObservableObject {
             expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? ExpenseType.recurrent : ExpenseType.random
             
             navigationTitle = "Update Expense"
-            createExpenseButtonText = "Update Expense"
+            createExpenseButtonText = "Update"
         }
     }
     
@@ -100,6 +100,7 @@ class ExpenseEditorViewModel: ObservableObject {
            let amount = Int(expenseAmount) {
             expenseData.title = expenseTitle
             expenseData.details = expenseDetails
+            expenseData.category = expenseCategory
             expenseData.amount = amount
             expenseData.type = expenseType.rawValue
             expenseData.creationDate = creationDate
@@ -108,10 +109,11 @@ class ExpenseEditorViewModel: ObservableObject {
             dataManager.update(expenseData: expenseData,
                                title: expenseTitle,
                                details: expenseDetails,
+                               category: expenseCategory,
                                amount: amount,
                                type: expenseType,
                                creationDate: creationDate,
-                               paidDate: isExpensePaid ? paidDate : nil)
+                               paidDate: expenseData.paidDate)
             return true
         }
         

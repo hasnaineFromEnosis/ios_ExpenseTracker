@@ -88,10 +88,8 @@ class DataManager: NSObject, ObservableObject {
         if let entity = getExpenseDataEntity(expenseData: expnseData) {
             entity.paidDate = paidDate == nil ? Date() : paidDate
             self.persistenceController.update(entity: entity, paidDate: entity.paidDate)
-            if let id = entity.id {
-                self.deletePendingExpense(withID: id)
-                self.addPaidExpense(ExpenseData(entity: entity))
-            }
+            self.deleteLocally(entity: entity)
+            self.addPaidExpense(ExpenseData(entity: entity))
         }
     }
     
@@ -99,10 +97,8 @@ class DataManager: NSObject, ObservableObject {
         if let entity = getExpenseDataEntity(expenseData: expnseData) {
             entity.paidDate = nil
             self.persistenceController.markExpenseAsPending(entity: entity)
-            if let id = entity.id {
-                self.deletePaidExpense(withID: id)
-                self.addPendingExpense(ExpenseData(entity: entity))
-            }
+            self.deleteLocally(entity: entity)
+            self.addPendingExpense(ExpenseData(entity: entity))
         }
     }
     
@@ -113,6 +109,22 @@ class DataManager: NSObject, ObservableObject {
                 self.deletePaidExpense(withID: id)
                 self.deletePendingExpense(withID: id)
             }
+        }
+    }
+    
+    private func delete(entity: ExpenseDataEntity) {
+        if let id = entity.id {
+            self.deletePaidExpense(withID: id)
+            self.deletePendingExpense(withID: id)
+        }
+        
+        self.persistenceController.delete(entity: entity)
+    }
+    
+    private func deleteLocally(entity: ExpenseDataEntity) {
+        if let id = entity.id {
+            self.deletePaidExpense(withID: id)
+            self.deletePendingExpense(withID: id)
         }
     }
     
