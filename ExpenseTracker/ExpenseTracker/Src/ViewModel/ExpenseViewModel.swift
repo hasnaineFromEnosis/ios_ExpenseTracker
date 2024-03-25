@@ -26,6 +26,12 @@ class ExpenseViewModel: ObservableObject {
     // states
     @Published var navigationTitle: String
     @Published var viewType: ExpenseViewType
+    @Published var showAlert: Bool = false
+    
+    // Filer by date
+    @Published var isFilteredByDate = false
+    @Published var startDate = Date()
+    @Published var endDate = Date()
     
     var anyCancellable: AnyCancellable? = nil
     
@@ -47,9 +53,21 @@ class ExpenseViewModel: ObservableObject {
     var expenseData: [ExpenseData] {
         switch viewType {
         case .pendingExpenseView:
-            dataManager.pendingExpensesList
+            dataManager.pendingExpensesList.filter {
+                if isFilteredByDate {
+                    return ($0.creationDate >= startDate && $0.creationDate <= endDate)
+                }
+                
+                return true
+            }
         case .paidExpenseView:
-            dataManager.paidExpensesList
+            dataManager.paidExpensesList.filter {
+                if isFilteredByDate {
+                    return ($0.creationDate >= startDate && $0.creationDate <= endDate)
+                }
+                
+                return true
+            }
         }
     }
     
