@@ -10,7 +10,7 @@ import Combine
 
 struct ExpenseEditorView: View {
     
-    @EnvironmentObject var viewModel: ExpenseEditorViewModel
+    @ObservedObject var viewModel: ExpenseEditorViewModel
     
     @Environment(\.dismiss) var dismiss
     
@@ -74,6 +74,5 @@ struct ExpenseEditorView: View {
 }
 
 #Preview {
-    ExpenseEditorView()
-        .environmentObject(ExpenseEditorViewModel())
+    ExpenseEditorView(viewModel: ExpenseEditorViewModel())
 }

@@ -9,18 +9,16 @@ import SwiftUI
 
 struct ExpenseView: View {
     
-    @EnvironmentObject var viewModel: ExpenseViewModel
+    @ObservedObject var viewModel: ExpenseViewModel
     
     var body: some View {
         NavigationStack {
             ZStack {
                 List(getExpenseList()) { expense in
                     NavigationLink {
-                        ExpenseDetailView()
-                            .environmentObject(ExpenseDetailViewModel(expenseData: expense))
+                        ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: expense))
                     } label: {
-                        ExpenseRowView()
-                            .environmentObject(ExpenseRowViewModel(expenseData: expense))
+                        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: expense))
                     }
                     .swipeActions {
                         Button(role: .destructive) {
@@ -58,8 +56,7 @@ struct ExpenseView: View {
                         HStack {
                             Spacer()
                             NavigationLink {
-                                ExpenseEditorView()
-                                    .environmentObject(ExpenseEditorViewModel())
+                                ExpenseEditorView(viewModel: ExpenseEditorViewModel())
                             } label: {
                                 PlusCircleView()
                             }
@@ -78,6 +75,5 @@ struct ExpenseView: View {
 }
 
 #Preview {
-    ExpenseView()
-        .environmentObject(ExpenseViewModel(viewType: .pendingExpenseView))
+    ExpenseView(viewModel: ExpenseViewModel(viewType: .pendingExpenseView))
 }

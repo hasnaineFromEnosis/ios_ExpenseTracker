@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExpenseRowView: View {
     
-    @EnvironmentObject var viewModel: ExpenseRowViewModel
+    @ObservedObject var viewModel: ExpenseRowViewModel
 
     var body: some View {
         HStack {
@@ -47,20 +47,16 @@ struct ExpenseRowView: View {
 
 #Preview {
     Group {
-        ExpenseRowView()
-            .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()))
+        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData()))
         Divider()
-        ExpenseRowView()
-            .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
+        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
     }
 }
 
 #Preview {
-    ExpenseRowView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
+    ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
 }
 
 #Preview {
-    ExpenseRowView()
-        .environmentObject(ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()))
+    ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData()))
 }
