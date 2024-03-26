@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @State var selectedTab: ExpenseViewType = .pendingExpenseView
     var body: some View {
-        TabView() {
-            ExpenseView(viewModel: ExpenseViewModel(viewType: .pendingExpenseView))
+        TabView(selection: $selectedTab) {
+            ExpenseView(viewModel: ExpenseViewModel(viewType: .pendingExpenseView), selectedTab: $selectedTab)
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
                 .tag(ExpenseViewType.pendingExpenseView)
             
-            ExpenseView(viewModel: ExpenseViewModel(viewType: .paidExpenseView))
+            ExpenseView(viewModel: ExpenseViewModel(viewType: .paidExpenseView), selectedTab: $selectedTab)
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }

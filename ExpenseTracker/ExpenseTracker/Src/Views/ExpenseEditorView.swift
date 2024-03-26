@@ -11,6 +11,7 @@ import Combine
 struct ExpenseEditorView: View {
     
     @ObservedObject var viewModel: ExpenseEditorViewModel
+    @Binding var selectedTab: ExpenseViewType
     
     @Environment(\.dismiss) var dismiss
     
@@ -62,6 +63,11 @@ struct ExpenseEditorView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
                         if viewModel.validateData() {
+                            if viewModel.isExpensePaid {
+                                selectedTab = .paidExpenseView
+                            } else {
+                                selectedTab = .pendingExpenseView
+                            }
                             dismiss()
                         }
                     } label: {
@@ -74,5 +80,5 @@ struct ExpenseEditorView: View {
 }
 
 #Preview {
-    ExpenseEditorView(viewModel: ExpenseEditorViewModel())
+    ExpenseEditorView(viewModel: ExpenseEditorViewModel(), selectedTab: .constant(.paidExpenseView))
 }

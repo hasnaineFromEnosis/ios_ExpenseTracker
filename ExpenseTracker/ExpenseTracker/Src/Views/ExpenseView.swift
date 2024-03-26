@@ -10,13 +10,14 @@ import SwiftUI
 struct ExpenseView: View {
     
     @ObservedObject var viewModel: ExpenseViewModel
+    @Binding var selectedTab: ExpenseViewType
     
     var body: some View {
         NavigationStack {
             ZStack {
                 List(getExpenseList()) { expense in
                     NavigationLink {
-                        ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: expense))
+                        ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: expense), selectedTab: $selectedTab)
                     } label: {
                         ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: expense))
                     }
@@ -56,7 +57,7 @@ struct ExpenseView: View {
                         HStack {
                             Spacer()
                             NavigationLink {
-                                ExpenseEditorView(viewModel: ExpenseEditorViewModel())
+                                ExpenseEditorView(viewModel: ExpenseEditorViewModel(), selectedTab: $selectedTab)
                             } label: {
                                 PlusCircleView()
                             }
@@ -75,5 +76,5 @@ struct ExpenseView: View {
 }
 
 #Preview {
-    ExpenseView(viewModel: ExpenseViewModel(viewType: .pendingExpenseView))
+    ExpenseView(viewModel: ExpenseViewModel(viewType: .pendingExpenseView), selectedTab: .constant(.pendingExpenseView))
 }
