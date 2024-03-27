@@ -20,14 +20,14 @@ class DataManager: NSObject, ObservableObject {
     @Published var paidExpensesList: [ExpenseData] = []
     @Published var baseRecurrentExpenseList: [ExpenseData] = []
     
-    private let persistenceController: PersistenceController
+    private let persistentStore: PersistentStore
     
     private init(type: DataManagerType) {
         switch(type) {
         case .normal:
-            self.persistenceController = PersistenceController()
+            self.persistentStore = PersistentStore()
         case .preview:
-            self.persistenceController = PersistenceController(inMemory: true)
+            self.persistentStore = PersistentStore(inMemory: true)
         }
         
         super.init()
@@ -36,7 +36,7 @@ class DataManager: NSObject, ObservableObject {
     }
     
     func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool = false) {
-        let entity = persistenceController.createExpense(title: title,
+        let entity = persistentStore.createExpense(title: title,
                                                   details: details,
                                                   category: category,
                                                   amount: amount,
@@ -67,9 +67,9 @@ class DataManager: NSObject, ObservableObject {
     }
     
     func read() {
-        let pendingData = self.persistenceController.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false")
-        let paidData = self.persistenceController.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false")
-        let baseRecurrentExpense = self.persistenceController.fetchExpenses(predicateFormat: "isBaseRecurrent == true")
+        let pendingData = self.persistentStore.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false")
+        let paidData = self.persistentStore.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false")
+        let baseRecurrentExpense = self.persistentStore.fetchExpenses(predicateFormat: "isBaseRecurrent == true")
         
         self.pendingExpensesList = convertEntityArrayToData(entities: pendingData)
         self.paidExpensesList = convertEntityArrayToData(entities: paidData)
@@ -86,7 +86,7 @@ class DataManager: NSObject, ObservableObject {
                 paidDate: Date? = nil,
                 isBaseRecurrent: Bool = false) {
         if let entity = getExpenseDataEntity(expenseData: expenseData) {
-            self.persistenceController.updateExpense(entity: entity,
+            self.persistentStore.updateExpense(entity: entity,
                                               title: title,
                                               details: details,
                                               category: category,
@@ -117,7 +117,7 @@ class DataManager: NSObject, ObservableObject {
     func markExpenseAsPaid(expnseData: ExpenseData, paidDate: Date? = nil) {
         if let entity = getExpenseDataEntity(expenseData: expnseData) {
             entity.paidDate = paidDate == nil ? Date() : paidDate
-            self.persistenceController.updateExpense(entity: entity, paidDate: entity.paidDate)
+            self.persistentStore.updateExpense(entity: entity, paidDate: entity.paidDate)
             self.deleteLocally(entity: entity)
             self.addPaidExpense(ExpenseData(entity: entity))
         }
@@ -126,7 +126,7 @@ class DataManager: NSObject, ObservableObject {
     func markExpenseAsPending(expnseData: ExpenseData) {
         if let entity = getExpenseDataEntity(expenseData: expnseData) {
             entity.paidDate = nil
-            self.persistenceController.markExpenseAsPending(entity: entity)
+            self.persistentStore.markExpenseAsPending(entity: entity)
             self.deleteLocally(entity: entity)
             self.addPendingExpense(ExpenseData(entity: entity))
         }
@@ -159,7 +159,7 @@ class DataManager: NSObject, ObservableObject {
             self.deletePaidExpense(withID: id)
             self.deletePendingExpense(withID: id)
         }
-        self.persistenceController.deleteExpense(entity: entity)
+        self.persistentStore.deleteExpense(entity: entity)
     }
     
     private func deleteLocally(entity: ExpenseDataEntity) {
@@ -209,7 +209,7 @@ class DataManager: NSObject, ObservableObject {
     
     private func getExpenseDataEntity(expenseData: ExpenseData) -> ExpenseDataEntity? {
         let predicate = NSPredicate(format: "id = %@", expenseData.id as CVarArg)
-        let result = self.persistenceController.fetchFirst(ExpenseDataEntity.self, predicate: predicate)
+        let result = self.persistentStore.fetchFirst(ExpenseDataEntity.self, predicate: predicate)
         switch result {
         case .success(let managedObject):
             if let entity = managedObject {

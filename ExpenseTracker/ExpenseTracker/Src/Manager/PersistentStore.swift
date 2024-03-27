@@ -1,5 +1,5 @@
 //
-//  PersistenceController.swift
+//  PersistentStore.swift
 //  ExpenseTracker
 //
 //  Created by Shahwat Hasnaine on 19/3/24.
@@ -7,7 +7,7 @@
 
 import CoreData
 
-struct PersistenceController {
+struct PersistentStore {
     let container: NSPersistentContainer
     
     private init() {
