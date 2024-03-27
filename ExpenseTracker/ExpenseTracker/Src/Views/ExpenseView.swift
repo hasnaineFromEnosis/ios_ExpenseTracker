@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ExpenseView: View {
-    
     @ObservedObject var viewModel: ExpenseViewModel
     @Binding var selectedTab: ExpenseViewType
     
     var body: some View {
         NavigationStack {
             ZStack {
-                List(getExpenseList()) { expense in
+                List(viewModel.expenseData) { expense in
                     NavigationLink {
                         ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: expense), selectedTab: $selectedTab)
                     } label: {
@@ -32,39 +31,41 @@ struct ExpenseView: View {
                 .animation(.easeInOut)
                 .navigationTitle(viewModel.navigationTitle)
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: {
-                            viewModel.showFilteringPage.toggle()
-                        }) {
-                            Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFiltered() ?  ".fill" : ""))
-                        }
-                        .popover(isPresented: $viewModel.showFilteringPage) {
-                            FilteringView()
-                                .environmentObject(viewModel)
-                        }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        filterButton
                     }
                 }
-                if viewModel.viewType == ExpenseViewType.pendingExpenseView {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            NavigationLink {
-                                ExpenseEditorView(viewModel: ExpenseEditorViewModel(), selectedTab: $selectedTab)
-                            } label: {
-                                PlusCircleView()
-                            }
-                            .padding()
-                            .padding([.trailing, .bottom], 20)
-                        }
-                    }
+                if viewModel.viewType == .pendingExpenseView {
+                    floatingButton
                 }
             }
         }
     }
     
-    private func getExpenseList() -> [ExpenseData] {
-        return viewModel.expenseData
+    private var filterButton: some View {
+        Button(action: {
+            viewModel.showFilteringPage.toggle()
+        }) {
+            Label("Filter", systemImage: viewModel.isFiltered() ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+        }
+        .popover(isPresented: $viewModel.showFilteringPage) {
+            FilteringView()
+                .environmentObject(viewModel)
+        }
+    }
+    
+    private var floatingButton: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                NavigationLink(destination: ExpenseEditorView(viewModel: ExpenseEditorViewModel(), selectedTab: $selectedTab)) {
+                    PlusCircleView()
+                }
+                .padding()
+                .padding([.trailing, .bottom], 20)
+            }
+        }
     }
 }
 
