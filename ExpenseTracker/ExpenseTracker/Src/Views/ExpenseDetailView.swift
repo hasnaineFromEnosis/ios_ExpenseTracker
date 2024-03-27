@@ -10,6 +10,7 @@ import SwiftUI
 struct ExpenseDetailView: View {
     
     @ObservedObject var viewModel: ExpenseDetailViewModel
+    @Binding var selectedTab: ExpenseViewType
     
     @Environment(\.dismiss) var dismiss
     
@@ -43,7 +44,11 @@ struct ExpenseDetailView: View {
                     Section {
                         Button {
                             viewModel.paidWithdrawButtonPressed()
-                            dismiss()
+                            if viewModel.isExpensePending() {
+                                selectedTab = .paidExpenseView
+                            } else {
+                                selectedTab = .pendingExpenseView
+                            }
                         } label: {
                             getPrimaryTextView(label: viewModel.buttonText)
                         }
@@ -54,11 +59,14 @@ struct ExpenseDetailView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     NavigationLink {
-                        ExpenseEditorView(viewModel: ExpenseEditorViewModel(expenseData: viewModel.expenseData))
+                        ExpenseEditorView(viewModel: ExpenseEditorViewModel(expenseData: viewModel.expenseData), selectedTab: $selectedTab)
                     } label: {
                         Label("Edit", systemImage: "square.and.pencil.circle")
                     }
                 }
+            }
+            .onChange(of: selectedTab) { _ in
+                self.dismiss()
             }
         }
     }
@@ -92,9 +100,9 @@ struct ExpenseDetailView: View {
 }
 
 #Preview {
-    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
+    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)), selectedTab: .constant(.paidExpenseView))
 }
 
 #Preview {
-    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()))
+    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()), selectedTab: .constant(.pendingExpenseView))
 }
