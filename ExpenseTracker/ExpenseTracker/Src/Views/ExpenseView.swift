@@ -32,23 +32,15 @@ struct ExpenseView: View {
                 .animation(.easeInOut)
                 .navigationTitle(viewModel.navigationTitle)
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
-                            viewModel.showAlert.toggle()
+                            viewModel.showFilteringPage.toggle()
                         }) {
-                            Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFilteredByDate ?  ".fill" : ""))
+                            Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFiltered() ?  ".fill" : ""))
                         }
-                        .popover(isPresented: $viewModel.showAlert) {
-                            Form() {
-                                Section("Filter By Date") {
-                                    Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
-                                    
-                                    if viewModel.isFilteredByDate {
-                                        DatePicker("Start Date", selection: $viewModel.startDate)
-                                        DatePicker("End Date", selection: $viewModel.endDate)
-                                    }
-                                }
-                            }
+                        .popover(isPresented: $viewModel.showFilteringPage) {
+                            FilteringView()
+                                .environmentObject(viewModel)
                         }
                     }
                 }
@@ -74,6 +66,53 @@ struct ExpenseView: View {
     private func getExpenseList() -> [ExpenseData] {
         return viewModel.expenseData
     }
+}
+
+struct FilteringView: View {
+    @EnvironmentObject var viewModel: ExpenseViewModel
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        NavigationView {
+            List {
+                Section("Filter By Date") {
+                    Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
+                    
+                    if viewModel.isFilteredByDate {
+                        DatePicker("Start Date", selection: $viewModel.startDate)
+                        DatePicker("End Date", selection: $viewModel.endDate)
+                    }
+                }
+            }
+            .onAppear(perform: {
+                self.viewModel.initFilteredState()
+            })
+            .navigationTitle("Filtering")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        if viewModel.validateFilteringData() {
+                            dismiss()
+                        }
+                    } label: {
+                        Text("Done")
+                    }
+                }
+            }
+            .alert(isPresented: $viewModel.shouldShowAlert) {
+                Alert(
+                    title: Text(viewModel.alertTitle),
+                    message: Text(viewModel.alertMessage)
+                )
+            }
+        }
+    }
+}
+
+#Preview {
+    FilteringView()
+        .environmentObject(ExpenseViewModel(viewType: .paidExpenseView))
 }
 
 #Preview {

@@ -26,12 +26,18 @@ class ExpenseViewModel: ObservableObject {
     // states
     @Published var navigationTitle: String
     @Published var viewType: ExpenseViewType
-    @Published var showAlert: Bool = false
+    @Published var showFilteringPage: Bool = false
     
     // Filer by date
     @Published var isFilteredByDate = false
     @Published var startDate = Date()
     @Published var endDate = Date()
+    @Published var appliedStartDate: Date? = nil
+    @Published var appliedEndDate: Date? = nil
+    
+    @Published var shouldShowAlert = false
+    @Published var alertTitle = "Invalid Date"
+    @Published var alertMessage = "Start date should be set as before end date"
     
     var anyCancellable: AnyCancellable? = nil
     
@@ -54,20 +60,63 @@ class ExpenseViewModel: ObservableObject {
         switch viewType {
         case .pendingExpenseView:
             dataManager.pendingExpensesList.filter {
-                if isFilteredByDate {
-                    return ($0.creationDate >= startDate && $0.creationDate <= endDate)
-                }
-                
-                return true
+                return filterList(expenseData: $0)
             }
         case .paidExpenseView:
             dataManager.paidExpensesList.filter {
-                if isFilteredByDate {
-                    return ($0.creationDate >= startDate && $0.creationDate <= endDate)
-                }
-                
-                return true
+                return filterList(expenseData: $0)
             }
+        }
+    }
+    
+    func isFiltered() -> Bool {
+        if appliedStartDate != nil && appliedEndDate != nil {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func filterList(expenseData: ExpenseData) -> Bool {
+        if let startDate = appliedStartDate,
+           let endDate = appliedEndDate {
+            return (expenseData.creationDate >= startDate && expenseData.creationDate <= endDate)
+        }
+        
+        return true
+    }
+    
+    func validateFilteringData() -> Bool {
+        if isFilteredByDate == false {
+            clearFilteredState()
+            return true
+        }
+        if startDate > endDate {
+            shouldShowAlert = true
+            return false
+        }
+        
+        appliedStartDate = startDate
+        appliedEndDate = endDate
+        return true
+    }
+    
+    private func clearFilteredState() {
+        isFilteredByDate = false
+        appliedStartDate = nil
+        appliedEndDate = nil
+    }
+    
+    func initFilteredState() {
+        if let appliedEndDate,
+           let appliedStartDate {
+            isFilteredByDate = true
+            startDate = appliedStartDate
+            endDate = appliedEndDate
+        } else {
+            isFilteredByDate = false
+            startDate = Date()
+            endDate = Date()
         }
     }
     
