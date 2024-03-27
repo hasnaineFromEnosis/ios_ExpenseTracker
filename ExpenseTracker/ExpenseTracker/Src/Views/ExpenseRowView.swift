@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ExpenseRowView: View {
-    
     @ObservedObject var viewModel: ExpenseRowViewModel
 
     var body: some View {
@@ -22,7 +21,9 @@ struct ExpenseRowView: View {
                     .fontWeight(.thin)
                     .font(.caption)
             }
+            
             Spacer()
+            
             VStack(alignment: .trailing) {
                 Text(viewModel.creationDate)
                     .fontWeight(.light)
