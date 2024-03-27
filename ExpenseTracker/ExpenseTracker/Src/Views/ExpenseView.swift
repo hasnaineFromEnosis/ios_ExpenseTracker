@@ -29,6 +29,7 @@ struct ExpenseView: View {
                         }
                     }
                 }
+                .animation(.easeInOut)
                 .navigationTitle(viewModel.navigationTitle)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

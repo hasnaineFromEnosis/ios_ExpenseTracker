@@ -23,6 +23,7 @@ struct ContentView: View {
                 }
                 .tag(ExpenseViewType.paidExpenseView)
         }
+        .transition(.slide)
     }
 }
 

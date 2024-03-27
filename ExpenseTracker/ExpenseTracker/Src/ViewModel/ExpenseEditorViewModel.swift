@@ -12,10 +12,10 @@ class ExpenseEditorViewModel: ObservableObject {
     let dataManager = DataManager.shared
     
     // states
-    @Published var expenseTitle: String = "Test \(Int.random(in: 1...100))"
-    @Published var expenseDetails: String = "xx"
-    @Published var expenseCategory: String = "xx"
-    @Published var expenseAmount: String = "455"
+    @Published var expenseTitle: String = "Test Expense \(Int.random(in: 1...100))"
+    @Published var expenseDetails: String = "Test Details"
+    @Published var expenseCategory: String = "Test Categiry"
+    @Published var expenseAmount: String = "\(Int.random(in: 100...100000000))"
     @Published var creationDate: Date = Date()
     @Published var paidDate: Date = Date()
     @Published var isExpensePaid: Bool = false
