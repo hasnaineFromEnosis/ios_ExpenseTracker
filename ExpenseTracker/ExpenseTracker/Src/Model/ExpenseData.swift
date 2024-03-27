@@ -17,15 +17,22 @@ struct ExpenseData: Identifiable, Hashable {
     var category: String
     var type: String
     
-    init() {
-        self.id = UUID()
-        self.title = "Dummy Title"
-        self.details = "Dummy Description"
-        self.amount = Int.random(in: 1...1000)
-        self.category = "Dummy Category"
-        self.type = ExpenseType.random.rawValue
-        self.creationDate = Date.distantPast
-        self.paidDate = nil
+    init(id: UUID = UUID(),
+         title: String = "Dummy Title",
+         details: String = "Dummy Description",
+         amount: Int = Int.random(in: 1...1000),
+         category: String = "Dummy Category",
+         type: String = ExpenseType.random.rawValue,
+         creationDate: Date = Date.distantPast,
+         paidDate: Date? = nil) {
+        self.id = id
+        self.title = title
+        self.details = details
+        self.amount = amount
+        self.category = category
+        self.type = type
+        self.creationDate = creationDate
+        self.paidDate = paidDate
     }
     
     init(entity: ExpenseDataEntity) {
@@ -39,11 +46,7 @@ struct ExpenseData: Identifiable, Hashable {
         self.type = entity.type ?? ExpenseType.random.rawValue
     }
     
-    static func getRandomExpenseData(isPaid: Bool = false, isRecurrent: Bool = false) -> ExpenseData {
-        var expenseData: ExpenseData = ExpenseData()
-        expenseData.type = isRecurrent ? ExpenseType.recurrent.rawValue : ExpenseType.random.rawValue
-        expenseData.paidDate = isPaid ? Date.now : nil
-
-        return expenseData
+    static func randomExpenseData(isPaid: Bool = false, isRecurrent: Bool = false) -> ExpenseData {
+        return ExpenseData()
     }
 }

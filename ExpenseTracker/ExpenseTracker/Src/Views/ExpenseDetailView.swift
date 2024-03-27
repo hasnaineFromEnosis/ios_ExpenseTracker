@@ -100,9 +100,9 @@ struct ExpenseDetailView: View {
 }
 
 #Preview {
-    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)), selectedTab: .constant(.paidExpenseView))
+    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.randomExpenseData(isPaid: true)), selectedTab: .constant(.paidExpenseView))
 }
 
 #Preview {
-    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.getRandomExpenseData()), selectedTab: .constant(.pendingExpenseView))
+    ExpenseDetailView(viewModel: ExpenseDetailViewModel(expenseData: ExpenseData.randomExpenseData()), selectedTab: .constant(.pendingExpenseView))
 }

@@ -47,16 +47,16 @@ struct ExpenseRowView: View {
 
 #Preview {
     Group {
-        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData()))
+        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.randomExpenseData()))
         Divider()
-        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
+        ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.randomExpenseData(isPaid: true)))
     }
 }
 
 #Preview {
-    ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData(isPaid: true)))
+    ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.randomExpenseData(isPaid: true)))
 }
 
 #Preview {
-    ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.getRandomExpenseData()))
+    ExpenseRowView(viewModel: ExpenseRowViewModel(expenseData: ExpenseData.randomExpenseData()))
 }
