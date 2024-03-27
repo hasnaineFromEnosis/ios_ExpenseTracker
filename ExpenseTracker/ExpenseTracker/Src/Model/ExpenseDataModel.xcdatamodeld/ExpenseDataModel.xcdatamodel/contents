@@ -6,6 +6,7 @@
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="details" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isBaseRecurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="paidDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
