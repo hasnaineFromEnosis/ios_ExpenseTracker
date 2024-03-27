@@ -23,11 +23,12 @@ struct ExpenseEditorView: View {
                     TextField("Description", text: $viewModel.expenseDetails)
                 }
                 
-                Section("Date") {
-                    DatePicker("Creation Date", selection: $viewModel.creationDate)
-                    Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
-                    if viewModel.isExpensePaid {
-                        DatePicker("Paid Date", selection: $viewModel.paidDate)
+                if !viewModel.blockEditingPaidDate() {
+                    Section("Date") {
+                        Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
+                        if viewModel.isExpensePaid {
+                            DatePicker("Paid Date", selection: $viewModel.paidDate)
+                        }
                     }
                 }
                 
@@ -63,11 +64,13 @@ struct ExpenseEditorView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
                         if viewModel.validateData() {
-                            if viewModel.isExpensePaid {
+                            if !viewModel.blockEditingPaidDate()
+                                && !viewModel.isExpensePaid {
                                 selectedTab = .paidExpenseView
                             } else {
                                 selectedTab = .pendingExpenseView
                             }
+                            
                             dismiss()
                         }
                     } label: {

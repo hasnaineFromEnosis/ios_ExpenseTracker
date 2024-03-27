@@ -82,7 +82,7 @@ class ExpenseEditorViewModel: ObservableObject {
                                category: expenseCategory,
                                amount: expenseAmount,
                                creationDate: creationDate,
-                               paidDate: isExpensePaid ? paidDate : nil,
+                               paidDate: getPaidDate(),
                                type: expenseType,
                                isBaseRecurrent: expenseType == .recurrent)
             
@@ -122,6 +122,22 @@ class ExpenseEditorViewModel: ObservableObject {
         showInvalidDataAlert = true
         
         return false
+    }
+    
+    func blockEditingPaidDate() -> Bool {
+        return isCreatingView() && expenseType == .recurrent
+    }
+    
+    private func isCreatingView() -> Bool {
+        return expenseData == nil
+    }
+    
+    private func getPaidDate() -> Date? {
+        if !isExpensePaid || blockEditingPaidDate() {
+            return nil
+        }
+        
+        return paidDate
     }
     
     func clearState() {
