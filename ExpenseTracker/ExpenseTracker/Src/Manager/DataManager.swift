@@ -139,7 +139,7 @@ class DataManager: NSObject, ObservableObject {
     }
     
     private func createSingleRecurrentExpense(from baseExpense: ExpenseData) {
-        let newExpenses = RecurrentExpenseManager.generateNecessaryRecurrentExpense(for: baseExpense)
+        let newExpenses = RecurrentExpenseManager.generateNecessaryRecurrentExpenses(for: baseExpense)
         for newExpense in newExpenses {
             create(title: newExpense.title,
                     details: newExpense.details,
