@@ -8,7 +8,7 @@
 import Foundation
 
 struct ExpenseData: Identifiable, Hashable {
-    let id: UUID
+    var id: UUID
     var title: String
     var details: String
     var creationDate: Date
