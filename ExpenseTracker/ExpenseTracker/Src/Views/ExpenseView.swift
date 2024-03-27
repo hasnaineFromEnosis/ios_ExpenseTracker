@@ -75,18 +75,18 @@ struct FilteringView: View {
     var body: some View {
         NavigationView {
             List {
-                Section("Filter By Date") {
-                    Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
+                Section(header: Text("Filter By Date")) {
+                    Toggle("Enable Filtering", isOn: $viewModel.isFilteredByDate.animation())
                     
                     if viewModel.isFilteredByDate {
-                        DatePicker("Start Date", selection: $viewModel.startDate)
-                        DatePicker("End Date", selection: $viewModel.endDate)
+                        DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
+                        DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
                     }
                 }
             }
-            .onAppear(perform: {
-                self.viewModel.initFilteredState()
-            })
+            .onAppear {
+                viewModel.initFilteredState()
+            }
             .navigationTitle("Filtering")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
