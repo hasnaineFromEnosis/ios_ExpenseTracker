@@ -83,7 +83,8 @@ class ExpenseEditorViewModel: ObservableObject {
                                amount: expenseAmount,
                                creationDate: creationDate,
                                paidDate: isExpensePaid ? paidDate : nil,
-                               type: expenseType)
+                               type: expenseType,
+                               isBaseRecurrent: expenseType == .recurrent)
             
             clearState()
             return true

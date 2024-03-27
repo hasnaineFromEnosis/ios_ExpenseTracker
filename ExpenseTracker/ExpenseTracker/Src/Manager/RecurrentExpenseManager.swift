@@ -18,18 +18,21 @@ class RecurrentExpenseManager {
         let lastPaidDate: Date = expense.paidDate ?? expense.creationDate
         
         let calendar = Calendar.current
-        let yearDiff = calendar.dateComponents([.year], from: lastPaidDate, to: currentDate).year ?? 0
         let monthDiff = calendar.dateComponents([.month], from: lastPaidDate, to: currentDate).month ?? 0
+        let day1 = calendar.component(.day, from: lastPaidDate)
+        let day2 = calendar.component(.day, from: currentDate)
+        
+        let totalExpenseToCreate = monthDiff + day1 > day2 ? 1 : 0
         
         var results: [ExpenseData] = []
         
-        let totalExpenseToCreate = yearDiff * 12 + monthDiff
-        
-        for _ in 1...totalExpenseToCreate {
-            var newExpense = expense
-            newExpense.id = UUID()
-            newExpense.paidDate = nil
-            results.append(newExpense)
+        if totalExpenseToCreate > 0 {
+            for _ in 1...totalExpenseToCreate {
+                var newExpense = expense
+                newExpense.id = UUID()
+                newExpense.paidDate = nil
+                results.append(newExpense)
+            }
         }
         
         return results

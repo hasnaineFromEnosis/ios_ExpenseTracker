@@ -18,6 +18,7 @@ class DataManager: NSObject, ObservableObject {
     
     @Published var pendingExpensesList: [ExpenseData] = []
     @Published var paidExpensesList: [ExpenseData] = []
+    @Published var baseRecurrentExpenseList: [ExpenseData] = []
     
     private let persistenceController: PersistenceController
     
@@ -31,29 +32,48 @@ class DataManager: NSObject, ObservableObject {
         
         super.init()
         self.read()
+        self.createRecurrentExpenses()
     }
     
-    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType) {
+    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool = false) {
         let entity = persistenceController.create(title: title,
-                                     details: details,
-                                     category: category,
-                                     amount: amount,
-                                     creationDate: creationDate,
-                                     paidDate: paidDate,
-                                     type: type)
-        if let _ = paidDate {
-            paidExpensesList.append(ExpenseData(entity: entity))
+                                                  details: details,
+                                                  category: category,
+                                                  amount: amount,
+                                                  creationDate: creationDate,
+                                                  paidDate: paidDate,
+                                                  type: type,
+                                                  isBaseRecurrent: isBaseRecurrent)
+        
+        if isBaseRecurrent {
+            let baseRecurrentExpense: ExpenseData = ExpenseData(entity: entity)
+            baseRecurrentExpenseList.append(baseRecurrentExpense)
+            self.createSingleRecurrentExpense(from: baseRecurrentExpense)
+            create(title: title,
+                   details: details,
+                   category: category,
+                   amount: amount,
+                   creationDate: creationDate,
+                   paidDate: paidDate,
+                   type: type,
+                   isBaseRecurrent: false)
         } else {
-            pendingExpensesList.append(ExpenseData(entity: entity))
+            if let _ = paidDate {
+                paidExpensesList.append(ExpenseData(entity: entity))
+            } else {
+                pendingExpensesList.append(ExpenseData(entity: entity))
+            }
         }
     }
     
     func read() {
-        let pendingData = self.persistenceController.read(predicateFormat: "paidDate == nil")
-        let paidData = self.persistenceController.read(predicateFormat: "paidDate != nil")
+        let pendingData = self.persistenceController.read(predicateFormat: "paidDate == nil && isBaseRecurrent == false")
+        let paidData = self.persistenceController.read(predicateFormat: "paidDate != nil && isBaseRecurrent == false")
+        let baseRecurrentExpense = self.persistenceController.read(predicateFormat: "isBaseRecurrent == true")
         
         self.pendingExpensesList = convertEntityArrayToData(entities: pendingData)
         self.paidExpensesList = convertEntityArrayToData(entities: paidData)
+        self.baseRecurrentExpenseList = convertEntityArrayToData(entities: baseRecurrentExpense)
     }
     
     func update(expenseData: ExpenseData,
@@ -63,7 +83,8 @@ class DataManager: NSObject, ObservableObject {
                 amount: Int? = nil,
                 type: ExpenseType? = nil,
                 creationDate: Date? = nil,
-                paidDate: Date? = nil) {
+                paidDate: Date? = nil,
+                isBaseRecurrent: Bool = false) {
         if let entity = getExpenseDataEntity(expenseData: expenseData) {
             self.persistenceController.update(entity: entity,
                                               title: title,
@@ -73,14 +94,23 @@ class DataManager: NSObject, ObservableObject {
                                               type: type,
                                               creationDate: creationDate,
                                               paidDate: paidDate)
-            self.updatePaidList(for: expenseData)
-            self.updatePendingList(for: expenseData)
-            
-            if let paidDate {
-                markExpenseAsPaid(expnseData: expenseData, paidDate: paidDate)
+            if isBaseRecurrent {
+                self.updateBaseRecurrentExpenseList(for: expenseData)
             } else {
-                markExpenseAsPending(expnseData: expenseData)
+                self.updatePaidList(for: expenseData)
+                self.updatePendingList(for: expenseData)
+                if let paidDate {
+                    markExpenseAsPaid(expnseData: expenseData, paidDate: paidDate)
+                } else {
+                    markExpenseAsPending(expnseData: expenseData)
+                }
             }
+        }
+    }
+    
+    func delete(expnseData: ExpenseData) {
+        if let entity = getExpenseDataEntity(expenseData: expnseData) {
+            self.delete(entity: entity)
         }
     }
     
@@ -102,11 +132,27 @@ class DataManager: NSObject, ObservableObject {
         }
     }
     
-    func delete(expnseData: ExpenseData) {
-        if let entity = getExpenseDataEntity(expenseData: expnseData) {
-            self.delete(entity: entity)
+    private func createRecurrentExpenses() {
+        for expense in baseRecurrentExpenseList {
+            createSingleRecurrentExpense(from: expense)
         }
     }
+    
+    private func createSingleRecurrentExpense(from baseExpense: ExpenseData) {
+        let newExpenses = RecurrentExpenseManager.generateNecessaryRecurrentExpense(for: baseExpense)
+        for newExpense in newExpenses {
+            create(title: newExpense.title,
+                    details: newExpense.details,
+                    category: newExpense.category,
+                    amount: newExpense.amount,
+                    creationDate: newExpense.creationDate,
+                    paidDate: nil,
+                    type: ExpenseType.recurrent)
+        }
+        
+        update(expenseData: baseExpense, paidDate: Date(), isBaseRecurrent: true)
+    }
+    
     
     private func delete(entity: ExpenseDataEntity) {
         if let id = entity.id {
@@ -132,6 +178,12 @@ class DataManager: NSObject, ObservableObject {
     private func updatePaidList(for updatedExpenseData: ExpenseData) {
         if let index = self.paidExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
             self.paidExpensesList[index] = updatedExpenseData
+        }
+    }
+    
+    private func updateBaseRecurrentExpenseList(for updatedExpenseData: ExpenseData) {
+        if let index = self.baseRecurrentExpenseList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
+            self.baseRecurrentExpenseList[index] = updatedExpenseData
         }
     }
     
