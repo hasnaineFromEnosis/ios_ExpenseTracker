@@ -47,7 +47,7 @@ struct PersistenceController {
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType) -> ExpenseDataEntity {
+    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool) -> ExpenseDataEntity {
         let entity = ExpenseDataEntity(context: container.viewContext)
         
         entity.id = UUID()
@@ -58,6 +58,7 @@ struct PersistenceController {
         entity.creationDate = creationDate
         entity.paidDate = paidDate
         entity.type = type.rawValue
+        entity.isBaseRecurrent = isBaseRecurrent
         
         saveChanges()
         

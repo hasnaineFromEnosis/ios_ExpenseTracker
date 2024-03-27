@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A41EFB12BA8E96800CE4FB9 /* ExpenseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41EFB02BA8E96800CE4FB9 /* ExpenseRowView.swift */; };
 		1A4EAAC62BB1534E0056C110 /* ExpenseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */; };
+		1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */; };
 		1A5316B92BA96E8D00062171 /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316B82BA96E8D00062171 /* ExpenseDetailView.swift */; };
 		1A5316C02BA9998700062171 /* ExpenseEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316BF2BA9998700062171 /* ExpenseEditorView.swift */; };
 		1A5316C72BA9CD4400062171 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316C62BA9CD4300062171 /* PersistenceController.swift */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		1A41EFB02BA8E96800CE4FB9 /* ExpenseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRowView.swift; sourceTree = "<group>"; };
 		1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseData.swift; sourceTree = "<group>"; };
+		1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentExpenseManager.swift; sourceTree = "<group>"; };
 		1A5316B82BA96E8D00062171 /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
 		1A5316BF2BA9998700062171 /* ExpenseEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseEditorView.swift; sourceTree = "<group>"; };
 		1A5316C62BA9CD4300062171 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				1A5316C62BA9CD4300062171 /* PersistenceController.swift */,
 				1A53172D2BADF23E00062171 /* DataManager.swift */,
+				1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				1A5316CA2BA9D02600062171 /* ExpenseViewModel.swift in Sources */,
 				1A5316D32BAAFD1100062171 /* ExpenseEditorViewModel.swift in Sources */,
 				1A5316C72BA9CD4400062171 /* PersistenceController.swift in Sources */,
+				1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */,
 				1A5316B92BA96E8D00062171 /* ExpenseDetailView.swift in Sources */,
 				1A5316C02BA9998700062171 /* ExpenseEditorView.swift in Sources */,
 				1A5316D72BAB61FD00062171 /* ExpenseRowViewModel.swift in Sources */,
