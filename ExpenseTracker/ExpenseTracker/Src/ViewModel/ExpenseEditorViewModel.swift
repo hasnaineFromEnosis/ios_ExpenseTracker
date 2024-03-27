@@ -42,20 +42,6 @@ class ExpenseEditorViewModel: ObservableObject {
         }
     }
     
-    private func setupWithExistingExpenseData(_ expenseData: ExpenseData) {
-        expenseTitle = expenseData.title
-        expenseDetails = expenseData.details
-        expenseCategory = expenseData.category
-        expenseAmount = String(expenseData.amount)
-        creationDate = expenseData.creationDate
-        paidDate = expenseData.paidDate ?? Date()
-        isExpensePaid = expenseData.paidDate != nil
-        expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? .recurrent : .random
-        
-        navigationTitle = "Update Expense"
-        createExpenseButtonText = "Update"
-    }
-    
     func validateData() -> Bool {
         guard !expenseTitle.isEmpty, !expenseDetails.isEmpty, !expenseCategory.isEmpty, !expenseAmount.isEmpty else {
             showInvalidDataAlert = true
@@ -109,13 +95,29 @@ class ExpenseEditorViewModel: ObservableObject {
         return true
     }
     
+    func blockEditingPaidDate() -> Bool {
+        return isCreatingView() && expenseType == .recurrent
+    }
+    
+    // Private Methods
+    
+    private func setupWithExistingExpenseData(_ expenseData: ExpenseData) {
+        expenseTitle = expenseData.title
+        expenseDetails = expenseData.details
+        expenseCategory = expenseData.category
+        expenseAmount = String(expenseData.amount)
+        creationDate = expenseData.creationDate
+        paidDate = expenseData.paidDate ?? Date()
+        isExpensePaid = expenseData.paidDate != nil
+        expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? .recurrent : .random
+        
+        navigationTitle = "Update Expense"
+        createExpenseButtonText = "Update"
+    }
+    
     private func showInvalidAmountAlert() {
         alertMessage = "Please enter a realistic amount of money."
         showInvalidDataAlert = true
-    }
-    
-    func blockEditingPaidDate() -> Bool {
-        return isCreatingView() && expenseType == .recurrent
     }
     
     private func isCreatingView() -> Bool {
@@ -130,7 +132,7 @@ class ExpenseEditorViewModel: ObservableObject {
         return paidDate
     }
     
-    func clearState() {
+    private func clearState() {
         expenseTitle = ""
         expenseDetails = ""
         expenseCategory = ""
