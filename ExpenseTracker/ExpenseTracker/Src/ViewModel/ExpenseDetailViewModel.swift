@@ -32,7 +32,6 @@ class ExpenseDetailViewModel: ObservableObject {
     func markAsPaidExpense() {
         dataManager.markExpenseAsPaid(expnseData: expenseData)
         updateData()
-        
     }
     
     func markAsPendingExpense() {
@@ -45,23 +44,20 @@ class ExpenseDetailViewModel: ObservableObject {
     }
     
     func paidWithdrawButtonPressed() {
-        if isExpensePending() {
-            markAsPaidExpense()
-        } else {
-            markAsPendingExpense()
-        }
+        isExpensePending() ? markAsPaidExpense() : markAsPendingExpense()
     }
     
+    // Private methods
     private func updateData() {
-        self.title = expenseData.title
-        self.details = expenseData.details
-        self.amount = "\(expenseData.amount) taka"
-        self.category = expenseData.category
-        self.type = expenseData.type
-        self.creationDate = formatDate(date: expenseData.creationDate)
-        self.paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
+        title = expenseData.title
+        details = expenseData.details
+        amount = "\(expenseData.amount) taka"
+        category = expenseData.category
+        type = expenseData.type
+        creationDate = formatDate(date: expenseData.creationDate)
+        paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
         
-        self.buttonText = isExpensePending() ? "Pay Expense" : "Withdraw Expense"
+        buttonText = isExpensePending() ? "Pay Expense" : "Withdraw Expense"
     }
     
     private func formatDate(date: Date) -> String {
