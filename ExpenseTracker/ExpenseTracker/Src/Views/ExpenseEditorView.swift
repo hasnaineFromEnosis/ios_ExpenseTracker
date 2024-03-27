@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 
 struct ExpenseEditorView: View {
-    
     @ObservedObject var viewModel: ExpenseEditorViewModel
     @Binding var selectedTab: ExpenseViewType
     
@@ -18,39 +17,12 @@ struct ExpenseEditorView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Expense Info") {
-                    TextField("Title", text: $viewModel.expenseTitle)
-                    TextField("Description", text: $viewModel.expenseDetails)
-                }
-                
+                expenseInfoSection
                 if !viewModel.blockEditingPaidDate() {
-                    Section("Date") {
-                        Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
-                        if viewModel.isExpensePaid {
-                            DatePicker("Paid Date", selection: $viewModel.paidDate)
-                        }
-                    }
+                    dateSection
                 }
-                
-                Section("Category") {
-                    TextField("Category", text: $viewModel.expenseCategory)
-                }
-                
-                Section("Expense Details") {
-                    TextField("Amount (in taka)", text: $viewModel.expenseAmount)
-                        .keyboardType(.numberPad)
-                        .onReceive(Just(viewModel.expenseAmount)) { newValue in
-                            let filtered = newValue.filter { "0123456789".contains($0) }
-                            if filtered != newValue {
-                                self.viewModel.expenseAmount = filtered
-                            }
-                        }
-                    Picker("Expense Type", selection: $viewModel.expenseType) {
-                        ForEach(ExpenseType.allCases, id: \.self) { type in
-                            Text(type.rawValue).tag(type)
-                        }
-                    }
-                }
+                categorySection
+                expenseDetailsSection
             }
             .alert(isPresented: $viewModel.showInvalidDataAlert) {
                 Alert(
@@ -63,22 +35,65 @@ struct ExpenseEditorView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
-                        if viewModel.validateData() {
-                            if viewModel.blockEditingPaidDate() {
-                                selectedTab = .pendingExpenseView
-                            } else {
-                                selectedTab = viewModel.isExpensePaid 
-                                ? .paidExpenseView
-                                : .pendingExpenseView
-                            }
-                            
-                            dismiss()
-                        }
+                        handleDoneButtonTap()
                     } label: {
                         Text(viewModel.createExpenseButtonText)
                     }
                 }
             }
+        }
+    }
+    
+    private var expenseInfoSection: some View {
+        Section("Expense Info") {
+            TextField("Title", text: $viewModel.expenseTitle)
+            TextField("Description", text: $viewModel.expenseDetails)
+        }
+    }
+    
+    private var dateSection: some View {
+        Section("Date") {
+            Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
+            if viewModel.isExpensePaid {
+                DatePicker("Paid Date", selection: $viewModel.paidDate)
+            }
+        }
+    }
+    
+    private var categorySection: some View {
+        Section("Category") {
+            TextField("Category", text: $viewModel.expenseCategory)
+        }
+    }
+    
+    private var expenseDetailsSection: some View {
+        Section("Expense Details") {
+            TextField("Amount (in taka)", text: $viewModel.expenseAmount)
+                .keyboardType(.numberPad)
+                .onReceive(Just(viewModel.expenseAmount)) { newValue in
+                    let filtered = newValue.filter { "0123456789".contains($0) }
+                    if filtered != newValue {
+                        self.viewModel.expenseAmount = filtered
+                    }
+                }
+            Picker("Expense Type", selection: $viewModel.expenseType) {
+                ForEach(ExpenseType.allCases, id: \.self) { type in
+                    Text(type.rawValue).tag(type)
+                }
+            }
+        }
+    }
+    
+    private func handleDoneButtonTap() {
+        if viewModel.validateData() {
+            if viewModel.blockEditingPaidDate() {
+                selectedTab = .pendingExpenseView
+            } else {
+                selectedTab = viewModel.isExpensePaid
+                    ? .paidExpenseView
+                    : .pendingExpenseView
+            }
+            dismiss()
         }
     }
 }
