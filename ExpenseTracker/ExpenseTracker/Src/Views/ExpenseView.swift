@@ -36,7 +36,7 @@ struct ExpenseView: View {
                         Button(action: {
                             viewModel.showFilteringPage.toggle()
                         }) {
-                            Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFilteredByDate ?  ".fill" : ""))
+                            Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFiltered() ?  ".fill" : ""))
                         }
                         .popover(isPresented: $viewModel.showFilteringPage) {
                             FilteringView()
@@ -84,6 +84,9 @@ struct FilteringView: View {
                     }
                 }
             }
+            .onAppear(perform: {
+                self.viewModel.initFilteredState()
+            })
             .navigationTitle("Filtering")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -60,27 +60,35 @@ class ExpenseViewModel: ObservableObject {
         switch viewType {
         case .pendingExpenseView:
             dataManager.pendingExpensesList.filter {
-                if isFilteredByDate {
-                    return ($0.creationDate >= startDate && $0.creationDate <= endDate)
-                }
-                
-                return true
+                return filterList(expenseData: $0)
             }
         case .paidExpenseView:
             dataManager.paidExpensesList.filter {
-                if isFilteredByDate {
-                    return ($0.creationDate >= startDate && $0.creationDate <= endDate)
-                }
-                
-                return true
+                return filterList(expenseData: $0)
             }
         }
     }
     
+    func isFiltered() -> Bool {
+        if appliedStartDate != nil && appliedEndDate != nil {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func filterList(expenseData: ExpenseData) -> Bool {
+        if let startDate = appliedStartDate,
+           let endDate = appliedEndDate {
+            return (expenseData.creationDate >= startDate && expenseData.creationDate <= endDate)
+        }
+        
+        return true
+    }
+    
     func validateFilteringData() -> Bool {
         if isFilteredByDate == false {
-            appliedStartDate = nil
-            appliedEndDate = nil
+            clearFilteredState()
             return true
         }
         if startDate > endDate {
@@ -91,6 +99,25 @@ class ExpenseViewModel: ObservableObject {
         appliedStartDate = startDate
         appliedEndDate = endDate
         return true
+    }
+    
+    private func clearFilteredState() {
+        isFilteredByDate = false
+        appliedStartDate = nil
+        appliedEndDate = nil
+    }
+    
+    func initFilteredState() {
+        if let appliedEndDate,
+           let appliedStartDate {
+            isFilteredByDate = true
+            startDate = appliedStartDate
+            endDate = appliedEndDate
+        } else {
+            isFilteredByDate = false
+            startDate = Date()
+            endDate = Date()
+        }
     }
     
     func deleteExpense(expenseData: ExpenseData) {
