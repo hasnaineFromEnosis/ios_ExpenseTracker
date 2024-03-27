@@ -7,14 +7,9 @@
 
 import Foundation
 
-enum DataManagerType {
-    case normal, preview
-}
-
-class DataManager: NSObject, ObservableObject {
+class DataManager: ObservableObject {
     
-    static let shared = DataManager(type: .normal)
-    static let preview = DataManager(type: .preview)
+    static let shared = DataManager()
     
     @Published var pendingExpensesList: [ExpenseData] = []
     @Published var paidExpensesList: [ExpenseData] = []
@@ -22,33 +17,25 @@ class DataManager: NSObject, ObservableObject {
     
     private let persistentStore: PersistentStore
     
-    private init(type: DataManagerType) {
-        switch(type) {
-        case .normal:
-            self.persistentStore = PersistentStore()
-        case .preview:
-            self.persistentStore = PersistentStore(inMemory: true)
-        }
-        
-        super.init()
-        self.read()
-        self.createRecurrentExpenses()
+    private init() {
+        self.persistentStore = PersistentStore()
+        fetchExpenses()
+        createRecurrentExpenses()
     }
     
     func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool = false) {
         let entity = persistentStore.createExpense(title: title,
-                                                  details: details,
-                                                  category: category,
-                                                  amount: amount,
-                                                  creationDate: creationDate,
-                                                  paidDate: paidDate,
-                                                  type: type,
-                                                  isBaseRecurrent: isBaseRecurrent)
-        
+                                                   details: details,
+                                                   category: category,
+                                                   amount: amount,
+                                                   creationDate: creationDate,
+                                                   paidDate: paidDate,
+                                                   type: type,
+                                                   isBaseRecurrent: isBaseRecurrent)
         if isBaseRecurrent {
-            let baseRecurrentExpense: ExpenseData = ExpenseData(entity: entity)
+            let baseRecurrentExpense = ExpenseData(entity: entity)
             baseRecurrentExpenseList.append(baseRecurrentExpense)
-            self.createSingleRecurrentExpense(from: baseRecurrentExpense)
+            createRecurrentExpenses(from: baseRecurrentExpense)
             create(title: title,
                    details: details,
                    category: category,
@@ -58,7 +45,7 @@ class DataManager: NSObject, ObservableObject {
                    type: type,
                    isBaseRecurrent: false)
         } else {
-            if let _ = paidDate {
+            if paidDate != nil {
                 paidExpensesList.append(ExpenseData(entity: entity))
             } else {
                 pendingExpensesList.append(ExpenseData(entity: entity))
@@ -66,14 +53,10 @@ class DataManager: NSObject, ObservableObject {
         }
     }
     
-    func read() {
-        let pendingData = self.persistentStore.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false")
-        let paidData = self.persistentStore.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false")
-        let baseRecurrentExpense = self.persistentStore.fetchExpenses(predicateFormat: "isBaseRecurrent == true")
-        
-        self.pendingExpensesList = convertEntityArrayToData(entities: pendingData)
-        self.paidExpensesList = convertEntityArrayToData(entities: paidData)
-        self.baseRecurrentExpenseList = convertEntityArrayToData(entities: baseRecurrentExpense)
+    func fetchExpenses() {
+        pendingExpensesList = convertEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false"))
+        paidExpensesList = convertEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false"))
+        baseRecurrentExpenseList = convertEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "isBaseRecurrent == true"))
     }
     
     func update(expenseData: ExpenseData,
@@ -86,80 +69,78 @@ class DataManager: NSObject, ObservableObject {
                 paidDate: Date? = nil,
                 isBaseRecurrent: Bool = false) {
         if let entity = getExpenseDataEntity(expenseData: expenseData) {
-            self.persistentStore.updateExpense(entity: entity,
-                                              title: title,
-                                              details: details,
-                                              category: category,
-                                              amount: amount,
-                                              type: type,
-                                              creationDate: creationDate,
-                                              paidDate: paidDate)
+            persistentStore.updateExpense(entity: entity,
+                                          title: title,
+                                          details: details,
+                                          category: category,
+                                          amount: amount,
+                                          type: type,
+                                          creationDate: creationDate,
+                                          paidDate: paidDate)
             if isBaseRecurrent {
-                self.updateBaseRecurrentExpenseList(for: expenseData)
+                updateBaseRecurrentExpenseList(for: expenseData)
             } else {
-                self.updatePaidList(for: expenseData)
-                self.updatePendingList(for: expenseData)
-                if let paidDate {
-                    markExpenseAsPaid(expnseData: expenseData, paidDate: paidDate)
+                updatePaidList(for: expenseData)
+                updatePendingList(for: expenseData)
+                if let paidDate = paidDate {
+                    markExpenseAsPaid(expenseData: expenseData, paidDate: paidDate)
                 } else {
-                    markExpenseAsPending(expnseData: expenseData)
+                    markExpenseAsPending(expenseData: expenseData)
                 }
             }
         }
     }
     
-    func delete(expnseData: ExpenseData) {
-        if let entity = getExpenseDataEntity(expenseData: expnseData) {
-            self.delete(entity: entity)
+    func delete(expenseData: ExpenseData) {
+        if let entity = getExpenseDataEntity(expenseData: expenseData) {
+            delete(entity: entity)
         }
     }
     
-    func markExpenseAsPaid(expnseData: ExpenseData, paidDate: Date? = nil) {
-        if let entity = getExpenseDataEntity(expenseData: expnseData) {
-            entity.paidDate = paidDate == nil ? Date() : paidDate
-            self.persistentStore.updateExpense(entity: entity, paidDate: entity.paidDate)
-            self.deleteLocally(entity: entity)
-            self.addPaidExpense(ExpenseData(entity: entity))
+    func markExpenseAsPaid(expenseData: ExpenseData, paidDate: Date? = nil) {
+        if let entity = getExpenseDataEntity(expenseData: expenseData) {
+            entity.paidDate = paidDate ?? Date()
+            persistentStore.updateExpense(entity: entity, paidDate: entity.paidDate)
+            deleteLocally(entity: entity)
+            addPaidExpense(ExpenseData(entity: entity))
         }
     }
     
-    func markExpenseAsPending(expnseData: ExpenseData) {
-        if let entity = getExpenseDataEntity(expenseData: expnseData) {
+    func markExpenseAsPending(expenseData: ExpenseData) {
+        if let entity = getExpenseDataEntity(expenseData: expenseData) {
             entity.paidDate = nil
-            self.persistentStore.markExpenseAsPending(entity: entity)
-            self.deleteLocally(entity: entity)
-            self.addPendingExpense(ExpenseData(entity: entity))
+            persistentStore.markExpenseAsPending(entity: entity)
+            deleteLocally(entity: entity)
+            addPendingExpense(ExpenseData(entity: entity))
         }
     }
+    
+    // MARK: Private Methods
     
     private func createRecurrentExpenses() {
-        for expense in baseRecurrentExpenseList {
-            createSingleRecurrentExpense(from: expense)
-        }
+        baseRecurrentExpenseList.forEach { createRecurrentExpenses(from: $0) }
     }
     
-    private func createSingleRecurrentExpense(from baseExpense: ExpenseData) {
+    private func createRecurrentExpenses(from baseExpense: ExpenseData) {
         let newExpenses = RecurrentExpenseManager.generateNecessaryRecurrentExpenses(for: baseExpense)
-        for newExpense in newExpenses {
-            create(title: newExpense.title,
-                    details: newExpense.details,
-                    category: newExpense.category,
-                    amount: newExpense.amount,
-                    creationDate: newExpense.creationDate,
-                    paidDate: nil,
-                    type: ExpenseType.recurrent)
+        newExpenses.forEach {
+            create(title: $0.title,
+                   details: $0.details,
+                   category: $0.category,
+                   amount: $0.amount,
+                   creationDate: $0.creationDate,
+                   paidDate: nil,
+                   type: ExpenseType.recurrent)
         }
-        
         update(expenseData: baseExpense, paidDate: Date(), isBaseRecurrent: true)
     }
     
-    
     private func delete(entity: ExpenseDataEntity) {
         if let id = entity.id {
-            self.deletePaidExpense(withID: id)
-            self.deletePendingExpense(withID: id)
+            deletePaidExpense(withID: id)
+            deletePendingExpense(withID: id)
         }
-        self.persistentStore.deleteExpense(entity: entity)
+        persistentStore.deleteExpense(entity: entity)
     }
     
     private func deleteLocally(entity: ExpenseDataEntity) {
@@ -174,7 +155,7 @@ class DataManager: NSObject, ObservableObject {
             self.pendingExpensesList[index] = updatedExpenseData
         }
     }
-
+    
     private func updatePaidList(for updatedExpenseData: ExpenseData) {
         if let index = self.paidExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
             self.paidExpensesList[index] = updatedExpenseData
@@ -192,7 +173,7 @@ class DataManager: NSObject, ObservableObject {
             self.pendingExpensesList.remove(at: index)
         }
     }
-
+    
     private func deletePaidExpense(withID id: UUID) {
         if let index = self.paidExpensesList.firstIndex(where: { $0.id == id }) {
             self.paidExpensesList.remove(at: index)
@@ -202,7 +183,7 @@ class DataManager: NSObject, ObservableObject {
     private func addPendingExpense(_ newExpense: ExpenseData) {
         self.pendingExpensesList.append(newExpense)
     }
-
+    
     private func addPaidExpense(_ newExpense: ExpenseData) {
         self.paidExpensesList.append(newExpense)
     }
@@ -217,18 +198,13 @@ class DataManager: NSObject, ObservableObject {
             } else {
                 return nil
             }
-        case .failure(_):
+        case .failure(let error):
+            print("Error fetching ExpenseDataEntity: \(error)")
             return nil
         }
     }
     
     private func convertEntityArrayToData(entities: [ExpenseDataEntity]) -> [ExpenseData] {
-        var results: [ExpenseData] = []
-        
-        for entity in entities {
-            results.append(ExpenseData(entity: entity))
-        }
-        
-        return results
+        return entities.map(ExpenseData.init)
     }
 }
