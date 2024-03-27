@@ -32,6 +32,12 @@ class ExpenseViewModel: ObservableObject {
     @Published var isFilteredByDate = false
     @Published var startDate = Date()
     @Published var endDate = Date()
+    @Published var appliedStartDate: Date? = nil
+    @Published var appliedEndDate: Date? = nil
+    
+    @Published var shouldShowAlert = false
+    @Published var alertTitle = "Invalid Date"
+    @Published var alertMessage = "Start date should be set as before end date"
     
     var anyCancellable: AnyCancellable? = nil
     
@@ -69,6 +75,22 @@ class ExpenseViewModel: ObservableObject {
                 return true
             }
         }
+    }
+    
+    func validateFilteringData() -> Bool {
+        if isFilteredByDate == false {
+            appliedStartDate = nil
+            appliedEndDate = nil
+            return true
+        }
+        if startDate > endDate {
+            shouldShowAlert = true
+            return false
+        }
+        
+        appliedStartDate = startDate
+        appliedEndDate = endDate
+        return true
     }
     
     func deleteExpense(expenseData: ExpenseData) {

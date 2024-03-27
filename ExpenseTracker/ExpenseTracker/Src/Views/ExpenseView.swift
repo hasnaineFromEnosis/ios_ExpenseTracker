@@ -70,6 +70,8 @@ struct ExpenseView: View {
 
 struct FilteringView: View {
     @EnvironmentObject var viewModel: ExpenseViewModel
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationView {
             List {
@@ -87,10 +89,19 @@ struct FilteringView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        if viewModel.validateFilteringData() {
+                            dismiss()
+                        }
                     } label: {
                         Text("Done")
                     }
                 }
+            }
+            .alert(isPresented: $viewModel.shouldShowAlert) {
+                Alert(
+                    title: Text(viewModel.alertTitle),
+                    message: Text(viewModel.alertMessage)
+                )
             }
         }
     }
