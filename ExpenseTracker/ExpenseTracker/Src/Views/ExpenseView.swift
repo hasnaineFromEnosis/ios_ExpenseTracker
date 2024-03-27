@@ -71,7 +71,7 @@ struct ExpenseView: View {
 struct FilteringView: View {
     @EnvironmentObject var viewModel: ExpenseViewModel
     var body: some View {
-        VStack {
+        NavigationView {
             List {
                 Section("Filter By Date") {
                     Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
@@ -79,6 +79,16 @@ struct FilteringView: View {
                     if viewModel.isFilteredByDate {
                         DatePicker("Start Date", selection: $viewModel.startDate)
                         DatePicker("End Date", selection: $viewModel.endDate)
+                    }
+                }
+            }
+            .navigationTitle("Filtering")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                    } label: {
+                        Text("Done")
                     }
                 }
             }
