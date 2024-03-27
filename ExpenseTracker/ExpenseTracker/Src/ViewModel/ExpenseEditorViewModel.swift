@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum ExpenseType: String, CaseIterable {
     case random = "Random"
     case recurrent = "Recurrent"
@@ -18,10 +17,10 @@ class ExpenseEditorViewModel: ObservableObject {
     let dataManager = DataManager.shared
     
     // states
-    @Published var expenseTitle: String = "Test Expense \(Int.random(in: 1...100))"
-    @Published var expenseDetails: String = "Test Details"
-    @Published var expenseCategory: String = "Test Categiry"
-    @Published var expenseAmount: String = "\(Int.random(in: 100...100000000))"
+    @Published var expenseTitle: String = ""
+    @Published var expenseDetails: String = ""
+    @Published var expenseCategory: String = ""
+    @Published var expenseAmount: String = ""
     @Published var creationDate: Date = Date()
     @Published var paidDate: Date = Date()
     @Published var isExpensePaid: Bool = false
@@ -38,96 +37,81 @@ class ExpenseEditorViewModel: ObservableObject {
     
     init(expenseData: ExpenseData? = nil) {
         self.expenseData = expenseData
-        if let expenseData {
-            expenseTitle = expenseData.title
-            expenseDetails = expenseData.details
-            expenseCategory = expenseData.category
-            expenseAmount = String(expenseData.amount)
-            creationDate = expenseData.creationDate
-            paidDate = expenseData.paidDate ?? Date()
-            isExpensePaid = expenseData.paidDate != nil
-            expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? ExpenseType.recurrent : ExpenseType.random
-            
-            navigationTitle = "Update Expense"
-            createExpenseButtonText = "Update"
+        if let expenseData = expenseData {
+            setupWithExistingExpenseData(expenseData)
         }
+    }
+    
+    private func setupWithExistingExpenseData(_ expenseData: ExpenseData) {
+        expenseTitle = expenseData.title
+        expenseDetails = expenseData.details
+        expenseCategory = expenseData.category
+        expenseAmount = String(expenseData.amount)
+        creationDate = expenseData.creationDate
+        paidDate = expenseData.paidDate ?? Date()
+        isExpensePaid = expenseData.paidDate != nil
+        expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? .recurrent : .random
+        
+        navigationTitle = "Update Expense"
+        createExpenseButtonText = "Update"
     }
     
     func validateData() -> Bool {
-        if expenseTitle.isEmpty {
+        guard !expenseTitle.isEmpty, !expenseDetails.isEmpty, !expenseCategory.isEmpty, !expenseAmount.isEmpty else {
             showInvalidDataAlert = true
             return false
         }
         
-        if expenseDetails.isEmpty {
-            showInvalidDataAlert = true
-            return false
-        }
-        
-        if expenseCategory.isEmpty {
-            showInvalidDataAlert = true
-            return false
-        }
-        
-        if expenseAmount.isEmpty {
-            showInvalidDataAlert = true
-            return false
-        }
-        
-        if expenseData != nil {
-            return updateExpense()
-        } else {
-            return createExpense()
-        }
+        return expenseData != nil ? updateExpense() : createExpense()
     }
     
-    private func createExpense() -> Bool {
-        if let expenseAmount = Int(expenseAmount) {
-            dataManager.create(title: expenseTitle,
-                               details: expenseDetails,
-                               category: expenseCategory,
-                               amount: expenseAmount,
-                               creationDate: creationDate,
-                               paidDate: getPaidDate(),
-                               type: expenseType,
-                               isBaseRecurrent: expenseType == .recurrent)
-            
-            clearState()
-            return true
+    func createExpense() -> Bool {
+        guard let expenseAmount = Int(expenseAmount) else {
+            showInvalidAmountAlert()
+            return false
         }
         
-        alertMessage = "Please enter a realistic amount of money."
-        showInvalidDataAlert = true
+        dataManager.create(title: expenseTitle,
+                           details: expenseDetails,
+                           category: expenseCategory,
+                           amount: expenseAmount,
+                           creationDate: creationDate,
+                           paidDate: getPaidDate(),
+                           type: expenseType,
+                           isBaseRecurrent: expenseType == .recurrent)
         
-        return false
+        clearState()
+        return true
     }
     
     func updateExpense() -> Bool {
-        if var expenseData,
-           let amount = Int(expenseAmount) {
-            expenseData.title = expenseTitle
-            expenseData.details = expenseDetails
-            expenseData.category = expenseCategory
-            expenseData.amount = amount
-            expenseData.type = expenseType.rawValue
-            expenseData.creationDate = creationDate
-            expenseData.paidDate = isExpensePaid ? paidDate : nil
-            
-            dataManager.update(expenseData: expenseData,
-                               title: expenseTitle,
-                               details: expenseDetails,
-                               category: expenseCategory,
-                               amount: amount,
-                               type: expenseType,
-                               creationDate: creationDate,
-                               paidDate: expenseData.paidDate)
-            return true
+        guard var expenseData = expenseData, let amount = Int(expenseAmount) else {
+            showInvalidAmountAlert()
+            return false
         }
         
+        expenseData.title = expenseTitle
+        expenseData.details = expenseDetails
+        expenseData.category = expenseCategory
+        expenseData.amount = amount
+        expenseData.type = expenseType.rawValue
+        expenseData.creationDate = creationDate
+        expenseData.paidDate = getPaidDate()
+        
+        dataManager.update(expenseData: expenseData,
+                           title: expenseTitle,
+                           details: expenseDetails,
+                           category: expenseCategory,
+                           amount: amount,
+                           type: expenseType,
+                           creationDate: creationDate,
+                           paidDate: expenseData.paidDate)
+        return true
+    }
+    
+    private func showInvalidAmountAlert() {
         alertMessage = "Please enter a realistic amount of money."
         showInvalidDataAlert = true
-        
-        return false
     }
     
     func blockEditingPaidDate() -> Bool {
