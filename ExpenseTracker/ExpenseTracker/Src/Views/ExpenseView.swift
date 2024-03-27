@@ -32,23 +32,15 @@ struct ExpenseView: View {
                 .animation(.easeInOut)
                 .navigationTitle(viewModel.navigationTitle)
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
-                            viewModel.showAlert.toggle()
+                            viewModel.showFilteringPage.toggle()
                         }) {
                             Label("Filter", systemImage: "line.3.horizontal.decrease.circle" + (viewModel.isFilteredByDate ?  ".fill" : ""))
                         }
-                        .popover(isPresented: $viewModel.showAlert) {
-                            Form() {
-                                Section("Filter By Date") {
-                                    Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
-                                    
-                                    if viewModel.isFilteredByDate {
-                                        DatePicker("Start Date", selection: $viewModel.startDate)
-                                        DatePicker("End Date", selection: $viewModel.endDate)
-                                    }
-                                }
-                            }
+                        .popover(isPresented: $viewModel.showFilteringPage) {
+                            FilteringView()
+                                .environmentObject(viewModel)
                         }
                     }
                 }
@@ -74,6 +66,29 @@ struct ExpenseView: View {
     private func getExpenseList() -> [ExpenseData] {
         return viewModel.expenseData
     }
+}
+
+struct FilteringView: View {
+    @EnvironmentObject var viewModel: ExpenseViewModel
+    var body: some View {
+        VStack {
+            List {
+                Section("Filter By Date") {
+                    Toggle("Filter By Date", isOn: $viewModel.isFilteredByDate)
+                    
+                    if viewModel.isFilteredByDate {
+                        DatePicker("Start Date", selection: $viewModel.startDate)
+                        DatePicker("End Date", selection: $viewModel.endDate)
+                    }
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    FilteringView()
+        .environmentObject(ExpenseViewModel(viewType: .paidExpenseView))
 }
 
 #Preview {

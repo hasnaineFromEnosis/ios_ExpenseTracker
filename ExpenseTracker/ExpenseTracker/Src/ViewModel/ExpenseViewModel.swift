@@ -26,7 +26,7 @@ class ExpenseViewModel: ObservableObject {
     // states
     @Published var navigationTitle: String
     @Published var viewType: ExpenseViewType
-    @Published var showAlert: Bool = false
+    @Published var showFilteringPage: Bool = false
     
     // Filer by date
     @Published var isFilteredByDate = false
