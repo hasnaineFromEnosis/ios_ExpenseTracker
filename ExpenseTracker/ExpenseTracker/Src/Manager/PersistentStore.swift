@@ -96,12 +96,42 @@ struct PersistentStore {
                        creationDate: Date? = nil,
                        paidDate: Date? = nil) {
         var hasChanges = false
-        if let title = title {
+        
+        if let title {
             entity.title = title
             hasChanges = true
         }
-        // Similar for other properties...
         
+        if let details {
+            entity.details = details
+            hasChanges = true
+        }
+        
+        if let category {
+            entity.category = category
+            hasChanges = true
+        }
+        
+        if let amount {
+            entity.amount = Int32(amount)
+            hasChanges = true
+        }
+        
+        if let type {
+            entity.type = type.rawValue
+            hasChanges = true
+        }
+        
+        if let creationDate {
+            entity.creationDate = creationDate
+            hasChanges = true
+        }
+        
+        if let paidDate {
+            entity.paidDate = paidDate
+            hasChanges = true
+        }
+
         if hasChanges {
             saveChanges()
         }

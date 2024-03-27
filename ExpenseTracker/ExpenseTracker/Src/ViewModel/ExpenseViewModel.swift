@@ -102,6 +102,6 @@ class ExpenseViewModel: ObservableObject {
     }
     
     func deleteExpense(expenseData: ExpenseData) {
-        dataManager.delete(expnseData: expenseData)
+        dataManager.delete(expenseData: expenseData)
     }
 }

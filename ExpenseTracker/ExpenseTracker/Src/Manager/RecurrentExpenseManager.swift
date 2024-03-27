@@ -30,6 +30,10 @@ class RecurrentExpenseManager {
         
         let totalExpenseToCreate = monthDiff + (day1 > day2 ? 1 : 0)
         
+        if totalExpenseToCreate == 0 {
+            return []
+        }
+        
         var results: [ExpenseData] = []
         
         for _ in 1...totalExpenseToCreate {

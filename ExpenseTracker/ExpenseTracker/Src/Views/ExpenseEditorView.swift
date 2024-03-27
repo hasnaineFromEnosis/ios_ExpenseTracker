@@ -64,11 +64,12 @@ struct ExpenseEditorView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
                         if viewModel.validateData() {
-                            if !viewModel.blockEditingPaidDate()
-                                && !viewModel.isExpensePaid {
-                                selectedTab = .paidExpenseView
-                            } else {
+                            if viewModel.blockEditingPaidDate() {
                                 selectedTab = .pendingExpenseView
+                            } else {
+                                selectedTab = viewModel.isExpensePaid 
+                                ? .paidExpenseView
+                                : .pendingExpenseView
                             }
                             
                             dismiss()

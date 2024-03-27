@@ -48,7 +48,7 @@ class ExpenseEditorViewModel: ObservableObject {
             return false
         }
         
-        return expenseData != nil ? updateExpense() : createExpense()
+        return isCreatingView() ? createExpense() : updateExpense()
     }
     
     func createExpense() -> Bool {
@@ -137,7 +137,6 @@ class ExpenseEditorViewModel: ObservableObject {
         expenseDetails = ""
         expenseCategory = ""
         expenseAmount = ""
-        expenseType = ExpenseType.random
         alertMessage = "Please ensure that each field is filled out accurately."
     }
 }
