@@ -80,8 +80,8 @@ struct FilteringView: View {
                     Toggle("Enable Filtering", isOn: $viewModel.isFilteredByDate.animation())
                     
                     if viewModel.isFilteredByDate {
-                        DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: .date)
-                        DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: .date)
+                        DatePicker("Start Date", selection: $viewModel.startDate)
+                        DatePicker("End Date", selection: $viewModel.endDate)
                     }
                 }
             }

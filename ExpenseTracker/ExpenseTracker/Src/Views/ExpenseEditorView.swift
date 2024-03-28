@@ -53,6 +53,7 @@ struct ExpenseEditorView: View {
     
     private var dateSection: some View {
         Section("Date") {
+            DatePicker("Creation Date", selection: $viewModel.creationDate)
             Toggle("Add Payment Date", isOn: $viewModel.isExpensePaid)
             if viewModel.isExpensePaid {
                 DatePicker("Paid Date", selection: $viewModel.paidDate)
