@@ -1,5 +1,5 @@
 //
-//  PersistenceController.swift
+//  PersistentStore.swift
 //  ExpenseTracker
 //
 //  Created by Shahwat Hasnaine on 19/3/24.
@@ -7,14 +7,14 @@
 
 import CoreData
 
-struct PersistenceController {
+struct PersistentStore {
     let container: NSPersistentContainer
     
     private init() {
         container = NSPersistentContainer(name: "ExpenseDataModel")
         container.loadPersistentStores { storeDescription, error in
-            if let error {
-                fatalError("Could not load Core Data persistence sotres. Error: \(error)")
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
     }
@@ -27,29 +27,36 @@ struct PersistenceController {
         }
         
         container.loadPersistentStores { storeDescription, error in
-            if let error {
-                fatalError("Could not load Core Data persistence sotres. Error: \(error)")
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
+    // MARK: - Core Data Operations
+    
     func saveChanges() {
         let context = container.viewContext
-        
         if context.hasChanges {
             do {
                 try context.save()
             } catch {
-                fatalError("Could not save changes to Core Data. Error: \(error)")
+                fatalError("Error saving context: \(error)")
             }
         }
     }
     
-    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool) -> ExpenseDataEntity {
+    func createExpense(title: String,
+                       details: String,
+                       category: String,
+                       amount: Int,
+                       creationDate: Date,
+                       paidDate: Date?,
+                       type: ExpenseType,
+                       isBaseRecurrent: Bool) -> ExpenseDataEntity {
         let entity = ExpenseDataEntity(context: container.viewContext)
-        
         entity.id = UUID()
         entity.title = title
         entity.details = details
@@ -59,48 +66,36 @@ struct PersistenceController {
         entity.paidDate = paidDate
         entity.type = type.rawValue
         entity.isBaseRecurrent = isBaseRecurrent
-        
         saveChanges()
-        
         return entity
     }
     
-    func read(predicateFormat: String? = nil, fetchLimit: Int? = nil) ->[ExpenseDataEntity] {
-        // For saving fetched notes
+    func fetchExpenses(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [ExpenseDataEntity] {
         var results: [ExpenseDataEntity] = []
-        
-        // Init fetch request
-        let request = NSFetchRequest<ExpenseDataEntity>(entityName: "ExpenseDataEntity")
-        
-        // define filter && || limit if needed
-        if let predicateFormat {
+        let request: NSFetchRequest<ExpenseDataEntity> = ExpenseDataEntity.fetchRequest()
+        if let predicateFormat = predicateFormat {
             request.predicate = NSPredicate(format: predicateFormat)
         }
-        
-        if let fetchLimit {
+        if let fetchLimit = fetchLimit {
             request.fetchLimit = fetchLimit
         }
-        
-        // Perform fetch with request
-        
         do {
             results = try container.viewContext.fetch(request)
         } catch {
-            fatalError("Could not fetch notes from Core Data. Error: \(error)")
+            fatalError("Error fetching expenses: \(error)")
         }
-        
         return results
     }
     
-    func update(entity: ExpenseDataEntity,
-                title: String? = nil,
-                details: String? = nil,
-                category: String? = nil, 
-                amount: Int? = nil,
-                type: ExpenseType? = nil,
-                creationDate: Date? = nil,
-                paidDate: Date? = nil) {
-        var hasChanges: Bool = false
+    func updateExpense(entity: ExpenseDataEntity,
+                       title: String? = nil,
+                       details: String? = nil,
+                       category: String? = nil,
+                       amount: Int? = nil,
+                       type: ExpenseType? = nil,
+                       creationDate: Date? = nil,
+                       paidDate: Date? = nil) {
+        var hasChanges = false
         
         if let title {
             entity.title = title
@@ -136,7 +131,7 @@ struct PersistenceController {
             entity.paidDate = paidDate
             hasChanges = true
         }
-        
+
         if hasChanges {
             saveChanges()
         }
@@ -147,7 +142,7 @@ struct PersistenceController {
         saveChanges()
     }
     
-    func delete(entity: ExpenseDataEntity) {
+    func deleteExpense(entity: ExpenseDataEntity) {
         container.viewContext.delete(entity)
         saveChanges()
     }

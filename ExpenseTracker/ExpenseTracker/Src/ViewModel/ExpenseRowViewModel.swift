@@ -26,10 +26,10 @@ class ExpenseRowViewModel: ObservableObject {
     }
     
     private func updateData() {
-        self.title = expenseData.title ?? "Untitled"
+        self.title = expenseData.title
         self.amount = "\(expenseData.amount.formatted()) taka"
-        self.category = expenseData.category ?? "Empty Category"
-        self.creationDate = formatDate(date: expenseData.creationDate ?? Date.distantPast)
+        self.category = expenseData.category
+        self.creationDate = formatDate(date: expenseData.creationDate)
         self.paidDate = expenseData.paidDate != nil ? formatDate(date: expenseData.paidDate!) : nil
     }
     

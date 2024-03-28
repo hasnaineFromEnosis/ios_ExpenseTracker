@@ -8,22 +8,15 @@
 import Foundation
 import Combine
 
-enum ExpenseType: String, CaseIterable {
-    case random = "Random"
-    case recurrent = "Recurrent"
-}
-
 enum ExpenseViewType {
     case pendingExpenseView
     case paidExpenseView
 }
 
 class ExpenseViewModel: ObservableObject {
-    // save fetched notes for view loading
-    
     @Published private var dataManager = DataManager.shared
     
-    // states
+    // States
     @Published var navigationTitle: String
     @Published var viewType: ExpenseViewType
     @Published var showFilteringPage: Bool = false
@@ -35,11 +28,12 @@ class ExpenseViewModel: ObservableObject {
     @Published var appliedStartDate: Date? = nil
     @Published var appliedEndDate: Date? = nil
     
+    // Alert
     @Published var shouldShowAlert = false
     @Published var alertTitle = "Invalid Date"
     @Published var alertMessage = "Start date should be set as before end date"
     
-    var anyCancellable: AnyCancellable? = nil
+    private var anyCancellable: AnyCancellable? = nil
     
     init(viewType: ExpenseViewType) {
         self.viewType = viewType
@@ -57,40 +51,27 @@ class ExpenseViewModel: ObservableObject {
     }
     
     var expenseData: [ExpenseData] {
-        switch viewType {
-        case .pendingExpenseView:
-            dataManager.pendingExpensesList.filter {
-                return filterList(expenseData: $0)
-            }
-        case .paidExpenseView:
-            dataManager.paidExpensesList.filter {
-                return filterList(expenseData: $0)
-            }
-        }
+        let expensesList = viewType == .pendingExpenseView ? dataManager.pendingExpensesList : dataManager.paidExpensesList
+        return expensesList.filter { filterList(expenseData: $0) }
     }
     
     func isFiltered() -> Bool {
-        if appliedStartDate != nil && appliedEndDate != nil {
-            return true
-        }
-        
-        return false
+        return appliedStartDate != nil && appliedEndDate != nil
     }
     
     private func filterList(expenseData: ExpenseData) -> Bool {
-        if let startDate = appliedStartDate,
-           let endDate = appliedEndDate {
-            return (expenseData.creationDate >= startDate && expenseData.creationDate <= endDate)
+        guard let startDate = appliedStartDate, let endDate = appliedEndDate else {
+            return true
         }
-        
-        return true
+        return expenseData.creationDate >= startDate && expenseData.creationDate <= endDate
     }
     
     func validateFilteringData() -> Bool {
-        if isFilteredByDate == false {
+        guard isFilteredByDate else {
             clearFilteredState()
             return true
         }
+        
         if startDate > endDate {
             shouldShowAlert = true
             return false
@@ -121,6 +102,6 @@ class ExpenseViewModel: ObservableObject {
     }
     
     func deleteExpense(expenseData: ExpenseData) {
-        dataManager.delete(expnseData: expenseData)
+        dataManager.delete(expenseData: expenseData)
     }
 }
