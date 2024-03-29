@@ -9,10 +9,11 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 NavigationLink {
                     CategoryManagementView()
+
                 } label: {
                     getPrimaryTextView(label: "Category Management")
                 }
