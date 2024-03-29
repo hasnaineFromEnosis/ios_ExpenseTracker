@@ -8,17 +8,18 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @StateObject var viewModel: SettingsViewModel = SettingsViewModel()
+    
     var body: some View {
         NavigationStack {
-            List {
+            List(viewModel.settingsDataList) { settingData in
                 NavigationLink {
-                    CategoryManagementView()
-
+                    settingData.listView
                 } label: {
-                    getPrimaryTextView(label: "Category Management")
+                    getPrimaryTextView(label: settingData.listName)
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle(viewModel.navtitle)
         }
     }
     
