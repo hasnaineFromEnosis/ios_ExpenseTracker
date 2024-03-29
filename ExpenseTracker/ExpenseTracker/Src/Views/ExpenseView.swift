@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExpenseView: View {
     @ObservedObject var viewModel: ExpenseViewModel
-    @Binding var selectedTab: ExpenseViewType
+    @Binding var selectedTab: TabViewType
     
     var body: some View {
         NavigationStack {

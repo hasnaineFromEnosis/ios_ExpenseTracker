@@ -7,8 +7,14 @@
 
 import SwiftUI
 
+enum TabViewType {
+    case pendingExpenseView
+    case paidExpenseView
+    case settingsView
+}
+
 struct ContentView: View {
-    @State private var selectedTab: ExpenseViewType = .pendingExpenseView
+    @State private var selectedTab: TabViewType = .pendingExpenseView
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -16,18 +22,23 @@ struct ContentView: View {
                 .tabItem {
                     Label("Pending Expense", systemImage: "hourglass.circle")
                 }
-                .tag(ExpenseViewType.pendingExpenseView)
+                .tag(TabViewType.pendingExpenseView)
             
             createExpenseView(viewType: .paidExpenseView)
                 .tabItem {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
-                .tag(ExpenseViewType.paidExpenseView)
+                .tag(TabViewType.paidExpenseView)
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+                .tag(TabViewType.settingsView)
         }
         .transition(.slide)
     }
     
-    private func createExpenseView(viewType: ExpenseViewType) -> some View {
+    private func createExpenseView(viewType: TabViewType) -> some View {
         ExpenseView(viewModel: ExpenseViewModel(viewType: viewType), selectedTab: $selectedTab)
     }
 }

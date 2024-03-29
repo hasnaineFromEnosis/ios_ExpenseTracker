@@ -8,17 +8,12 @@
 import Foundation
 import Combine
 
-enum ExpenseViewType {
-    case pendingExpenseView
-    case paidExpenseView
-}
-
 class ExpenseViewModel: ObservableObject {
     @Published private var dataManager = DataManager.shared
     
     // States
     @Published var navigationTitle: String
-    @Published var viewType: ExpenseViewType
+    @Published var viewType: TabViewType
     @Published var showFilteringPage: Bool = false
     
     // Filer by date
@@ -35,7 +30,7 @@ class ExpenseViewModel: ObservableObject {
     
     private var anyCancellable: AnyCancellable? = nil
     
-    init(viewType: ExpenseViewType) {
+    init(viewType: TabViewType) {
         self.viewType = viewType
         
         switch viewType {
@@ -43,6 +38,8 @@ class ExpenseViewModel: ObservableObject {
             self.navigationTitle = "Paid Expenses"
         case.pendingExpenseView:
             self.navigationTitle = "Pending Expenses"
+        case .settingsView:
+            fatalError("This is unexpexted call")
         }
         
         anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
@@ -51,7 +48,16 @@ class ExpenseViewModel: ObservableObject {
     }
     
     var expenseData: [ExpenseData] {
-        let expensesList = viewType == .pendingExpenseView ? dataManager.pendingExpensesList : dataManager.paidExpensesList
+        var expensesList: [ExpenseData] = []
+        switch viewType {
+        case .pendingExpenseView:
+            expensesList = dataManager.pendingExpensesList
+        case .paidExpenseView:
+            expensesList = dataManager.paidExpensesList
+        case .settingsView:
+            fatalError("This is unexpexted call")
+        }
+        
         return expensesList.filter { filterList(expenseData: $0) }
     }
     

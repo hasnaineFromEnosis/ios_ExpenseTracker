@@ -10,7 +10,7 @@ import Combine
 
 struct ExpenseEditorView: View {
     @ObservedObject var viewModel: ExpenseEditorViewModel
-    @Binding var selectedTab: ExpenseViewType
+    @Binding var selectedTab: TabViewType
     
     @Environment(\.dismiss) var dismiss
     
