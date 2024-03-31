@@ -70,9 +70,35 @@ struct PersistentStore {
         return entity
     }
     
+    func createCategory(title: String) -> CategoryDataEntity {
+        let entity = CategoryDataEntity(context: container.viewContext)
+        entity.title = title
+        
+        saveChanges()
+        
+        return entity
+    }
+    
     func fetchExpenses(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [ExpenseDataEntity] {
         var results: [ExpenseDataEntity] = []
         let request: NSFetchRequest<ExpenseDataEntity> = ExpenseDataEntity.fetchRequest()
+        if let predicateFormat = predicateFormat {
+            request.predicate = NSPredicate(format: predicateFormat)
+        }
+        if let fetchLimit = fetchLimit {
+            request.fetchLimit = fetchLimit
+        }
+        do {
+            results = try container.viewContext.fetch(request)
+        } catch {
+            fatalError("Error fetching expenses: \(error)")
+        }
+        return results
+    }
+    
+    func fetchCategory(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [CategoryDataEntity] {
+        var results: [CategoryDataEntity] = []
+        let request: NSFetchRequest<CategoryDataEntity> = CategoryDataEntity.fetchRequest()
         if let predicateFormat = predicateFormat {
             request.predicate = NSPredicate(format: predicateFormat)
         }
@@ -143,6 +169,11 @@ struct PersistentStore {
     }
     
     func deleteExpense(entity: ExpenseDataEntity) {
+        container.viewContext.delete(entity)
+        saveChanges()
+    }
+    
+    func deleteCategory(entity: CategoryDataEntity) {
         container.viewContext.delete(entity)
         saveChanges()
     }

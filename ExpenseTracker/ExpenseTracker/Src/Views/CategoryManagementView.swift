@@ -11,13 +11,27 @@ struct CategoryManagementView: View {
     
     @StateObject var viewModel = CategoryManagementViewModel()
     var body: some View {
-        List {
-
+        List(viewModel.categoryDataList) { categoryData in
+            Text(categoryData.title)
         }
         .navigationTitle("Category Management")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Label("Add New Category", systemImage: viewModel.toolbarPlusImageName)
+                Button {
+                    viewModel.showAlert = true
+                } label: {
+                    Label("New", systemImage: viewModel.toolbarPlusImageName)
+                }
+                .alert(viewModel.categoryTitle, isPresented: $viewModel.showAlert, actions: {
+                    TextField("Title", text: $viewModel.categoryTitle)
+                    Button("Save", action: {
+                        viewModel.createCategory()
+                        viewModel.clearState()
+                    })
+                    Button("Cancel", role: .cancel, action: { viewModel.clearState() })
+                }) {
+                    Text("Create a new category")
+                }
             }
         }
     }

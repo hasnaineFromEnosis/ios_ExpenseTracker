@@ -57,7 +57,7 @@ class ExpenseEditorViewModel: ObservableObject {
             return false
         }
         
-        dataManager.create(title: expenseTitle,
+        dataManager.createExpense(title: expenseTitle,
                            details: expenseDetails,
                            category: expenseCategory,
                            amount: expenseAmount,
@@ -84,7 +84,7 @@ class ExpenseEditorViewModel: ObservableObject {
         expenseData.creationDate = creationDate
         expenseData.paidDate = getPaidDate()
         
-        dataManager.update(expenseData: expenseData,
+        dataManager.updateExpense(expenseData: expenseData,
                            title: expenseTitle,
                            details: expenseDetails,
                            category: expenseCategory,
