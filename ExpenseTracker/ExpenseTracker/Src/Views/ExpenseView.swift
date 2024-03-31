@@ -46,7 +46,9 @@ struct ExpenseView: View {
         Button(action: {
             viewModel.showFilteringPage.toggle()
         }) {
-            Label("Filter", systemImage: viewModel.isFiltered() ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+            Label("Filter", systemImage: viewModel.isFiltered()
+                  ? "line.3.horizontal.decrease.circle.fill"
+                  : "line.3.horizontal.decrease.circle")
         }
         .popover(isPresented: $viewModel.showFilteringPage) {
             FilteringView()

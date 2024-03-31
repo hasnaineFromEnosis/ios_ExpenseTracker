@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CategoryManagementView: View {
+    
+    @StateObject var viewModel = CategoryManagementViewModel()
     var body: some View {
         List {
 
@@ -15,7 +17,7 @@ struct CategoryManagementView: View {
         .navigationTitle("Category Management")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Label("Add New Category", systemImage: "plus")
+                Label("Add New Category", systemImage: viewModel.toolbarPlusImageName)
             }
         }
     }
