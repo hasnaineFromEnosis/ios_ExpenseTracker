@@ -63,7 +63,11 @@ struct ExpenseEditorView: View {
     
     private var categorySection: some View {
         Section("Category") {
-            TextField("Category", text: $viewModel.expenseCategory)
+            Picker("Category", selection: $viewModel.expenseCategory) {
+                ForEach(viewModel.categoryDataList, id: \.self) { type in
+                    Text(type).tag(type)
+                }
+            }
         }
     }
     

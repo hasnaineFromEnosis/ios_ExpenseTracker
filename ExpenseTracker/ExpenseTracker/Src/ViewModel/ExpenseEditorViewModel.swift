@@ -33,6 +33,9 @@ class ExpenseEditorViewModel: ObservableObject {
     @Published var navigationTitle: String = "Create Expense"
     @Published var createExpenseButtonText: String = "Create"
     
+    var categoryDataList: [String] {
+        getTitleFromCategoryData()
+    }
     private var expenseData: ExpenseData?
     
     init(expenseData: ExpenseData? = nil) {
@@ -130,6 +133,15 @@ class ExpenseEditorViewModel: ObservableObject {
         }
         
         return paidDate
+    }
+    
+    private func getTitleFromCategoryData() -> [String] {
+        var results: [String] = []
+        
+        for categoryData in dataManager.categoryList {
+            results.append(categoryData.title)
+        }
+        return results
     }
     
     private func clearState() {
