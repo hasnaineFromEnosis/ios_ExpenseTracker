@@ -56,8 +56,8 @@ class DataManager: ObservableObject {
         }
     }
     
-    func createCategory(title: String) {
-        let entity = persistentStore.createCategory(title: title)
+    func createCategory(title: String, isPredefined: Bool) {
+        let entity = persistentStore.createCategory(title: title, isPredefined: isPredefined)
         categoryList.append(CategoryData(entity: entity))
     }
     
@@ -69,6 +69,10 @@ class DataManager: ObservableObject {
     
     func fetchCategory() {
         categoryList = convertCategoryEntityArrayToData(entities: persistentStore.fetchCategory())
+        
+        if categoryList.isEmpty {
+            createCategory(title: "Others", isPredefined: true)
+        }
     }
     
     func updateExpense(expenseData: ExpenseData,
@@ -163,7 +167,7 @@ class DataManager: ObservableObject {
     
     private func deleteCategory(entity: CategoryDataEntity) {
         if let id = entity.id {
-            deleteCategory(entity: entity)
+            deleteCategory(withID: id)
         }
         persistentStore.deleteCategory(entity: entity)
     }

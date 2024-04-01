@@ -13,6 +13,15 @@ struct CategoryManagementView: View {
     var body: some View {
         List(viewModel.categoryDataList) { categoryData in
             Text(categoryData.title)
+                .swipeActions {
+                    if !categoryData.isPredefined {
+                        Button(role: .destructive) {
+                            viewModel.deleteCategory(categoryData: categoryData)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                }
         }
         .navigationTitle("Category Management")
         .toolbar {

@@ -21,7 +21,7 @@ class CategoryManagementViewModel: ObservableObject {
     }
     
     func createCategory() {
-        dataManager.createCategory(title: categoryTitle)
+        dataManager.createCategory(title: categoryTitle, isPredefined: false)
     }
     
     func deleteCategory(categoryData: CategoryData) {

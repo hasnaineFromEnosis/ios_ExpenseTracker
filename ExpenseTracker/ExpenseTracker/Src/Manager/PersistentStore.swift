@@ -70,9 +70,11 @@ struct PersistentStore {
         return entity
     }
     
-    func createCategory(title: String) -> CategoryDataEntity {
+    func createCategory(title: String, isPredefined: Bool) -> CategoryDataEntity {
         let entity = CategoryDataEntity(context: container.viewContext)
+        entity.id = UUID()
         entity.title = title
+        entity.isPredefined = isPredefined
         
         saveChanges()
         
