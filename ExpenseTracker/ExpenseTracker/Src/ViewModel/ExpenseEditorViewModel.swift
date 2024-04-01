@@ -19,7 +19,7 @@ class ExpenseEditorViewModel: ObservableObject {
     // states
     @Published var expenseTitle: String = ""
     @Published var expenseDetails: String = ""
-    @Published var expenseCategory: String = ""
+    @Published var expenseCategory: String = "Others"
     @Published var expenseAmount: String = ""
     @Published var creationDate: Date = Date()
     @Published var paidDate: Date = Date()
@@ -40,6 +40,7 @@ class ExpenseEditorViewModel: ObservableObject {
     
     init(expenseData: ExpenseData? = nil) {
         self.expenseData = expenseData
+        self.expenseCategory = self.categoryDataList.first ?? "Others"
         if let expenseData = expenseData {
             setupWithExistingExpenseData(expenseData)
         }
@@ -107,7 +108,7 @@ class ExpenseEditorViewModel: ObservableObject {
     private func setupWithExistingExpenseData(_ expenseData: ExpenseData) {
         expenseTitle = expenseData.title
         expenseDetails = expenseData.details
-        expenseCategory = expenseData.category
+        expenseCategory = getProperCategoryData(for: expenseData.category)
         expenseAmount = String(expenseData.amount)
         creationDate = expenseData.creationDate
         paidDate = expenseData.paidDate ?? Date()
@@ -116,6 +117,12 @@ class ExpenseEditorViewModel: ObservableObject {
         
         navigationTitle = "Update Expense"
         createExpenseButtonText = "Update"
+    }
+    
+    private func getProperCategoryData(for category: String) -> String {
+        return categoryDataList.contains(category)
+        ? category
+        : categoryDataList.first ?? "Other"
     }
     
     private func showInvalidAmountAlert() {
@@ -147,7 +154,7 @@ class ExpenseEditorViewModel: ObservableObject {
     private func clearState() {
         expenseTitle = ""
         expenseDetails = ""
-        expenseCategory = ""
+        expenseCategory = self.categoryDataList.first ?? "Others"
         expenseAmount = ""
         alertMessage = "Please ensure that each field is filled out accurately."
     }
