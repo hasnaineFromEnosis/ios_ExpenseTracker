@@ -15,15 +15,18 @@ class DataManager: ObservableObject {
     @Published var paidExpensesList: [ExpenseData] = []
     @Published var baseRecurrentExpenseList: [ExpenseData] = []
     
+    @Published var categoryList: [CategoryData] = []
+    
     private let persistentStore: PersistentStore
     
     private init() {
         self.persistentStore = PersistentStore()
         fetchExpenses()
+        fetchCategory()
         createRecurrentExpenses()
     }
     
-    func create(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool = false) {
+    func createExpense(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool = false) {
         let entity = persistentStore.createExpense(title: title,
                                                    details: details,
                                                    category: category,
@@ -36,7 +39,7 @@ class DataManager: ObservableObject {
             let baseRecurrentExpense = ExpenseData(entity: entity)
             baseRecurrentExpenseList.append(baseRecurrentExpense)
             createRecurrentExpenses(from: baseRecurrentExpense)
-            create(title: title,
+            createExpense(title: title,
                    details: details,
                    category: category,
                    amount: amount,
@@ -53,13 +56,26 @@ class DataManager: ObservableObject {
         }
     }
     
-    func fetchExpenses() {
-        pendingExpensesList = convertEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false"))
-        paidExpensesList = convertEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false"))
-        baseRecurrentExpenseList = convertEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "isBaseRecurrent == true"))
+    func createCategory(title: String, isPredefined: Bool) {
+        let entity = persistentStore.createCategory(title: title, isPredefined: isPredefined)
+        categoryList.append(CategoryData(entity: entity))
     }
     
-    func update(expenseData: ExpenseData,
+    func fetchExpenses() {
+        pendingExpensesList = convertExpenseEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false"))
+        paidExpensesList = convertExpenseEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false"))
+        baseRecurrentExpenseList = convertExpenseEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "isBaseRecurrent == true"))
+    }
+    
+    func fetchCategory() {
+        categoryList = convertCategoryEntityArrayToData(entities: persistentStore.fetchCategory())
+        
+        if categoryList.isEmpty {
+            createCategory(title: "Others", isPredefined: true)
+        }
+    }
+    
+    func updateExpense(expenseData: ExpenseData,
                 title: String? = nil,
                 details: String? = nil,
                 category: String? = nil,
@@ -91,9 +107,15 @@ class DataManager: ObservableObject {
         }
     }
     
-    func delete(expenseData: ExpenseData) {
+    func deleteExpense(expenseData: ExpenseData) {
         if let entity = getExpenseDataEntity(expenseData: expenseData) {
-            delete(entity: entity)
+            deleteExpense(entity: entity)
+        }
+    }
+    
+    func deleteCategory(categoryData: CategoryData) {
+        if let entity = getCategoryDataEntity(categoryData: categoryData) {
+            deleteCategory(entity: entity)
         }
     }
     
@@ -124,7 +146,7 @@ class DataManager: ObservableObject {
     private func createRecurrentExpenses(from baseExpense: ExpenseData) {
         let newExpenses = RecurrentExpenseManager.generateNecessaryRecurrentExpenses(for: baseExpense)
         newExpenses.forEach {
-            create(title: $0.title,
+            createExpense(title: $0.title,
                    details: $0.details,
                    category: $0.category,
                    amount: $0.amount,
@@ -132,15 +154,22 @@ class DataManager: ObservableObject {
                    paidDate: nil,
                    type: ExpenseType.recurrent)
         }
-        update(expenseData: baseExpense, paidDate: Date(), isBaseRecurrent: true)
+        updateExpense(expenseData: baseExpense, paidDate: Date(), isBaseRecurrent: true)
     }
     
-    private func delete(entity: ExpenseDataEntity) {
+    private func deleteExpense(entity: ExpenseDataEntity) {
         if let id = entity.id {
             deletePaidExpense(withID: id)
             deletePendingExpense(withID: id)
         }
         persistentStore.deleteExpense(entity: entity)
+    }
+    
+    private func deleteCategory(entity: CategoryDataEntity) {
+        if let id = entity.id {
+            deleteCategory(withID: id)
+        }
+        persistentStore.deleteCategory(entity: entity)
     }
     
     private func deleteLocally(entity: ExpenseDataEntity) {
@@ -180,6 +209,12 @@ class DataManager: ObservableObject {
         }
     }
     
+    private func deleteCategory(withID id: UUID) {
+        if let index = self.categoryList.firstIndex(where: { $0.id == id }) {
+            self.categoryList.remove(at: index)
+        }
+    }
+    
     private func addPendingExpense(_ newExpense: ExpenseData) {
         self.pendingExpensesList.append(newExpense)
     }
@@ -204,7 +239,27 @@ class DataManager: ObservableObject {
         }
     }
     
-    private func convertEntityArrayToData(entities: [ExpenseDataEntity]) -> [ExpenseData] {
+    private func getCategoryDataEntity(categoryData: CategoryData) -> CategoryDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", categoryData.id as CVarArg)
+        let result = self.persistentStore.fetchFirst(CategoryDataEntity.self, predicate: predicate)
+        switch result {
+        case .success(let managedObject):
+            if let entity = managedObject {
+                return entity
+            } else {
+                return nil
+            }
+        case .failure(let error):
+            print("Error fetching CategoryDataEntity: \(error)")
+            return nil
+        }
+    }
+    
+    private func convertExpenseEntityArrayToData(entities: [ExpenseDataEntity]) -> [ExpenseData] {
         return entities.map(ExpenseData.init)
+    }
+    
+    private func convertCategoryEntityArrayToData(entities: [CategoryDataEntity]) -> [CategoryData] {
+        return entities.map(CategoryData.init)
     }
 }

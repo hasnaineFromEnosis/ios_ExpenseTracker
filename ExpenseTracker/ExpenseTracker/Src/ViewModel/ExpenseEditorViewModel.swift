@@ -19,7 +19,7 @@ class ExpenseEditorViewModel: ObservableObject {
     // states
     @Published var expenseTitle: String = ""
     @Published var expenseDetails: String = ""
-    @Published var expenseCategory: String = ""
+    @Published var expenseCategory: String = "Others"
     @Published var expenseAmount: String = ""
     @Published var creationDate: Date = Date()
     @Published var paidDate: Date = Date()
@@ -33,10 +33,14 @@ class ExpenseEditorViewModel: ObservableObject {
     @Published var navigationTitle: String = "Create Expense"
     @Published var createExpenseButtonText: String = "Create"
     
+    var categoryDataList: [String] {
+        getTitleFromCategoryData()
+    }
     private var expenseData: ExpenseData?
     
     init(expenseData: ExpenseData? = nil) {
         self.expenseData = expenseData
+        self.expenseCategory = self.categoryDataList.first ?? "Others"
         if let expenseData = expenseData {
             setupWithExistingExpenseData(expenseData)
         }
@@ -57,7 +61,7 @@ class ExpenseEditorViewModel: ObservableObject {
             return false
         }
         
-        dataManager.create(title: expenseTitle,
+        dataManager.createExpense(title: expenseTitle,
                            details: expenseDetails,
                            category: expenseCategory,
                            amount: expenseAmount,
@@ -84,7 +88,7 @@ class ExpenseEditorViewModel: ObservableObject {
         expenseData.creationDate = creationDate
         expenseData.paidDate = getPaidDate()
         
-        dataManager.update(expenseData: expenseData,
+        dataManager.updateExpense(expenseData: expenseData,
                            title: expenseTitle,
                            details: expenseDetails,
                            category: expenseCategory,
@@ -104,7 +108,7 @@ class ExpenseEditorViewModel: ObservableObject {
     private func setupWithExistingExpenseData(_ expenseData: ExpenseData) {
         expenseTitle = expenseData.title
         expenseDetails = expenseData.details
-        expenseCategory = expenseData.category
+        expenseCategory = getProperCategoryData(for: expenseData.category)
         expenseAmount = String(expenseData.amount)
         creationDate = expenseData.creationDate
         paidDate = expenseData.paidDate ?? Date()
@@ -113,6 +117,12 @@ class ExpenseEditorViewModel: ObservableObject {
         
         navigationTitle = "Update Expense"
         createExpenseButtonText = "Update"
+    }
+    
+    private func getProperCategoryData(for category: String) -> String {
+        return categoryDataList.contains(category)
+        ? category
+        : categoryDataList.first ?? "Other"
     }
     
     private func showInvalidAmountAlert() {
@@ -132,10 +142,19 @@ class ExpenseEditorViewModel: ObservableObject {
         return paidDate
     }
     
+    private func getTitleFromCategoryData() -> [String] {
+        var results: [String] = []
+        
+        for categoryData in dataManager.categoryList {
+            results.append(categoryData.title)
+        }
+        return results
+    }
+    
     private func clearState() {
         expenseTitle = ""
         expenseDetails = ""
-        expenseCategory = ""
+        expenseCategory = self.categoryDataList.first ?? "Others"
         expenseAmount = ""
         alertMessage = "Please ensure that each field is filled out accurately."
     }

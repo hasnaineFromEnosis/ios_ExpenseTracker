@@ -10,7 +10,7 @@ import SwiftUI
 struct ExpenseDetailView: View {
     
     @ObservedObject var viewModel: ExpenseDetailViewModel
-    @Binding var selectedTab: ExpenseViewType
+    @Binding var selectedTab: TabViewType
     
     @Environment(\.dismiss) var dismiss
     
