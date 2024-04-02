@@ -23,7 +23,7 @@ struct MonthPicker: View {
         .padding(.horizontal, 10) // Adjust padding
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(.white) // Background color
+                .foregroundColor(.yellow) // Background color
                 .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Add shadow
         )
     }
@@ -42,11 +42,11 @@ struct YearPicker: View {
         }
         .pickerStyle(MenuPickerStyle())
         .foregroundColor(.black) // Text color
-        .frame(width: 100) // Set width
+        .frame(width: 150) // Set width
         .padding(.horizontal, 10) // Adjust padding
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(.white) // Background color
+                .foregroundColor(.yellow) // Background color
                 .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Add shadow
         )
     }
