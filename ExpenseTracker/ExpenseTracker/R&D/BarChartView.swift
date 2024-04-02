@@ -9,18 +9,26 @@ import SwiftUI
 import Charts
 
 // 1. Data model
-struct Revenue: Identifiable {
+struct TrendyData: Identifiable {
     let id = UUID()
-    let period: String
+    let category: String
     let amount: Double
 }
 
 // 2. Data as an array of Revenue objects
-let revenueData: [Revenue] = [
-    Revenue(period: "2022 Q1", amount: 125525.25),
-    Revenue(period: "2022 Q2", amount: 154389.50),
-    Revenue(period: "2022 Q3", amount: 131987.90),
-    Revenue(period: "2022 Q4", amount: 178965.80)
+let trendyData: [TrendyData] = [
+    TrendyData(category: "Food", amount: 125525.25),
+    TrendyData(category: "Clothes", amount: 134389.50),
+    TrendyData(category: "Home", amount: 131987.90),
+    TrendyData(category: "Health", amount: 128965.80),
+    TrendyData(category: "Education", amount: 123122.80),
+    TrendyData(category: "Sports", amount: 79650.80),
+    TrendyData(category: "Food 2", amount: 125525.25),
+    TrendyData(category: "Clothes 2", amount: 134389.50),
+    TrendyData(category: "Home 2", amount: 131987.90),
+    TrendyData(category: "Health 2", amount: 128965.80),
+    TrendyData(category: "Education 2", amount: 123122.80),
+    TrendyData(category: "Sports 2", amount: 79650.80)
 ]
 
 // 1. Declare colors
@@ -33,17 +41,17 @@ struct BarChartView: View {
         VStack(alignment: .leading) {
             
             // 2. Add and style the Text property
-            Text("Revenue per Quarter in 2022")
+            Text("R&D on Bar chart")
                 .font(.system(size: 22, weight: .bold))
             
             
-            Chart(revenueData) { item in
+            Chart(trendyData) { item in
                 BarMark(
-                    x: .value("Period", item.period),
-                    y: .value("Amount", item.amount)
+                    x: .value("Amount", item.amount),
+                    y: .value("Category", item.category)
                 )
-                .annotation(position: .top) {
-                    Text(String(format: "$%.0f", item.amount))
+                .annotation(position: .trailing) {
+                    Text(String(format: "৳%.0f", item.amount))
                         .foregroundColor(Color.gray)
                         .font(.system(size: 12, weight: .bold))
                 }
@@ -54,9 +62,19 @@ struct BarChartView: View {
                 ))
                 .cornerRadius(10)
             }
+            .animation(.easeIn, value: 5)
             .frame(height: 400)
-            .chartXAxisLabel("Period (Quarter)")
-            .chartYAxisLabel("Revenue in USD")
+            .shadow(color: Color.black.opacity(0.1), radius: 20, x: 0, y: 10)
+            .chartLegend(.hidden)
+            .chartXAxis(.hidden)
+            .chartYAxis {
+                AxisMarks { _ in
+                    AxisValueLabel()
+                }
+            }
+            .chartXAxisLabel("Amount Spent")
+            .chartYAxisLabel("Category")
+            .aspectRatio(1, contentMode: .fit)
         }
         .padding()
     }
