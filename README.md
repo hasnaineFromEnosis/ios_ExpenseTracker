@@ -43,24 +43,19 @@ Expense Tracker is a mobile application designed to help users keep track of the
 - Status of the expense changes to "Paid".
 - User is redirected to the Paid Expense view where they can see the item in the list.
 
-## Navigation Bar
-
-- Placed a Settings Icon on the top right corner of the navigation bar.
-- Tapping on the settings icon will take the app user to the Settings view.
-
-## Settings View
+### 5. Settings View (Tab 3)
 
 - The Settings View contains one button titled Category Management.
 - Tapping on this button will take the user to the Category Management view.
 
-## Category Management View
+### 6. Category Management View
 
 - An empty text field with a "+" button on the right side allows users to create a category.
 - Users can create a category by typing a category name and tapping on the "+" button.
 - Added categories will appear on the list below the text field.
 - Categories with similar names are prevented from existing.
 
-## Trend View
+### 7. Trend View
 
 - This view includes two dropdown menus at the top:
   1. Month (It includes names of every month).
