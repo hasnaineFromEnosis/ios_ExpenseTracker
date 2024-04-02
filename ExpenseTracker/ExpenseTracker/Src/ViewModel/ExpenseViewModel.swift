@@ -38,8 +38,8 @@ class ExpenseViewModel: ObservableObject {
             self.navigationTitle = "Paid Expenses"
         case.pendingExpenseView:
             self.navigationTitle = "Pending Expenses"
-        case .settingsView:
-            fatalError("This is unexpexted call")
+        case .settingsView, .trendyView:
+            fatalError("This is unexpected call")
         }
         
         anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
@@ -54,8 +54,8 @@ class ExpenseViewModel: ObservableObject {
             expensesList = dataManager.pendingExpensesList
         case .paidExpenseView:
             expensesList = dataManager.paidExpensesList
-        case .settingsView:
-            fatalError("This is unexpexted call")
+        case .settingsView, .trendyView:
+            fatalError("This is unexpected call")
         }
         
         return expensesList.filter { filterList(expenseData: $0) }
