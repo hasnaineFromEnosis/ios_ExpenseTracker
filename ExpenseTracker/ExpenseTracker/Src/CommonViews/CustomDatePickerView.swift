@@ -32,7 +32,7 @@ struct MonthPicker: View {
 struct YearPicker: View {
     @Binding var year: Int
     let startYear: Int = 2000
-    let endYear: Int = 2030
+    let endYear: Int = Utilities.getDataFromDate(component: .year, date: Date())
     
     var body: some View {
         Picker("", selection: $year) {
