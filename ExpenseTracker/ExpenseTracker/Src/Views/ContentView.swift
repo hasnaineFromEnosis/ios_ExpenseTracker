@@ -30,16 +30,18 @@ struct ContentView: View {
                     Label("Paid Expense", systemImage: "checkmark.circle")
                 }
                 .tag(TabViewType.paidExpenseView)
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
-                }
-                .tag(TabViewType.settingsView)
+            
             TrendView()
                 .tabItem {
                     Label("Trend", systemImage: "chart.line.uptrend.xyaxis.circle")
                 }
                 .tag(TabViewType.trendyView)
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+                .tag(TabViewType.settingsView)
         }
         .transition(.slide)
     }
