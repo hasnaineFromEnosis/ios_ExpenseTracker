@@ -43,6 +43,37 @@ Expense Tracker is a mobile application designed to help users keep track of the
 - Status of the expense changes to "Paid".
 - User is redirected to the Paid Expense view where they can see the item in the list.
 
+## Navigation Bar
+
+- Placed a Settings Icon on the top right corner of the navigation bar.
+- Tapping on the settings icon will take the app user to the Settings view.
+
+## Settings View
+
+- The Settings View contains one button titled Category Management.
+- Tapping on this button will take the user to the Category Management view.
+
+## Category Management View
+
+- An empty text field with a "+" button on the right side allows users to create a category.
+- Users can create a category by typing a category name and tapping on the "+" button.
+- Added categories will appear on the list below the text field.
+- Categories with similar names are prevented from existing.
+
+## Trend View
+
+- This view includes two dropdown menus at the top:
+  1. Month (It includes names of every month).
+  2. Year (2000 - Current Year).
+- After selecting a month and a year, a bar chart is displayed.
+- The chart is plotted against each category of that month, showing the expenses for each category.
+- Properly set the maximum value of the Y-axis for the values presented on each month.
+
+## Notes:
+1. Ensure that categories with similar names do not exist.
+2. The category field while creating an expense is replaced with a drop-down list developed in Assignment 1.
+3. Set the maximum value of the Y-axis properly for the values presented on each month.
+
 ## Usage
 
 - Pending Expenses: Tab 1
