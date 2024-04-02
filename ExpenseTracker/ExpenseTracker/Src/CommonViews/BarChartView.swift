@@ -74,8 +74,6 @@ struct BarChartView: View {
                 AxisValueLabel()
             }
         }
-        .chartXAxisLabel("Amount Spent")
-        .chartYAxisLabel("Category")
         .aspectRatio(1, contentMode: .fit)
     }
 }
