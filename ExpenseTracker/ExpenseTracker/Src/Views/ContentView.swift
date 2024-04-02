@@ -11,6 +11,7 @@ enum TabViewType {
     case pendingExpenseView
     case paidExpenseView
     case settingsView
+    case trendyView
 }
 
 struct ContentView: View {
@@ -34,6 +35,11 @@ struct ContentView: View {
                     Label("Settings", systemImage: "gear")
                 }
                 .tag(TabViewType.settingsView)
+            TrendView()
+                .tabItem {
+                    Label("Trend", systemImage: "chart.line.uptrend.xyaxis.circle")
+                }
+                .tag(TabViewType.trendyView)
         }
         .transition(.slide)
     }
