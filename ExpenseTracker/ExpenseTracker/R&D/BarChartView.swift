@@ -31,19 +31,15 @@ let trendyData: [TrendyData] = [
     TrendyData(category: "Sports 2", amount: 79650.80)
 ]
 
-// 1. Declare colors
-let barColor1 = Color.accentColor
-let barColor2 = Color(red: 0/255, green: 152/255, blue: 55/255)
-
 struct BarChartView: View {
+    let barColor1 = Color.accentColor
+    let barColor2 = Color(red: 0/255, green: 152/255, blue: 55/255)
+    
     var body: some View {
-        // 1. Left-align the content
-        VStack(alignment: .leading) {
-            
-            // 2. Add and style the Text property
+        VStack(alignment: .leading, spacing: 20) {
             Text("R&D on Bar chart")
-                .font(.system(size: 22, weight: .bold))
-            
+                .font(.title)
+                .fontWeight(.bold)
             
             Chart(trendyData) { item in
                 BarMark(
@@ -51,15 +47,11 @@ struct BarChartView: View {
                     y: .value("Category", item.category)
                 )
                 .annotation(position: .trailing) {
-                    Text(String(format: "৳%.0f", item.amount))
-                        .foregroundColor(Color.gray)
-                        .font(.system(size: 12, weight: .bold))
+                    Text("৳\(Int(item.amount))")
+                        .foregroundColor(.gray)
+                        .font(.footnote)
                 }
-                .foregroundStyle(.linearGradient(
-                    colors: [barColor1, barColor2],
-                    startPoint: .bottom,
-                    endPoint: .top
-                ))
+                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [barColor1, barColor2]), startPoint: .bottomLeading, endPoint: .topTrailing))
                 .cornerRadius(10)
             }
             .animation(.easeIn, value: 5)
