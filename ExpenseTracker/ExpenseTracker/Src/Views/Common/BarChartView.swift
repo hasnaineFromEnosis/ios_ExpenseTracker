@@ -19,7 +19,7 @@ struct BarChartView: View {
     let barChartData: [BarChartData]
     let chartTitle: String
     let barColor1 = Color.accentColor
-    let barColor2 = Color(red: 0/255, green: 152/255, blue: 55/255)
+    let barColor2 = Color(red: 158/255, green: 212/255, blue: 65/255)
     
     init(chartTitle: String, barChartData: [BarChartData]) {
         self.barChartData = barChartData
@@ -58,21 +58,25 @@ struct BarChartView: View {
                     y: .value("Category", item.category)
                 )
                 .annotation(position: .trailing) {
-                    Text("৳\(Int(item.amount))")
-                        .foregroundColor(.accentColor)
-                        .font(.footnote)
+                    Text("৳\(item.amount, format: .currency(code: "BDT"))")
+                        .font(.caption2)
+                    
                 }
                 .foregroundStyle(LinearGradient(gradient: Gradient(colors: [barColor1, barColor2]), startPoint: .bottomLeading, endPoint: .topTrailing))
                 .cornerRadius(10)
             }
-            .animation(.easeIn, value: 5)
             .frame(height: CGFloat(barChartData.count) * 50)
-            .shadow(color: Color.black.opacity(0.1), radius: 20, x: 0, y: 10)
+            .shadow(color: Color.primary.opacity(0.1), radius: 5, x: 0, y: 2)
             .chartLegend(.hidden)
             .chartXAxis(.hidden)
             .chartYAxis {
-                AxisMarks { _ in
-                    AxisValueLabel()
+                AxisMarks { value in
+                    if let category = value.as(String.self) {
+                        AxisValueLabel {
+                            Text(category)
+                                .font(.caption2)
+                        }
+                    }
                 }
             }
             .aspectRatio(1, contentMode: .fit)
