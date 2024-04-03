@@ -80,24 +80,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A4EAAFC2BBCB82F0056C110 /* HelperMethod */ = {
+		1A4EAAFC2BBCB82F0056C110 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				1A4EAAFD2BBCB8410056C110 /* Utilities.swift */,
 			);
-			path = HelperMethod;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		1A5316BA2BA9991300062171 /* Src */ = {
 			isa = PBXGroup;
 			children = (
-				1A4EAAFC2BBCB82F0056C110 /* HelperMethod */,
-				1A5316D82BAB78B400062171 /* CommonViews */,
 				1A917DDB2BA87AEB00009A5B /* ExpenseTrackerApp.swift */,
 				1A5316C52BA9CD1100062171 /* Manager */,
 				1A5316BD2BA9994400062171 /* Model */,
 				1A5316C82BA9D00500062171 /* ViewModel */,
 				1A5316BC2BA9992F00062171 /* Views */,
+				1A4EAAFC2BBCB82F0056C110 /* Helpers */,
 			);
 			path = Src;
 			sourceTree = "<group>";
@@ -113,6 +112,7 @@
 		1A5316BC2BA9992F00062171 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1A5316D82BAB78B400062171 /* Common */,
 				1A917DDD2BA87AEB00009A5B /* ContentView.swift */,
 				1A5316BF2BA9998700062171 /* ExpenseEditorView.swift */,
 				1A917DEB2BA8B7FD00009A5B /* ExpenseView.swift */,
@@ -159,14 +159,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		1A5316D82BAB78B400062171 /* CommonViews */ = {
+		1A5316D82BAB78B400062171 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				1A4EAAF72BBC9B0F0056C110 /* BarChartView.swift */,
 				1A5316D92BAB78CD00062171 /* PlusCircleView.swift */,
 				1A4EAAF52BBC99A10056C110 /* CustomDatePickerView.swift */,
 			);
-			path = CommonViews;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		1A917DCF2BA87AEB00009A5B = {
