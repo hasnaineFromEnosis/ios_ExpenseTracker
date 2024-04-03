@@ -23,15 +23,21 @@ struct CategoryManagementView: View {
                     }
                 }
         }
+        .alert(isPresented: $viewModel.showInvalidDataAlert) {
+            Alert(
+                title: Text(viewModel.alertTitle),
+                message: Text(viewModel.alertMessage)
+            )
+        }
         .navigationTitle("Category Management")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.showAlert = true
+                    viewModel.showCreateCategoryPopup = true
                 } label: {
                     Label("New", systemImage: viewModel.toolbarPlusImageName)
                 }
-                .alert(viewModel.categoryTitle, isPresented: $viewModel.showAlert, actions: {
+                .alert(viewModel.categoryTitle, isPresented: $viewModel.showCreateCategoryPopup, actions: {
                     TextField("Title", text: $viewModel.categoryTitle)
                     Button("Save", action: {
                         viewModel.createCategory()
