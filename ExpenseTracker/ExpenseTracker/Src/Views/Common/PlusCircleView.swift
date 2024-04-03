@@ -16,7 +16,6 @@ struct PlusCircleView: View {
                 .resizable()
                 .frame(width: 20, height: 20)
                 .foregroundStyle(.foreground)
-                
         }
         .frame(width: 60)
     }

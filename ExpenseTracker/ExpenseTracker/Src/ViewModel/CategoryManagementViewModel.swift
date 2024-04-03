@@ -9,18 +9,30 @@ import UIKit
 
 class CategoryManagementViewModel: ObservableObject {
     
-    var toolbarPlusImageName: String = "plus"
-    @Published var showAlert: Bool = false
+    private let dataManager = DataManager.shared
     
     @Published var categoryTitle: String = ""
     
-    private let dataManager = DataManager.shared
+    @Published var showCreateCategoryPopup: Bool = false
+    
+    @Published var showInvalidDataAlert: Bool = false
+    @Published var alertTitle: String = "Invalid Name"
+    @Published var alertMessage: String = "A category with same name is already exist. Please choose a different name"
+    
+    var toolbarPlusImageName: String = "plus"
     
     var categoryDataList: [CategoryData] {
         dataManager.categoryList
     }
     
     func createCategory() {
+        for category in categoryDataList {
+            if category.title == categoryTitle {
+                showInvalidDataAlert = true
+                return
+            }
+        }
+        
         dataManager.createCategory(title: categoryTitle, isPredefined: false)
     }
     
