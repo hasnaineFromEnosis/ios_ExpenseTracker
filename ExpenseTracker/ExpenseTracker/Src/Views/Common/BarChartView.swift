@@ -58,7 +58,7 @@ struct BarChartView: View {
                     y: .value("Category", item.category)
                 )
                 .annotation(position: .trailing) {
-                    Text("৳\(item.amount, format: .currency(code: "BDT"))")
+                    Text("\(item.amount, format: .currency(code: "BDT"))")
                         .font(.caption2)
                     
                 }
