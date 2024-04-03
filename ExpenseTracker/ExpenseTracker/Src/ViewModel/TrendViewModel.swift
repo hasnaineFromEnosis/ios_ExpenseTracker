@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class TrendViewModel: ObservableObject {
     
@@ -17,6 +18,14 @@ class TrendViewModel: ObservableObject {
     @Published var navTitle: String = "Trend"
     
     @Published var barChartTitle: String = "Category-wise Expense"
+    
+    private var anyCancellable: AnyCancellable? = nil
+    
+    init() {
+        anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
+                    self?.objectWillChange.send()
+                }
+    }
     
     var barChartData: [BarChartData] {
         var results: [BarChartData] = []
