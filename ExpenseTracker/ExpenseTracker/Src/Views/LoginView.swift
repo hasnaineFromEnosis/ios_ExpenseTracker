@@ -53,7 +53,9 @@ struct SignInButton: View {
     var body: some View {
         Button{
             Task {
-                authViewModel.signInWithGoogle 
+                authViewModel.signInWithGoogle { result in
+                    print("Result: \(result)")
+                }
             }
         } label: {
             HStack(spacing: 10) {

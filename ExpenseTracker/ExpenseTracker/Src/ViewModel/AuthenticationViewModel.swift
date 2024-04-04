@@ -18,6 +18,26 @@ enum AuthenticationState {
 }
 
 class AuthenticationViewModel: ObservableObject {
+    @Published var user: User?
+    @Published var authenticationState: AuthenticationState = .unauthenticated
+    @Published var displayName: String = ""
+    
+    init() {
+        registerAuthStateHandler()
+    }
+    
+    private var authStateHandler: AuthStateDidChangeListenerHandle?
+    
+    func registerAuthStateHandler() {
+        if authStateHandler == nil {
+            authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
+                self.user = user
+                self.authenticationState = user == nil ? .unauthenticated : .authenticated
+                self.displayName = user?.displayName ?? "Invalid Name"
+            }
+        }
+    }
+    
     func signInWithGoogle(completion: @escaping (Bool) -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             fatalError("No client ID found")
@@ -59,11 +79,24 @@ class AuthenticationViewModel: ObservableObject {
                 
                 if let firebaseUser = authResult?.user {
                     print("User \(firebaseUser.uid) signed in with email \(firebaseUser.email ?? "invalid")")
+                    self.user = firebaseUser
+                    self.authenticationState = .authenticated
                     completion(true)
                 } else {
                     completion(false)
                 }
             }
+        }
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            self.user = nil
+            self.authenticationState = .unauthenticated
+        }
+        catch {
+            print(error)
         }
     }
 }
