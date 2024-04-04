@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
     var body: some View {
         ZStack {
             Image("backgroundImage")
@@ -47,10 +48,14 @@ struct SignInButton: View {
     let imageName: String
     let text: String
     
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
     var body: some View {
-        Button(action: {
-            // Implement sign-in logic for Google or Apple
-        }) {
+        Button{
+            Task {
+                authViewModel.signInWithGoogle 
+            }
+        } label: {
             HStack(spacing: 10) {
                 Image(systemName: imageName)
                     .resizable()
@@ -69,6 +74,7 @@ struct SignInButton: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
+    
 }
 
 #Preview {

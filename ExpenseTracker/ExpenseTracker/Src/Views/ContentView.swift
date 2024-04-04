@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var authViewModel = AuthenticationViewModel()
     var body: some View {
         LoginView()
+            .environmentObject(authViewModel)
     }
 }
 
