@@ -28,7 +28,7 @@
 		1A4EAB0D2BBECD950056C110 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4EAB0C2BBECD950056C110 /* FirebaseStorageCombine-Community */; };
 		1A4EAB102BBED6EF0056C110 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4EAB0F2BBED6EF0056C110 /* FirebaseAnalyticsSwift */; };
 		1A4EAB122BBF2D630056C110 /* TabContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAB112BBF2D620056C110 /* TabContentView.swift */; };
-		1A4EAB142BBF3C590056C110 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAB132BBF3C590056C110 /* WelcomeView.swift */; };
+		1A4EAB142BBF3C590056C110 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAB132BBF3C590056C110 /* LoginView.swift */; };
 		1A5316B92BA96E8D00062171 /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316B82BA96E8D00062171 /* ExpenseDetailView.swift */; };
 		1A5316C02BA9998700062171 /* ExpenseEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316BF2BA9998700062171 /* ExpenseEditorView.swift */; };
 		1A5316C72BA9CD4400062171 /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316C62BA9CD4300062171 /* PersistentStore.swift */; };
@@ -62,7 +62,7 @@
 		1A4EAAFD2BBCB8410056C110 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		1A4EAAFF2BBECAB40056C110 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1A4EAB112BBF2D620056C110 /* TabContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabContentView.swift; sourceTree = "<group>"; };
-		1A4EAB132BBF3C590056C110 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		1A4EAB132BBF3C590056C110 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1A5316B82BA96E8D00062171 /* ExpenseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailView.swift; sourceTree = "<group>"; };
 		1A5316BF2BA9998700062171 /* ExpenseEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseEditorView.swift; sourceTree = "<group>"; };
 		1A5316C62BA9CD4300062171 /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 				1A4EAAE52BB6DB4B0056C110 /* CategoryManagementView.swift */,
 				1A4EAAF32BBC134B0056C110 /* TrendView.swift */,
 				1A4EAB112BBF2D620056C110 /* TabContentView.swift */,
-				1A4EAB132BBF3C590056C110 /* WelcomeView.swift */,
+				1A4EAB132BBF3C590056C110 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -341,7 +341,7 @@
 				1A4EAAC62BB1534E0056C110 /* ExpenseData.swift in Sources */,
 				1A917DEC2BA8B7FD00009A5B /* ExpenseView.swift in Sources */,
 				1A4EAAF92BBC9B0F0056C110 /* BarChartView.swift in Sources */,
-				1A4EAB142BBF3C590056C110 /* WelcomeView.swift in Sources */,
+				1A4EAB142BBF3C590056C110 /* LoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

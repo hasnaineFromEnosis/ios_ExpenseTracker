@@ -1,5 +1,5 @@
 //
-//  WelcomeView.swift
+//  LoginView.swift
 //  ExpenseTracker
 //
 //  Created by Shahwat Hasnaine on 5/4/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WelcomeView: View {
+struct LoginView: View {
     var body: some View {
         ZStack {
             Image("backgroundImage")
@@ -72,5 +72,5 @@ struct SignInButton: View {
 }
 
 #Preview {
-    WelcomeView()
+    LoginView()
 }
