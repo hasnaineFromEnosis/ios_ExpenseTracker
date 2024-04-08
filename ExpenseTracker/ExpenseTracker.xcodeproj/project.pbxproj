@@ -39,6 +39,8 @@
 		1A5316DA2BAB78CD00062171 /* PlusCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316D92BAB78CD00062171 /* PlusCircleView.swift */; };
 		1A5316E72BAC4E4C00062171 /* ExpenseDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316E52BAC4E4C00062171 /* ExpenseDataModel.xcdatamodeld */; };
 		1A53172E2BADF23E00062171 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A53172D2BADF23E00062171 /* DataManager.swift */; };
+		1A891FF72BC41104001FBA3B /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 1A891FF62BC41104001FBA3B /* FirebaseDatabase */; };
+		1A891FF92BC4494D001FBA3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A891FF82BC4494D001FBA3B /* FirebaseManager.swift */; };
 		1A917DDC2BA87AEB00009A5B /* ExpenseTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A917DDB2BA87AEB00009A5B /* ExpenseTrackerApp.swift */; };
 		1A917DDE2BA87AEB00009A5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A917DDD2BA87AEB00009A5B /* ContentView.swift */; };
 		1A917DE02BA87AED00009A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A917DDF2BA87AED00009A5B /* Assets.xcassets */; };
@@ -75,6 +77,7 @@
 		1A5316D92BAB78CD00062171 /* PlusCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusCircleView.swift; sourceTree = "<group>"; };
 		1A5316E62BAC4E4C00062171 /* ExpenseDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ExpenseDataModel.xcdatamodel; sourceTree = "<group>"; };
 		1A53172D2BADF23E00062171 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		1A891FF82BC4494D001FBA3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		1A917DD82BA87AEB00009A5B /* ExpenseTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpenseTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A917DDB2BA87AEB00009A5B /* ExpenseTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTrackerApp.swift; sourceTree = "<group>"; };
 		1A917DDD2BA87AEB00009A5B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A891FF72BC41104001FBA3B /* FirebaseDatabase in Frameworks */,
 				1A4EAB102BBED6EF0056C110 /* FirebaseAnalyticsSwift in Frameworks */,
 				1A4EAB1D2BBF42560056C110 /* FirebaseAuth in Frameworks */,
 				1A4EAB032BBECD950056C110 /* FirebaseAnalytics in Frameworks */,
@@ -170,6 +174,7 @@
 				1A5316C62BA9CD4300062171 /* PersistentStore.swift */,
 				1A53172D2BADF23E00062171 /* DataManager.swift */,
 				1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */,
+				1A891FF82BC4494D001FBA3B /* FirebaseManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				1A4EAB162BBF413B0056C110 /* GoogleSignIn */,
 				1A4EAB182BBF413B0056C110 /* GoogleSignInSwift */,
 				1A4EAB1C2BBF42560056C110 /* FirebaseAuth */,
+				1A891FF62BC41104001FBA3B /* FirebaseDatabase */,
 			);
 			productName = ExpenseTracker;
 			productReference = 1A917DD82BA87AEB00009A5B /* ExpenseTracker.app */;
@@ -329,6 +335,7 @@
 				1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */,
 				1A4EAB222BBF45790056C110 /* AuthenticationViewModel.swift in Sources */,
 				1A5316B92BA96E8D00062171 /* ExpenseDetailView.swift in Sources */,
+				1A891FF92BC4494D001FBA3B /* FirebaseManager.swift in Sources */,
 				1A4EAAFB2BBCAA260056C110 /* TrendViewModel.swift in Sources */,
 				1A5316C02BA9998700062171 /* ExpenseEditorView.swift in Sources */,
 				1A4EAAFE2BBCB8410056C110 /* Utilities.swift in Sources */,
@@ -604,6 +611,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A4EAB012BBECD940056C110 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		1A891FF62BC41104001FBA3B /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A4EAB012BBECD940056C110 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 

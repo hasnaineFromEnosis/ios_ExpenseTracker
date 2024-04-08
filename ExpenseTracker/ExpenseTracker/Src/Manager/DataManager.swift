@@ -18,9 +18,11 @@ class DataManager: ObservableObject {
     @Published var categoryList: [CategoryData] = []
     
     private let persistentStore: PersistentStore
+    private let firebaseManager: FirebaseManager
     
     private init() {
         self.persistentStore = PersistentStore()
+        self.firebaseManager = FirebaseManager()
         fetchExpenses()
         fetchCategory()
         createRecurrentExpenses()
@@ -58,7 +60,9 @@ class DataManager: ObservableObject {
     
     func createCategory(title: String, isPredefined: Bool) {
         let entity = persistentStore.createCategory(title: title, isPredefined: isPredefined)
-        categoryList.append(CategoryData(entity: entity))
+        let categoryData = CategoryData(entity: entity)
+        categoryList.append(categoryData)
+        firebaseManager.saveCategoryData(category: categoryData)
     }
     
     func fetchExpenses() {
