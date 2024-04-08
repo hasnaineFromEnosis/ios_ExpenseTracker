@@ -12,17 +12,29 @@ class FirebaseManager: ObservableObject {
     private let database = Database.database().reference()
     
     func saveCategoryData(category: CategoryData) {
-        // Create a reference to a child node in the database (e.g., "categories")
         let categoryRef = database.child("categories").child(category.id.uuidString)
         
-        // Convert CategoryData object to a dictionary
         let categoryDict: [String: Any] = [
             "title": category.title,
             "isPredefined": category.isPredefined
         ]
         
-        // Save the data to Firebase
         categoryRef.setValue(categoryDict)
     }
 
+    func saveExpenseData(expense: ExpenseData) {
+        let expenseRef = Database.database().reference().child("expenses").child(expense.id.uuidString)
+        
+        let expenseDict: [String: Any] = [
+            "title": expense.title,
+            "details": expense.details,
+            "creationDate": expense.creationDate.description,
+            "paidDate": expense.paidDate?.description ?? "nil",
+            "amount": expense.amount,
+            "category": expense.category,
+            "type": expense.type
+        ]
+        
+        expenseRef.setValue(expenseDict)
+    }
 }
