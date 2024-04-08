@@ -37,7 +37,6 @@ struct LoginView: View {
                 
                 VStack(spacing: 16) {
                     SignInButton(imageName: "g.circle.fill", text: "Sign in with Google")
-                    SignInButton(imageName: "apple.logo", text: "Sign in with Apple")
                 }
             }
         }
