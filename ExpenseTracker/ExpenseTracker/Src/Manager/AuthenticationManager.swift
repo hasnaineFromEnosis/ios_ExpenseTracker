@@ -1,5 +1,5 @@
 //
-//  AuthenticationViewModel.swift
+//  AuthenticationManager.swift
 //  ExpenseTracker
 //
 //  Created by Shahwat Hasnaine on 5/4/24.
@@ -17,12 +17,14 @@ enum AuthenticationState {
     case authenticated
 }
 
-class AuthenticationViewModel: ObservableObject {
+class AuthenticationManager: ObservableObject {
+    static let shared = AuthenticationManager()
+    
     @Published var user: User?
     @Published var authenticationState: AuthenticationState = .unauthenticated
     @Published var displayName: String = ""
     
-    init() {
+    private init() {
         registerAuthStateHandler()
     }
     

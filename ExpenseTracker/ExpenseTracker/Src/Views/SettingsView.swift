@@ -9,14 +9,13 @@ import SwiftUI
 
 struct SettingsView: View {
     @StateObject var viewModel: SettingsViewModel = SettingsViewModel()
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         NavigationStack {
             List {
                 HStack {
                     getPrimaryTextView(label:  "Hello")
-                    getHighlightedTextView(label: "\(authViewModel.displayName)")
+                    getHighlightedTextView(label: "\(AuthenticationManager.shared.displayName)")
                 }
                 
                 Section {
@@ -26,7 +25,7 @@ struct SettingsView: View {
                         }
                     }
                     Button(action: {
-                        authViewModel.signOut()
+                        AuthenticationManager.shared.signOut()
                     }) {
                         getPrimaryTextView(label: "Sign Out")
                     }
@@ -53,5 +52,4 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
-        .environmentObject(AuthenticationViewModel())
 }
