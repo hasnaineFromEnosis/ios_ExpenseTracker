@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var authManager = AuthenticationManager.shared
+    
     var body: some View {
-        if AuthenticationManager.shared.authenticationState == .authenticated {
+        if authManager.authenticationState == .authenticated {
             TabContentView()
         } else {
             LoginView()

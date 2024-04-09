@@ -49,8 +49,10 @@ struct SignInButton: View {
     var body: some View {
         Button{
             Task {
-                AuthenticationManager.shared.signInWithGoogle { result in
-                    print("Result: \(result)")
+                AuthenticationManager.shared.signInWithGoogle { success in
+                    if success {
+                        DataManager.shared.initializeData()
+                    }
                 }
             }
         } label: {

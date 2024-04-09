@@ -22,6 +22,10 @@ class DataManager: ObservableObject {
     private init() {
         self.persistentStore = PersistentStore()
         self.firebaseManager = FirebaseManager()
+        initializeData()
+    }
+    
+    func initializeData() {
         fetchExpenses()
         fetchCategory()
         createRecurrentExpenses()
