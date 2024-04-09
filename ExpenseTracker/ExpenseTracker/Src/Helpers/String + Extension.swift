@@ -10,7 +10,7 @@ import Foundation
 extension String {
     func toDate() -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" 
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z" 
         return dateFormatter.date(from: self)
     }
 }
