@@ -28,7 +28,6 @@ class DataManager: ObservableObject {
     func initializeData() {
         fetchExpenses()
         fetchCategory()
-        createRecurrentExpenses()
     }
     
     func createExpense(title: String, details: String, category: String, amount: Int, creationDate: Date, paidDate: Date?, type: ExpenseType, isBaseRecurrent: Bool = false) {
@@ -73,6 +72,15 @@ class DataManager: ObservableObject {
         pendingExpensesList = convertExpenseEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate == nil && isBaseRecurrent == false"))
         paidExpensesList = convertExpenseEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "paidDate != nil && isBaseRecurrent == false"))
         baseRecurrentExpenseList = convertExpenseEntityArrayToData(entities: persistentStore.fetchExpenses(predicateFormat: "isBaseRecurrent == true"))
+        
+        
+        firebaseManager.fetchExpenses { pendingExpensesList, paidExpensesList, baseRecurrentExpenseList in
+            self.pendingExpensesList = self.mergeLists(listA: self.pendingExpensesList, listB: pendingExpensesList)
+            self.paidExpensesList = self.mergeLists(listA: self.paidExpensesList, listB: paidExpensesList)
+            self.baseRecurrentExpenseList = self.mergeLists(listA: self.baseRecurrentExpenseList, listB: baseRecurrentExpenseList)
+            
+            self.createRecurrentExpenses()
+        }
     }
     
     func fetchCategory() {
@@ -80,6 +88,13 @@ class DataManager: ObservableObject {
         
         if categoryList.isEmpty {
             createCategory(title: "Others", isPredefined: true)
+        }
+        
+        firebaseManager.fetchCategories { categoryList in
+            self.categoryList = self.mergeLists(listA: self.categoryList, listB: categoryList)
+            if self.categoryList.isEmpty {
+                self.createCategory(title: "Others", isPredefined: true)
+            }
         }
     }
     
@@ -113,18 +128,24 @@ class DataManager: ObservableObject {
                 }
             }
         }
+        
+        firebaseManager.saveExpenseData(expense: expenseData)
     }
     
     func deleteExpense(expenseData: ExpenseData) {
         if let entity = getExpenseDataEntity(expenseData: expenseData) {
             deleteExpense(entity: entity)
         }
+        
+        firebaseManager.deleteExpenseData(expense: expenseData)
     }
     
     func deleteCategory(categoryData: CategoryData) {
         if let entity = getCategoryDataEntity(categoryData: categoryData) {
             deleteCategory(entity: entity)
         }
+        
+        firebaseManager.deleteCategoryData(category: categoryData)
     }
     
     func markExpenseAsPaid(expenseData: ExpenseData, paidDate: Date? = nil) {
@@ -162,7 +183,15 @@ class DataManager: ObservableObject {
                    paidDate: nil,
                    type: ExpenseType.recurrent)
         }
-        updateExpense(expenseData: baseExpense, paidDate: Date(), isBaseRecurrent: true)
+        var updatedExpense = baseExpense
+        updatedExpense.paidDate = Date()
+        updateExpense(expenseData: updatedExpense, paidDate: updatedExpense.paidDate, isBaseRecurrent: true)
+    }
+    
+    private func mergeLists<T: Hashable>(listA: [T], listB: [T]) -> [T] {
+        var mergedArray: [T] = listA + listB
+        var uniqueVals = Set(mergedArray)
+        return Array(uniqueVals)
     }
     
     private func deleteExpense(entity: ExpenseDataEntity) {
