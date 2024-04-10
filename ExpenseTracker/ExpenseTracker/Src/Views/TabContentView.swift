@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-enum TabViewType {
-    case pendingExpenseView
-    case paidExpenseView
-    case settingsView
-    case trendyView
-}
-
 struct TabContentView: View {
     @State private var selectedTab: TabViewType = .pendingExpenseView
     

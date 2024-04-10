@@ -47,6 +47,7 @@
 		1A917DE32BA87AED00009A5B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A917DE22BA87AED00009A5B /* Preview Assets.xcassets */; };
 		1A917DEC2BA8B7FD00009A5B /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A917DEB2BA8B7FD00009A5B /* ExpenseView.swift */; };
 		1AA4F7902BC55D9A0078447B /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4F78F2BC55D9A0078447B /* String + Extension.swift */; };
+		1AA4F7922BC6079B0078447B /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4F7912BC6079B0078447B /* Enums.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		1A917DE22BA87AED00009A5B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A917DEB2BA8B7FD00009A5B /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
 		1AA4F78F2BC55D9A0078447B /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
+		1AA4F7912BC6079B0078447B /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 			children = (
 				1A4EAAFD2BBCB8410056C110 /* Utilities.swift */,
 				1AA4F78F2BC55D9A0078447B /* String + Extension.swift */,
+				1AA4F7912BC6079B0078447B /* Enums.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				1A5316B92BA96E8D00062171 /* ExpenseDetailView.swift in Sources */,
 				1A891FF92BC4494D001FBA3B /* FirebaseManager.swift in Sources */,
 				1A4EAAFB2BBCAA260056C110 /* TrendViewModel.swift in Sources */,
+				1AA4F7922BC6079B0078447B /* Enums.swift in Sources */,
 				1A5316C02BA9998700062171 /* ExpenseEditorView.swift in Sources */,
 				1A4EAAFE2BBCB8410056C110 /* Utilities.swift in Sources */,
 				1A4EAAE62BB6DB4B0056C110 /* CategoryManagementView.swift in Sources */,

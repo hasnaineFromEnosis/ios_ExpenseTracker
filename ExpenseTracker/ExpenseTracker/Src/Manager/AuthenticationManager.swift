@@ -11,12 +11,6 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 
-enum AuthenticationState {
-    case unauthenticated
-    case authenticating
-    case authenticated
-}
-
 class AuthenticationManager: ObservableObject {
     static let shared = AuthenticationManager()
     
