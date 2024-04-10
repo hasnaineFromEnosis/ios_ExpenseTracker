@@ -73,8 +73,18 @@ class FirebaseManager: ObservableObject {
         
         categoryRef.removeValue()
     }
+    
+    // MARK: - Expense Data Operation
+    
     func saveExpenseData(expense: ExpenseData) {
-        let expenseRef = Database.database().reference().child("expenses").child(expense.id.uuidString)
+        guard let user = authManager.user else {
+            return
+        }
+        
+        let expenseRef = Database.database().reference()
+            .child(user.uid)
+            .child("expenses")
+            .child(expense.id.uuidString)
         
         let expenseDict: [String: Any] = [
             "title": expense.title,
@@ -83,9 +93,74 @@ class FirebaseManager: ObservableObject {
             "paidDate": expense.paidDate?.description ?? "nil",
             "amount": expense.amount,
             "category": expense.category,
-            "type": expense.type
+            "type": expense.type,
+            "isBaseRecurrent": expense.isBaseRecurrent
         ]
         
         expenseRef.setValue(expenseDict)
+    }
+    
+    func fetchExpenses(completion: @escaping ([ExpenseData], [ExpenseData], [ExpenseData]) -> Void) {
+        guard let user = authManager.user else {
+            completion([], [], [])
+            return
+        }
+        
+        let expensesRef = Database.database().reference().child(user.uid).child("expenses")
+        
+        expensesRef.observeSingleEvent(of: .value) { snapshot, arg  in
+            guard let expensesSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                completion([], [], [])
+                return
+            }
+            
+            var paidExpenses: [ExpenseData] = []
+            var pendingExpenses: [ExpenseData] = []
+            var recurrentExpenses: [ExpenseData] = []
+            
+            for expenseSnapshot in expensesSnapshot {
+                guard let expenseDict = expenseSnapshot.value as? [String: Any] else {
+                    continue
+                }
+                
+                let expenseIDString = expenseSnapshot.key
+                guard let expenseID = UUID(uuidString: expenseIDString) else {
+                    continue
+                }
+                
+                let expense = ExpenseData(id: expenseID,
+                                          title: expenseDict["title"] as? String ?? "",
+                                          details: expenseDict["details"] as? String ?? "",
+                                          amount: expenseDict["amount"] as? Int ?? 0,
+                                          category: expenseDict["category"] as? String ?? "",
+                                          type: expenseDict["type"] as? String ?? "",
+                                          creationDate: (expenseDict["creationDate"] as? String)?.toDate() ?? Date(),
+                                          paidDate: (expenseDict["paidDate"] as? String)?.toDate(),
+                                          isBaseRecurrent: expenseDict["isBaseRecurrent"] as? Bool ?? false)
+                
+                if expense.isBaseRecurrent {
+                    recurrentExpenses.append(expense)
+                } else if expense.paidDate != nil {
+                    paidExpenses.append(expense)
+                } else {
+                    pendingExpenses.append(expense)
+                }
+            }
+            
+            completion(pendingExpenses, paidExpenses, recurrentExpenses)
+        }
+    }
+    
+    func deleteExpenseData(expense: ExpenseData) {
+        guard let user = authManager.user else {
+            return
+        }
+        
+        let expenseRef = Database.database().reference()
+            .child(user.uid)
+            .child("expenses")
+            .child(expense.id.uuidString)
+        
+        expenseRef.removeValue()
     }
 }
