@@ -8,7 +8,6 @@
 import Foundation
 
 class DataManager: ObservableObject {
-    
     static let shared = DataManager()
     
     @Published var pendingExpensesList: [ExpenseData] = []
@@ -18,9 +17,15 @@ class DataManager: ObservableObject {
     @Published var categoryList: [CategoryData] = []
     
     private let persistentStore: PersistentStore
+    private let firebaseManager: FirebaseManager
     
     private init() {
         self.persistentStore = PersistentStore()
+        self.firebaseManager = FirebaseManager()
+        initializeData()
+    }
+    
+    func initializeData() {
         fetchExpenses()
         fetchCategory()
         createRecurrentExpenses()
@@ -35,10 +40,11 @@ class DataManager: ObservableObject {
                                                    paidDate: paidDate,
                                                    type: type,
                                                    isBaseRecurrent: isBaseRecurrent)
+        let expenseData = ExpenseData(entity: entity)
+        firebaseManager.saveExpenseData(expense: expenseData)
         if isBaseRecurrent {
-            let baseRecurrentExpense = ExpenseData(entity: entity)
-            baseRecurrentExpenseList.append(baseRecurrentExpense)
-            createRecurrentExpenses(from: baseRecurrentExpense)
+            baseRecurrentExpenseList.append(expenseData)
+            createRecurrentExpenses(from: expenseData)
             createExpense(title: title,
                    details: details,
                    category: category,
@@ -49,16 +55,18 @@ class DataManager: ObservableObject {
                    isBaseRecurrent: false)
         } else {
             if paidDate != nil {
-                paidExpensesList.append(ExpenseData(entity: entity))
+                paidExpensesList.append(expenseData)
             } else {
-                pendingExpensesList.append(ExpenseData(entity: entity))
+                pendingExpensesList.append(expenseData)
             }
         }
     }
     
     func createCategory(title: String, isPredefined: Bool) {
         let entity = persistentStore.createCategory(title: title, isPredefined: isPredefined)
-        categoryList.append(CategoryData(entity: entity))
+        let categoryData = CategoryData(entity: entity)
+        categoryList.append(categoryData)
+        firebaseManager.saveCategoryData(category: categoryData)
     }
     
     func fetchExpenses() {

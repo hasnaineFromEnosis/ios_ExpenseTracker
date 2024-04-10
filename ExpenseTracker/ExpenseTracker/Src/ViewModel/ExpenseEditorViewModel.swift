@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum ExpenseType: String, CaseIterable {
-    case random = "Random"
-    case recurrent = "Recurrent"
-}
-
 class ExpenseEditorViewModel: ObservableObject {
     
     let dataManager = DataManager.shared

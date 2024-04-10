@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
     var body: some View {
         ZStack {
             Image("backgroundImage")
@@ -37,7 +36,6 @@ struct LoginView: View {
                 
                 VStack(spacing: 16) {
                     SignInButton(imageName: "g.circle.fill", text: "Sign in with Google")
-                    SignInButton(imageName: "apple.logo", text: "Sign in with Apple")
                 }
             }
         }
@@ -48,13 +46,13 @@ struct SignInButton: View {
     let imageName: String
     let text: String
     
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
-    
     var body: some View {
         Button{
             Task {
-                authViewModel.signInWithGoogle { result in
-                    print("Result: \(result)")
+                AuthenticationManager.shared.signInWithGoogle { success in
+                    if success {
+                        DataManager.shared.initializeData()
+                    }
                 }
             }
         } label: {

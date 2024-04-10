@@ -7,16 +7,8 @@
 
 import SwiftUI
 
-enum TabViewType {
-    case pendingExpenseView
-    case paidExpenseView
-    case settingsView
-    case trendyView
-}
-
 struct TabContentView: View {
     @State private var selectedTab: TabViewType = .pendingExpenseView
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -39,7 +31,6 @@ struct TabContentView: View {
                 .tag(TabViewType.trendyView)
             
             SettingsView()
-                .environmentObject(authViewModel)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

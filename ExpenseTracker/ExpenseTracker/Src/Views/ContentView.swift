@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var authViewModel = AuthenticationViewModel()
+    @ObservedObject var authManager = AuthenticationManager.shared
+    
     var body: some View {
-        if authViewModel.authenticationState == .authenticated {
+        if authManager.authenticationState == .authenticated {
             TabContentView()
-                .environmentObject(authViewModel)
         } else {
             LoginView()
-                .environmentObject(authViewModel)
         }
     }
 }
