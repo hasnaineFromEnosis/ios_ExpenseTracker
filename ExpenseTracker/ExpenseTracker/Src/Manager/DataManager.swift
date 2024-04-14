@@ -75,9 +75,9 @@ class DataManager: ObservableObject {
         
         
         firebaseManager.fetchExpenses { pendingExpensesList, paidExpensesList, baseRecurrentExpenseList in
-            self.pendingExpensesList = self.mergeLists(listA: self.pendingExpensesList, listB: pendingExpensesList)
-            self.paidExpensesList = self.mergeLists(listA: self.paidExpensesList, listB: paidExpensesList)
-            self.baseRecurrentExpenseList = self.mergeLists(listA: self.baseRecurrentExpenseList, listB: baseRecurrentExpenseList)
+            self.pendingExpensesList = self.mergeExpense(listA: self.pendingExpensesList, listB: pendingExpensesList)
+            self.paidExpensesList = self.mergeExpense(listA: self.paidExpensesList, listB: paidExpensesList)
+            self.baseRecurrentExpenseList = self.mergeExpense(listA: self.baseRecurrentExpenseList, listB: baseRecurrentExpenseList)
             
             self.createRecurrentExpenses()
         }
@@ -91,7 +91,7 @@ class DataManager: ObservableObject {
         }
         
         firebaseManager.fetchCategories { categoryList in
-            self.categoryList = self.mergeLists(listA: self.categoryList, listB: categoryList)
+            self.categoryList = self.mergeCategory(listA: self.categoryList, listB: categoryList)
             if self.categoryList.isEmpty {
                 self.createCategory(title: "Others", isPredefined: true)
             }
@@ -188,10 +188,75 @@ class DataManager: ObservableObject {
         updateExpense(expenseData: updatedExpense, paidDate: updatedExpense.paidDate, isBaseRecurrent: true)
     }
     
-    private func mergeLists<T: Hashable>(listA: [T], listB: [T]) -> [T] {
-        var mergedArray: [T] = listA + listB
-        var uniqueVals = Set(mergedArray)
-        return Array(uniqueVals)
+    private func mergeExpense(listA: [ExpenseData], listB: [ExpenseData]) -> [ExpenseData] {
+        var idCoreData: [UUID: Bool] = [:]
+        var results: [ExpenseData] = []
+        
+        for expense in listA {
+            idCoreData[expense.id] = true
+            results.append(expense)
+        }
+        
+        for expense in listB {
+            if idCoreData[expense.id] == nil {
+                let _ = persistentStore.createExpense(id: expense.id,
+                                                      title: expense.title,
+                                                      details: expense.details,
+                                                      category: expense.category,
+                                                      amount: expense.amount,
+                                                      creationDate: expense.creationDate,
+                                                      paidDate: expense.paidDate,
+                                                      type: expense.type == ExpenseType.random.rawValue ? .random : .recurrent,
+                                                      isBaseRecurrent: expense.isBaseRecurrent)
+                results.append(expense)
+            }
+        }
+        
+        idCoreData.removeAll()
+        
+        for expense in listB {
+            idCoreData[expense.id] = true
+        }
+        
+        for expense in listA {
+            if idCoreData[expense.id] == nil {
+                firebaseManager.saveExpenseData(expense: expense)
+            }
+        }
+        
+        return results
+    }
+    
+    private func mergeCategory(listA: [CategoryData], listB: [CategoryData]) -> [CategoryData] {
+        var idCoreData: [UUID: Bool] = [:]
+        var results: [CategoryData] = []
+        
+        for category in listA {
+            idCoreData[category.id] = true
+            results.append(category)
+        }
+        
+        for category in listB {
+            if idCoreData[category.id] == nil {
+                let _ = persistentStore.createCategory(id: category.id, title: category.title, isPredefined: category.isPredefined)
+                
+                results.append(category)
+            }
+        }
+        
+        idCoreData.removeAll()
+        
+        for category in listB {
+            idCoreData[category.id] = true
+        }
+        
+        for category in listA {
+            if idCoreData[category.id] == nil {
+                firebaseManager.saveCategoryData(category: category)
+            }
+        }
+        
+        return results
     }
     
     private func deleteExpense(entity: ExpenseDataEntity) {

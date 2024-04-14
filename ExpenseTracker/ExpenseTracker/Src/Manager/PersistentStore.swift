@@ -48,7 +48,8 @@ struct PersistentStore {
         }
     }
     
-    func createExpense(title: String,
+    func createExpense(id: UUID = UUID(),
+                       title: String,
                        details: String,
                        category: String,
                        amount: Int,
@@ -57,7 +58,7 @@ struct PersistentStore {
                        type: ExpenseType,
                        isBaseRecurrent: Bool) -> ExpenseDataEntity {
         let entity = ExpenseDataEntity(context: container.viewContext)
-        entity.id = UUID()
+        entity.id = id
         entity.title = title
         entity.details = details
         entity.category = category
@@ -70,9 +71,9 @@ struct PersistentStore {
         return entity
     }
     
-    func createCategory(title: String, isPredefined: Bool) -> CategoryDataEntity {
+    func createCategory(id: UUID = UUID(), title: String, isPredefined: Bool) -> CategoryDataEntity {
         let entity = CategoryDataEntity(context: container.viewContext)
-        entity.id = UUID()
+        entity.id = id
         entity.title = title
         entity.isPredefined = isPredefined
         
