@@ -103,7 +103,7 @@ class ExpenseEditorViewModel: ObservableObject {
         creationDate = expenseData.creationDate
         paidDate = expenseData.paidDate ?? Date()
         isExpensePaid = expenseData.paidDate != nil
-        expenseType = expenseData.type == ExpenseType.recurrent.rawValue ? .recurrent : .random
+        expenseType = ExpenseType.getTypeFromValue(value: expenseData.type)
         
         navigationTitle = "Update Expense"
         createExpenseButtonText = "Update"

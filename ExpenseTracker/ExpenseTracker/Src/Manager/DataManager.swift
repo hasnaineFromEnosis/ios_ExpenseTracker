@@ -41,9 +41,9 @@ class DataManager: ObservableObject {
             createExpense(expenseData: updatedExpenseData)
         } else {
             if expenseData.paidDate != nil {
-                paidExpensesList.append(expenseData)
+                addPaidExpenseLocally(expenseData)
             } else {
-                pendingExpensesList.append(expenseData)
+                addPendingExpenseLocally(expenseData)
             }
         }
     }
@@ -83,13 +83,13 @@ class DataManager: ObservableObject {
     
     func updateExpense(expenseData: ExpenseData) {
         if expenseData.isBaseRecurrent {
-            updateBaseRecurrentExpenseList(for: expenseData)
+            updateBaseRecurrentExpenseListLocally(for: expenseData)
         } else {
-            deleteLocally(expenseData: expenseData)
+            deleteExpenseLocally(expenseData: expenseData)
             if let paidDate = expenseData.paidDate {
-                addPaidExpense(expenseData)
+                addPaidExpenseLocally(expenseData)
             } else {
-                addPendingExpense(expenseData)
+                addPendingExpenseLocally(expenseData)
             }
         }
         
@@ -98,21 +98,21 @@ class DataManager: ObservableObject {
     }
     
     func deleteExpense(expenseData: ExpenseData) {
-        deletePaidExpense(withID: expenseData.id)
-        deletePendingExpense(withID: expenseData.id)
+        deletePaidExpenseLocally(withID: expenseData.id)
+        deletePendingExpenseLocally(withID: expenseData.id)
         
         persistentStore.deleteExpense(expenseData: expenseData)
         firebaseManager.deleteExpenseData(expense: expenseData)
     }
     
     func deleteCategory(categoryData: CategoryData) {
-        deleteCategory(withID: categoryData.id)
+        deleteCategoryLocally(withID: categoryData.id)
+        
         persistentStore.deleteCategory(categoryData: categoryData)
         firebaseManager.deleteCategoryData(category: categoryData)
     }
     
     // MARK: Private Methods
-    
     private func createRecurrentExpenses() {
         baseRecurrentExpenseList.forEach { createRecurrentExpenses(from: $0) }
     }
@@ -127,115 +127,91 @@ class DataManager: ObservableObject {
         updateExpense(expenseData: updatedExpense)
     }
     
+    private func mergeData<T: Identifiable & Equatable>(listA: [T], listB: [T], coreDataCreateFunction: (T) -> Void, firebaseCreateFunction: (T) -> Void) -> [T] {
+        var idDictionary: [T.ID: Bool] = [:]
+        var results: [T] = []
+        
+        for item in listA {
+            idDictionary[item.id] = true
+            results.append(item)
+        }
+        
+        for item in listB {
+            if idDictionary[item.id] == nil {
+                coreDataCreateFunction(item)
+                results.append(item)
+            }
+        }
+        
+        idDictionary.removeAll()
+        for item in listB {
+            idDictionary[item.id] = true
+        }
+        
+        for item in listA {
+            if idDictionary[item.id] == nil {
+                firebaseCreateFunction(item)
+            }
+        }
+        
+        return results
+    }
+
     private func mergeExpense(listA: [ExpenseData], listB: [ExpenseData]) -> [ExpenseData] {
-        var idCoreData: [UUID: Bool] = [:]
-        var results: [ExpenseData] = []
-        
-        for expense in listA {
-            idCoreData[expense.id] = true
-            results.append(expense)
-        }
-        
-        for expense in listB {
-            if idCoreData[expense.id] == nil {
-                let _ = persistentStore.createExpense(expenseData: expense)
-                results.append(expense)
-            }
-        }
-        
-        idCoreData.removeAll()
-        
-        for expense in listB {
-            idCoreData[expense.id] = true
-        }
-        
-        for expense in listA {
-            if idCoreData[expense.id] == nil {
-                firebaseManager.saveExpenseData(expense: expense)
-            }
-        }
-        
-        return results
+        return mergeData(listA: listA, listB: listB, coreDataCreateFunction: { persistentStore.createExpense(expenseData: $0) }, firebaseCreateFunction: { firebaseManager.saveExpenseData(expense: $0) })
     }
-    
+
     private func mergeCategory(listA: [CategoryData], listB: [CategoryData]) -> [CategoryData] {
-        var idCoreData: [UUID: Bool] = [:]
-        var results: [CategoryData] = []
-        
-        for category in listA {
-            idCoreData[category.id] = true
-            results.append(category)
-        }
-        
-        for category in listB {
-            if idCoreData[category.id] == nil {
-                let _ = persistentStore.createCategory(categoryData: category)
-                
-                results.append(category)
-            }
-        }
-        
-        idCoreData.removeAll()
-        
-        for category in listB {
-            idCoreData[category.id] = true
-        }
-        
-        for category in listA {
-            if idCoreData[category.id] == nil {
-                firebaseManager.saveCategoryData(category: category)
-            }
-        }
-        
-        return results
+        return mergeData(listA: listA, listB: listB, coreDataCreateFunction: { persistentStore.createCategory(categoryData: $0) }, firebaseCreateFunction: { firebaseManager.saveCategoryData(category: $0) })
+    }
+
+    
+    private func deleteExpenseLocally(expenseData: ExpenseData) {
+        self.deletePaidExpenseLocally(withID: expenseData.id)
+        self.deletePendingExpenseLocally(withID: expenseData.id)
     }
     
-    private func deleteLocally(expenseData: ExpenseData) {
-        self.deletePaidExpense(withID: expenseData.id)
-        self.deletePendingExpense(withID: expenseData.id)
-    }
-    
-    private func updatePendingList(for updatedExpenseData: ExpenseData) {
+    private func updatePendingListLocally(for updatedExpenseData: ExpenseData) {
         if let index = self.pendingExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
             self.pendingExpensesList[index] = updatedExpenseData
         }
     }
     
-    private func updatePaidList(for updatedExpenseData: ExpenseData) {
+    private func updatePaidListLocally(for updatedExpenseData: ExpenseData) {
         if let index = self.paidExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
             self.paidExpensesList[index] = updatedExpenseData
         }
     }
     
-    private func updateBaseRecurrentExpenseList(for updatedExpenseData: ExpenseData) {
+    private func updateBaseRecurrentExpenseListLocally(for updatedExpenseData: ExpenseData) {
         if let index = self.baseRecurrentExpenseList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
             self.baseRecurrentExpenseList[index] = updatedExpenseData
         }
     }
     
-    private func deletePendingExpense(withID id: UUID) {
+    private func deletePendingExpenseLocally(withID id: UUID) {
         if let index = self.pendingExpensesList.firstIndex(where: { $0.id == id }) {
             self.pendingExpensesList.remove(at: index)
         }
     }
     
-    private func deletePaidExpense(withID id: UUID) {
+    private func deletePaidExpenseLocally(withID id: UUID) {
         if let index = self.paidExpensesList.firstIndex(where: { $0.id == id }) {
             self.paidExpensesList.remove(at: index)
         }
     }
     
-    private func deleteCategory(withID id: UUID) {
+    private func deleteCategoryLocally(withID id: UUID) {
         if let index = self.categoryList.firstIndex(where: { $0.id == id }) {
             self.categoryList.remove(at: index)
         }
     }
     
-    private func addPendingExpense(_ newExpense: ExpenseData) {
+    private func addPendingExpenseLocally(_ newExpense: ExpenseData) {
         self.pendingExpensesList.append(newExpense)
     }
     
-    private func addPaidExpense(_ newExpense: ExpenseData) {
+    private func addPaidExpenseLocally(_ newExpense: ExpenseData) {
         self.paidExpensesList.append(newExpense)
     }
 }

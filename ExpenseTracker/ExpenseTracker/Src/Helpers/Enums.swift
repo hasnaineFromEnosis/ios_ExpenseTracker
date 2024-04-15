@@ -16,6 +16,10 @@ enum AuthenticationState {
 enum ExpenseType: String, CaseIterable {
     case random = "Random"
     case recurrent = "Recurrent"
+    
+    static func getTypeFromValue(value: String) -> ExpenseType {
+        return value == ExpenseType.random.rawValue ? .random : .recurrent
+    }
 }
 
 enum TabViewType {

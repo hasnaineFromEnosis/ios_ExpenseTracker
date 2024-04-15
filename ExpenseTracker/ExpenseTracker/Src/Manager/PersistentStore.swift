@@ -137,7 +137,8 @@ struct PersistentStore {
         saveChanges()
     }
     
-    func fetchFirst<T: NSManagedObject>(_ objectType: T.Type, predicate: NSPredicate?) -> Result<T?, Error> {
+    // MARK: Private Methods
+    private func fetchFirst<T: NSManagedObject>(_ objectType: T.Type, predicate: NSPredicate?) -> Result<T?, Error> {
         let request = objectType.fetchRequest()
         request.predicate = predicate
         request.fetchLimit = 1

@@ -51,8 +51,8 @@ struct ExpenseData: Identifiable, Hashable {
     }
     
     static func randomExpenseData(isPaid: Bool = false, isRecurrent: Bool = false) -> ExpenseData {
-        let type = isRecurrent ? ExpenseType.recurrent.rawValue : ExpenseType.random.rawValue
+        let type = isRecurrent ? ExpenseType.recurrent : ExpenseType.random
         let paidDate = isPaid ? Date() : nil
-        return ExpenseData(type: type, paidDate: paidDate)
+        return ExpenseData(type: type.rawValue, paidDate: paidDate)
     }
 }
