@@ -16,6 +16,7 @@ struct ExpenseData: Identifiable, Hashable {
     var amount: Int
     var category: String
     var type: String
+    var isBaseRecurrent: Bool
     
     init(id: UUID = UUID(),
          title: String = "Dummy Title",
@@ -24,7 +25,8 @@ struct ExpenseData: Identifiable, Hashable {
          category: String = "Dummy Category",
          type: String = ExpenseType.random.rawValue,
          creationDate: Date = Date.distantPast,
-         paidDate: Date? = nil) {
+         paidDate: Date? = nil,
+         isBaseRecurrent: Bool = false) {
         self.id = id
         self.title = title
         self.details = details
@@ -33,6 +35,7 @@ struct ExpenseData: Identifiable, Hashable {
         self.type = type
         self.creationDate = creationDate
         self.paidDate = paidDate
+        self.isBaseRecurrent = isBaseRecurrent
     }
     
     init(entity: ExpenseDataEntity) {
@@ -44,11 +47,12 @@ struct ExpenseData: Identifiable, Hashable {
         self.amount = Int(entity.amount)
         self.category = entity.category ?? "Invalid category"
         self.type = entity.type ?? ExpenseType.random.rawValue
+        self.isBaseRecurrent = entity.isBaseRecurrent
     }
     
     static func randomExpenseData(isPaid: Bool = false, isRecurrent: Bool = false) -> ExpenseData {
-        let type = isRecurrent ? ExpenseType.recurrent.rawValue : ExpenseType.random.rawValue
+        let type = isRecurrent ? ExpenseType.recurrent : ExpenseType.random
         let paidDate = isPaid ? Date() : nil
-        return ExpenseData(type: type, paidDate: paidDate)
+        return ExpenseData(type: type.rawValue, paidDate: paidDate)
     }
 }

@@ -12,11 +12,23 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationStack {
-            List(viewModel.settingsDataList) { settingData in
-                NavigationLink {
-                    settingData.listView
-                } label: {
-                    getPrimaryTextView(label: settingData.listName)
+            List {
+                HStack {
+                    getPrimaryTextView(label:  "Hello")
+                    getHighlightedTextView(label: "\(AuthenticationManager.shared.displayName)")
+                }
+                
+                Section {
+                    ForEach(viewModel.settingsDataList) { settingData in
+                        NavigationLink(destination: settingData.listView) {
+                            getPrimaryTextView(label: settingData.listName)
+                        }
+                    }
+                    Button(action: {
+                        AuthenticationManager.shared.signOut()
+                    }) {
+                        getPrimaryTextView(label: "Sign Out")
+                    }
                 }
             }
             .navigationTitle(viewModel.navtitle)
@@ -26,6 +38,13 @@ struct SettingsView: View {
     private func getPrimaryTextView(label: String) -> some View {
         return Text(label)
             .fontWeight(.regular)
+            .font(.headline)
+            .foregroundStyle(.foreground)
+    }
+    
+    private func getHighlightedTextView(label: String) -> some View {
+        return Text(label)
+            .fontWeight(.bold)
             .font(.headline)
             .foregroundStyle(.accent)
     }

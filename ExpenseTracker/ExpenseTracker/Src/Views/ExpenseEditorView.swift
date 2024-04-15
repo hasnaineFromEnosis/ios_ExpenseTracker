@@ -106,3 +106,7 @@ struct ExpenseEditorView: View {
 #Preview {
     ExpenseEditorView(viewModel: ExpenseEditorViewModel(), selectedTab: .constant(.paidExpenseView))
 }
+
+#Preview {
+    ExpenseEditorView(viewModel: ExpenseEditorViewModel(expenseData: ExpenseData.randomExpenseData()), selectedTab: .constant(.paidExpenseView))
+}

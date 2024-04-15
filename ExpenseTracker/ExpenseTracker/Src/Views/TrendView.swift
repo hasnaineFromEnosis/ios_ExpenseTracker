@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct TrendView: View {
     @StateObject var viewModel = TrendViewModel()
@@ -25,6 +26,7 @@ struct TrendView: View {
                 Spacer()
             }
             .navigationTitle(viewModel.navTitle)
+            .analyticsScreen(name: "\(TrendView.self)")
         }
     }
 }
