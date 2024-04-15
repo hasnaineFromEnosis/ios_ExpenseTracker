@@ -12,42 +12,43 @@ struct MonthPicker: View {
     @Environment(\.calendar) var calendar
     
     var body: some View {
-        Picker("", selection: $month) {
-            ForEach(1..<13) { i in
-                Text(calendar.monthSymbols[i-1]).tag(i)
+        Picker("Month", selection: $month) {
+            ForEach(calendar.monthSymbols, id: \.self) { monthName in
+                Text(monthName)
+                    .tag(calendar.monthSymbols.firstIndex(of: monthName)! + 1)
             }
         }
-        .pickerStyle(MenuPickerStyle())
-        .foregroundColor(.black) // Text color
-        .frame(width: 150) // Set width
-        .padding(.horizontal, 10) // Adjust padding
+        .pickerStyle(.menu) // Use the default menu picker style
+        .foregroundColor(.black)
+        .frame(width: 150)
+        .padding(.horizontal, 10)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(.yellow) // Background color
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Add shadow
+                .foregroundColor(.yellow)
+                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
         )
     }
 }
 
 struct YearPicker: View {
     @Binding var year: Int
-    let startYear: Int = 2000
-    let endYear: Int = Utilities.getDataFromDate(component: .year, date: Date())
+    let startYear = 2000
+    let endYear = Calendar.current.component(.year, from: Date())
     
     var body: some View {
-        Picker("", selection: $year) {
+        Picker("Year", selection: $year) {
             ForEach(startYear...endYear, id: \.self) { year in
-                Text(String(year)).tag(year)
+                Text(String(year))
             }
         }
-        .pickerStyle(MenuPickerStyle())
-        .foregroundColor(.black) // Text color
-        .frame(width: 150) // Set width
-        .padding(.horizontal, 10) // Adjust padding
+        .pickerStyle(.menu) // Use the default menu picker style
+        .foregroundColor(.black)
+        .frame(width: 150)
+        .padding(.horizontal, 10)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(.yellow) // Background color
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Add shadow
+                .foregroundColor(.yellow)
+                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
         )
     }
 }
