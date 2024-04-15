@@ -18,14 +18,13 @@ struct MonthPicker: View {
                     .tag(calendar.monthSymbols.firstIndex(of: monthName)! + 1)
             }
         }
-        .pickerStyle(.menu) // Use the default menu picker style
-        .foregroundColor(.black)
+        .pickerStyle(.menu)
         .frame(width: 150)
         .padding(.horizontal, 10)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(.yellow)
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.white)
+                .shadow(color: .primary, radius: 3, x: 0, y: 2)
         )
     }
 }
@@ -41,14 +40,13 @@ struct YearPicker: View {
                 Text(String(year))
             }
         }
-        .pickerStyle(.menu) // Use the default menu picker style
-        .foregroundColor(.black)
+        .pickerStyle(.menu)
         .frame(width: 150)
         .padding(.horizontal, 10)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(.yellow)
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.white)
+                .shadow(color: .primary, radius: 3, x: 0, y: 2)
         )
     }
 }
