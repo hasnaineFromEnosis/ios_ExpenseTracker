@@ -11,8 +11,15 @@ struct ExpenseDetailView: View {
     
     @ObservedObject var viewModel: ExpenseDetailViewModel
     @Binding var selectedTab: TabViewType
+    @ObservedObject var editorViewModel: ExpenseEditorViewModel
     
     @Environment(\.dismiss) var dismiss
+    
+    init(viewModel: ExpenseDetailViewModel, selectedTab: Binding<TabViewType>) {
+        self.viewModel = viewModel
+        self._selectedTab = selectedTab
+        self.editorViewModel = ExpenseEditorViewModel(expenseData: viewModel.expenseData)
+    }
     
     var body: some View {
         NavigationStack {
@@ -59,7 +66,7 @@ struct ExpenseDetailView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     NavigationLink {
-                        ExpenseEditorView(viewModel: ExpenseEditorViewModel(expenseData: viewModel.expenseData), selectedTab: $selectedTab)
+                        ExpenseEditorView(viewModel: editorViewModel, selectedTab: $selectedTab)
                     } label: {
                         Label("Edit", systemImage: "square.and.pencil.circle")
                     }
