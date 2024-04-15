@@ -48,41 +48,30 @@ struct PersistentStore {
         }
     }
     
-    func createExpense(id: UUID = UUID(),
-                       title: String,
-                       details: String,
-                       category: String,
-                       amount: Int,
-                       creationDate: Date,
-                       paidDate: Date?,
-                       type: ExpenseType,
-                       isBaseRecurrent: Bool) -> ExpenseDataEntity {
+    func createExpense(expenseData: ExpenseData) {
         let entity = ExpenseDataEntity(context: container.viewContext)
-        entity.id = id
-        entity.title = title
-        entity.details = details
-        entity.category = category
-        entity.amount = Int32(amount)
-        entity.creationDate = creationDate
-        entity.paidDate = paidDate
-        entity.type = type.rawValue
-        entity.isBaseRecurrent = isBaseRecurrent
+        entity.id = expenseData.id
+        entity.title = expenseData.title
+        entity.details = expenseData.details
+        entity.category = expenseData.category
+        entity.amount = Int32(expenseData.amount)
+        entity.creationDate = expenseData.creationDate
+        entity.paidDate = expenseData.paidDate
+        entity.type = expenseData.type
+        entity.isBaseRecurrent = expenseData.isBaseRecurrent
         saveChanges()
-        return entity
     }
     
-    func createCategory(id: UUID = UUID(), title: String, isPredefined: Bool) -> CategoryDataEntity {
+    func createCategory(categoryData: CategoryData) {
         let entity = CategoryDataEntity(context: container.viewContext)
-        entity.id = id
-        entity.title = title
-        entity.isPredefined = isPredefined
+        entity.id = categoryData.id
+        entity.title = categoryData.title
+        entity.isPredefined = categoryData.isPredefined
         
         saveChanges()
-        
-        return entity
     }
     
-    func fetchExpenses(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [ExpenseDataEntity] {
+    func fetchExpenses(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [ExpenseData] {
         var results: [ExpenseDataEntity] = []
         let request: NSFetchRequest<ExpenseDataEntity> = ExpenseDataEntity.fetchRequest()
         if let predicateFormat = predicateFormat {
@@ -96,10 +85,10 @@ struct PersistentStore {
         } catch {
             fatalError("Error fetching expenses: \(error)")
         }
-        return results
+        return convertExpenseEntityArrayToData(entities: results)
     }
     
-    func fetchCategory(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [CategoryDataEntity] {
+    func fetchCategory(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [CategoryData] {
         var results: [CategoryDataEntity] = []
         let request: NSFetchRequest<CategoryDataEntity> = CategoryDataEntity.fetchRequest()
         if let predicateFormat = predicateFormat {
@@ -113,70 +102,37 @@ struct PersistentStore {
         } catch {
             fatalError("Error fetching expenses: \(error)")
         }
-        return results
+        return convertCategoryEntityArrayToData(entities: results)
     }
     
-    func updateExpense(entity: ExpenseDataEntity,
-                       title: String? = nil,
-                       details: String? = nil,
-                       category: String? = nil,
-                       amount: Int? = nil,
-                       type: ExpenseType? = nil,
-                       creationDate: Date? = nil,
-                       paidDate: Date? = nil) {
-        var hasChanges = false
-        
-        if let title {
-            entity.title = title
-            hasChanges = true
+    func updateExpense(expenseData: ExpenseData) {
+        guard let entity = getExpenseDataEntity(expenseData: expenseData) else {
+            return
         }
         
-        if let details {
-            entity.details = details
-            hasChanges = true
-        }
+        entity.title = expenseData.title
+        entity.details = expenseData.details
+        entity.category = expenseData.category
+        entity.amount = Int32(expenseData.amount)
+        entity.type = expenseData.type
+        entity.creationDate = expenseData.creationDate
+        entity.paidDate = expenseData.paidDate
         
-        if let category {
-            entity.category = category
-            hasChanges = true
-        }
-        
-        if let amount {
-            entity.amount = Int32(amount)
-            hasChanges = true
-        }
-        
-        if let type {
-            entity.type = type.rawValue
-            hasChanges = true
-        }
-        
-        if let creationDate {
-            entity.creationDate = creationDate
-            hasChanges = true
-        }
-        
-        if let paidDate {
-            entity.paidDate = paidDate
-            hasChanges = true
-        }
-
-        if hasChanges {
-            saveChanges()
-        }
-    }
-    
-    func markExpenseAsPending(entity: ExpenseDataEntity) {
-        entity.paidDate = nil
         saveChanges()
     }
     
-    func deleteExpense(entity: ExpenseDataEntity) {
+    func deleteExpense(expenseData: ExpenseData) {
+        guard let entity = getExpenseDataEntity(expenseData: expenseData) else {
+            return
+        }
         container.viewContext.delete(entity)
         saveChanges()
     }
     
-    func deleteCategory(entity: CategoryDataEntity) {
+    func deleteCategory(categoryData: CategoryData) {
+        guard let entity = getCategoryDataEntity(categoryData: categoryData) else {
+            return
+        }
         container.viewContext.delete(entity)
         saveChanges()
     }
@@ -191,5 +147,45 @@ struct PersistentStore {
         } catch {
             return .failure(error)
         }
+    }
+    
+    private func getExpenseDataEntity(expenseData: ExpenseData) -> ExpenseDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", expenseData.id as CVarArg)
+        let result = self.fetchFirst(ExpenseDataEntity.self, predicate: predicate)
+        switch result {
+        case .success(let managedObject):
+            if let entity = managedObject {
+                return entity
+            } else {
+                return nil
+            }
+        case .failure(let error):
+            print("Error fetching ExpenseDataEntity: \(error)")
+            return nil
+        }
+    }
+    
+    private func getCategoryDataEntity(categoryData: CategoryData) -> CategoryDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", categoryData.id as CVarArg)
+        let result = self.fetchFirst(CategoryDataEntity.self, predicate: predicate)
+        switch result {
+        case .success(let managedObject):
+            if let entity = managedObject {
+                return entity
+            } else {
+                return nil
+            }
+        case .failure(let error):
+            print("Error fetching CategoryDataEntity: \(error)")
+            return nil
+        }
+    }
+    
+    private func convertExpenseEntityArrayToData(entities: [ExpenseDataEntity]) -> [ExpenseData] {
+        return entities.map(ExpenseData.init)
+    }
+    
+    private func convertCategoryEntityArrayToData(entities: [CategoryDataEntity]) -> [CategoryData] {
+        return entities.map(CategoryData.init)
     }
 }

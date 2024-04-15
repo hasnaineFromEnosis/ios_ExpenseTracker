@@ -56,14 +56,16 @@ class ExpenseEditorViewModel: ObservableObject {
             return false
         }
         
-        dataManager.createExpense(title: expenseTitle,
-                           details: expenseDetails,
-                           category: expenseCategory,
-                           amount: expenseAmount,
-                           creationDate: creationDate,
-                           paidDate: getPaidDate(),
-                           type: expenseType,
-                           isBaseRecurrent: expenseType == .recurrent)
+        let newExpense = ExpenseData(title: expenseTitle,
+                                     details: expenseDetails,
+                                     amount: expenseAmount,
+                                     category: expenseCategory,
+                                     type: expenseType.rawValue,
+                                     creationDate: creationDate,
+                                     paidDate: getPaidDate(),
+                                     isBaseRecurrent: expenseType == .recurrent)
+        
+        dataManager.createExpense(expenseData: newExpense)
         
         clearState()
         return true
@@ -83,14 +85,7 @@ class ExpenseEditorViewModel: ObservableObject {
         expenseData.creationDate = creationDate
         expenseData.paidDate = getPaidDate()
         
-        dataManager.updateExpense(expenseData: expenseData,
-                           title: expenseTitle,
-                           details: expenseDetails,
-                           category: expenseCategory,
-                           amount: amount,
-                           type: expenseType,
-                           creationDate: creationDate,
-                           paidDate: expenseData.paidDate)
+        dataManager.updateExpense(expenseData: expenseData)
         return true
     }
     

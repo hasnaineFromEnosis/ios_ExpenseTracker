@@ -33,7 +33,8 @@ class CategoryManagementViewModel: ObservableObject {
             }
         }
         
-        dataManager.createCategory(title: categoryTitle, isPredefined: false)
+        let newCategory = CategoryData(title: categoryTitle, isPredefined: false)
+        dataManager.createCategory(categoryData: newCategory)
     }
     
     func deleteCategory(categoryData: CategoryData) {
