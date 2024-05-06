@@ -8,14 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab: TabViewType = .pendingExpenseView
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView(selection: $selectedTab) {
+            createExpenseView(viewType: .pendingExpenseView)
+                .tabItem {
+                    Label("Pending Expense", systemImage: "hourglass.circle")
+                }
+                .tag(TabViewType.pendingExpenseView)
+            
+            createExpenseView(viewType: .paidExpenseView)
+                .tabItem {
+                    Label("Paid Expense", systemImage: "checkmark.circle")
+                }
+                .tag(TabViewType.paidExpenseView)
+            
         }
-        .padding()
+        .transition(.slide)
+    }
+    
+    private func createExpenseView(viewType: TabViewType) -> some View {
+        ExpenseView(viewModel: ExpenseViewModel(viewType: viewType), selectedTab: $selectedTab)
     }
 }
 

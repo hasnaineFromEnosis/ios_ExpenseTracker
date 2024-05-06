@@ -74,7 +74,6 @@ struct ExpenseEditorView: View {
     private var expenseDetailsSection: some View {
         Section("Expense Details") {
             TextField("Amount (in taka)", text: $viewModel.expenseAmount)
-                .keyboardType(.numberPad)
                 .onReceive(Just(viewModel.expenseAmount)) { newValue in
                     let filtered = newValue.filter { "0123456789".contains($0) }
                     if filtered != newValue {
