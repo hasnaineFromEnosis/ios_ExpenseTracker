@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+
+#if os(iOS)
 import FirebaseCore
 import FirebaseAuth
 import GoogleSignIn
@@ -14,7 +16,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        
         return true
     }
     
@@ -24,10 +25,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return GIDSignIn.sharedInstance.handle(url)
     }
 }
+#endif
 
 @main
 struct ExpenseTrackerApp: App {
+    #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    #endif
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
