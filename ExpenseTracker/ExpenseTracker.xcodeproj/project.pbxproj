@@ -48,7 +48,36 @@
 		1A917DEC2BA8B7FD00009A5B /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A917DEB2BA8B7FD00009A5B /* ExpenseView.swift */; };
 		1AA4F7902BC55D9A0078447B /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4F78F2BC55D9A0078447B /* String + Extension.swift */; };
 		1AA4F7922BC6079B0078447B /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4F7912BC6079B0078447B /* Enums.swift */; };
+		1ADFF9F12BE8A96800BF90CB /* ExpenseWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADFF9F02BE8A96800BF90CB /* ExpenseWatchApp.swift */; };
+		1ADFF9F32BE8A96800BF90CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADFF9F22BE8A96800BF90CB /* ContentView.swift */; };
+		1ADFF9F52BE8A96A00BF90CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ADFF9F42BE8A96A00BF90CB /* Assets.xcassets */; };
+		1ADFF9F82BE8A96A00BF90CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ADFF9F72BE8A96A00BF90CB /* Preview Assets.xcassets */; };
+		1ADFF9FB2BE8A96A00BF90CB /* ExpenseWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1ADFF9EE2BE8A96800BF90CB /* ExpenseWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1ADFF9F92BE8A96A00BF90CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A917DD02BA87AEB00009A5B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1ADFF9ED2BE8A96800BF90CB;
+			remoteInfo = "ExpenseWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1ADFF9FC2BE8A96A00BF90CB /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				1ADFF9FB2BE8A96A00BF90CB /* ExpenseWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1A41EFB02BA8E96800CE4FB9 /* ExpenseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRowView.swift; sourceTree = "<group>"; };
@@ -88,6 +117,11 @@
 		1A917DEB2BA8B7FD00009A5B /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
 		1AA4F78F2BC55D9A0078447B /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		1AA4F7912BC6079B0078447B /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		1ADFF9EE2BE8A96800BF90CB /* ExpenseWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ExpenseWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ADFF9F02BE8A96800BF90CB /* ExpenseWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseWatchApp.swift; sourceTree = "<group>"; };
+		1ADFF9F22BE8A96800BF90CB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1ADFF9F42BE8A96A00BF90CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1ADFF9F72BE8A96A00BF90CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +135,13 @@
 				1A4EAB032BBECD950056C110 /* FirebaseAnalytics in Frameworks */,
 				1A4EAB172BBF413B0056C110 /* GoogleSignIn in Frameworks */,
 				1A4EAB192BBF413B0056C110 /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ADFF9EB2BE8A96800BF90CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				1A917DDA2BA87AEB00009A5B /* ExpenseTracker */,
+				1ADFF9EF2BE8A96800BF90CB /* ExpenseWatch Watch App */,
 				1A917DD92BA87AEB00009A5B /* Products */,
 				1A4EAB0E2BBED6EF0056C110 /* Frameworks */,
 			);
@@ -223,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				1A917DD82BA87AEB00009A5B /* ExpenseTracker.app */,
+				1ADFF9EE2BE8A96800BF90CB /* ExpenseWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +289,25 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		1ADFF9EF2BE8A96800BF90CB /* ExpenseWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				1ADFF9F02BE8A96800BF90CB /* ExpenseWatchApp.swift */,
+				1ADFF9F22BE8A96800BF90CB /* ContentView.swift */,
+				1ADFF9F42BE8A96A00BF90CB /* Assets.xcassets */,
+				1ADFF9F62BE8A96A00BF90CB /* Preview Content */,
+			);
+			path = "ExpenseWatch Watch App";
+			sourceTree = "<group>";
+		};
+		1ADFF9F62BE8A96A00BF90CB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1ADFF9F72BE8A96A00BF90CB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -256,10 +318,12 @@
 				1A917DD42BA87AEB00009A5B /* Sources */,
 				1A917DD52BA87AEB00009A5B /* Frameworks */,
 				1A917DD62BA87AEB00009A5B /* Resources */,
+				1ADFF9FC2BE8A96A00BF90CB /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1ADFF9FA2BE8A96A00BF90CB /* PBXTargetDependency */,
 			);
 			name = ExpenseTracker;
 			packageProductDependencies = (
@@ -274,6 +338,23 @@
 			productReference = 1A917DD82BA87AEB00009A5B /* ExpenseTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		1ADFF9ED2BE8A96800BF90CB /* ExpenseWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ADFF9FF2BE8A96A00BF90CB /* Build configuration list for PBXNativeTarget "ExpenseWatch Watch App" */;
+			buildPhases = (
+				1ADFF9EA2BE8A96800BF90CB /* Sources */,
+				1ADFF9EB2BE8A96800BF90CB /* Frameworks */,
+				1ADFF9EC2BE8A96800BF90CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ExpenseWatch Watch App";
+			productName = "ExpenseWatch Watch App";
+			productReference = 1ADFF9EE2BE8A96800BF90CB /* ExpenseWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -285,6 +366,9 @@
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					1A917DD72BA87AEB00009A5B = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					1ADFF9ED2BE8A96800BF90CB = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
@@ -307,6 +391,7 @@
 			projectRoot = "";
 			targets = (
 				1A917DD72BA87AEB00009A5B /* ExpenseTracker */,
+				1ADFF9ED2BE8A96800BF90CB /* ExpenseWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -319,6 +404,15 @@
 				1A917DE32BA87AED00009A5B /* Preview Assets.xcassets in Resources */,
 				1A917DE02BA87AED00009A5B /* Assets.xcassets in Resources */,
 				1A4EAB1B2BBF421D0056C110 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ADFF9EC2BE8A96800BF90CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ADFF9F82BE8A96A00BF90CB /* Preview Assets.xcassets in Resources */,
+				1ADFF9F52BE8A96A00BF90CB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +458,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1ADFF9EA2BE8A96800BF90CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ADFF9F32BE8A96800BF90CB /* ContentView.swift in Sources */,
+				1ADFF9F12BE8A96800BF90CB /* ExpenseWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1ADFF9FA2BE8A96A00BF90CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1ADFF9ED2BE8A96800BF90CB /* ExpenseWatch Watch App */;
+			targetProxy = 1ADFF9F92BE8A96A00BF90CB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1A917DE42BA87AED00009A5B /* Debug */ = {
@@ -489,6 +600,7 @@
 		1A917DE72BA87AED00009A5B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -522,6 +634,7 @@
 		1A917DE82BA87AED00009A5B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -552,6 +665,68 @@
 			};
 			name = Release;
 		};
+		1ADFF9FD2BE8A96A00BF90CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ExpenseWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ExpenseWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hasnaine.ExpenseTracker;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.ExpenseTracker.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		1ADFF9FE2BE8A96A00BF90CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ExpenseWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ExpenseWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hasnaine.ExpenseTracker;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.ExpenseTracker.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -569,6 +744,15 @@
 			buildConfigurations = (
 				1A917DE72BA87AED00009A5B /* Debug */,
 				1A917DE82BA87AED00009A5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1ADFF9FF2BE8A96A00BF90CB /* Build configuration list for PBXNativeTarget "ExpenseWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ADFF9FD2BE8A96A00BF90CB /* Debug */,
+				1ADFF9FE2BE8A96A00BF90CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
