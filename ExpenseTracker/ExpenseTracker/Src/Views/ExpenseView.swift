@@ -37,9 +37,11 @@ struct ExpenseView: View {
                     }
 #endif
                 }
+#if os(iOS)
                 if viewModel.viewType == .pendingExpenseView {
                     floatingButton
                 }
+#endif
             }
         }
     }

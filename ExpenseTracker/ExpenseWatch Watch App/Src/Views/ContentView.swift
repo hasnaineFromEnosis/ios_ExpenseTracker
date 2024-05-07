@@ -12,16 +12,12 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
+            AddDataView(selectedTab: $selectedTab)
+            
             createExpenseView(viewType: .pendingExpenseView)
-                .tabItem {
-                    Label("Pending Expense", systemImage: "hourglass.circle")
-                }
                 .tag(TabViewType.pendingExpenseView)
             
             createExpenseView(viewType: .paidExpenseView)
-                .tabItem {
-                    Label("Paid Expense", systemImage: "checkmark.circle")
-                }
                 .tag(TabViewType.paidExpenseView)
             
         }
