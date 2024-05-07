@@ -5,7 +5,8 @@
 //  Created by Shahwat Hasnaine on 30/3/24.
 //
 
-import UIKit
+import SwiftUI
+import Combine
 
 class CategoryManagementViewModel: ObservableObject {
     
@@ -23,6 +24,14 @@ class CategoryManagementViewModel: ObservableObject {
     
     var categoryDataList: [CategoryData] {
         dataManager.categoryList
+    }
+    
+    private var anyCancellable: AnyCancellable? = nil
+    
+    init() {
+        anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
+                    self?.objectWillChange.send()
+                }
     }
     
     func createCategory() {

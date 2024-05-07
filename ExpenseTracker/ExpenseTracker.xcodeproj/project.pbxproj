@@ -28,6 +28,8 @@
 		1A46F58A2BEA2CB8007FD30A /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4F7912BC6079B0078447B /* Enums.swift */; };
 		1A46F58C2BEA3FAC007FD30A /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F58B2BEA3FAC007FD30A /* AddCategoryView.swift */; };
 		1A46F58F2BEA3FFB007FD30A /* AddCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */; };
+		1A46F5922BEA47E6007FD30A /* CategoryManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE52BB6DB4B0056C110 /* CategoryManagementView.swift */; };
+		1A46F5932BEA47F0007FD30A /* CategoryManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE92BB7502B0056C110 /* CategoryManagementViewModel.swift */; };
 		1A4EAAC62BB1534E0056C110 /* ExpenseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */; };
 		1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */; };
 		1A4EAAE42BB5AAAE0056C110 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE32BB5AAAE0056C110 /* SettingsView.swift */; };
@@ -174,6 +176,7 @@
 		1A46F5862BEA2C65007FD30A /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				1A46F5942BEA4860007FD30A /* Managers */,
 				1A46F58D2BEA3FEB007FD30A /* ViewModels */,
 				1A46F5872BEA2C71007FD30A /* Views */,
 			);
@@ -196,6 +199,14 @@
 				1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		1A46F5942BEA4860007FD30A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1A46F5752BE8EDA0007FD30A /* DataManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		1A4EAAFC2BBCB82F0056C110 /* Helpers */ = {
@@ -345,7 +356,6 @@
 				1A46F5862BEA2C65007FD30A /* Src */,
 				1ADFF9F42BE8A96A00BF90CB /* Assets.xcassets */,
 				1ADFF9F62BE8A96A00BF90CB /* Preview Content */,
-				1A46F5752BE8EDA0007FD30A /* DataManager.swift */,
 			);
 			path = "ExpenseWatch Watch App";
 			sourceTree = "<group>";
@@ -518,7 +528,9 @@
 				1A46F5672BE8C9F3007FD30A /* ExpenseDataModel.xcdatamodeld in Sources */,
 				1A46F5792BE8EE70007FD30A /* ExpenseRowViewModel.swift in Sources */,
 				1A46F5732BE8ECF3007FD30A /* RecurrentExpenseManager.swift in Sources */,
+				1A46F5922BEA47E6007FD30A /* CategoryManagementView.swift in Sources */,
 				1A46F5762BE8EDA0007FD30A /* DataManager.swift in Sources */,
+				1A46F5932BEA47F0007FD30A /* CategoryManagementViewModel.swift in Sources */,
 				1A46F5692BE8CA00007FD30A /* CategoryData.swift in Sources */,
 				1ADFF9F32BE8A96800BF90CB /* ContentView.swift in Sources */,
 				1A46F57C2BE8F806007FD30A /* PlusCircleView.swift in Sources */,

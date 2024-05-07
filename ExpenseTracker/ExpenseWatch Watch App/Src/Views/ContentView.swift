@@ -12,14 +12,15 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            AddDataView(selectedTab: $selectedTab)
-            
-            createExpenseView(viewType: .pendingExpenseView)
-                .tag(TabViewType.pendingExpenseView)
-            
-            createExpenseView(viewType: .paidExpenseView)
-                .tag(TabViewType.paidExpenseView)
-            
+                AddDataView(selectedTab: $selectedTab)
+                
+                createExpenseView(viewType: .pendingExpenseView)
+                    .tag(TabViewType.pendingExpenseView)
+                
+                createExpenseView(viewType: .paidExpenseView)
+                    .tag(TabViewType.paidExpenseView)
+                
+                CategoryManagementView()
         }
         .transition(.slide)
     }
