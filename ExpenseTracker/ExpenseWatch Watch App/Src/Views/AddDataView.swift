@@ -15,7 +15,11 @@ struct AddDataView: View {
                 NavigationLink(destination: ExpenseEditorView(viewModel: ExpenseEditorViewModel(), selectedTab: $selectedTab)) {
                     getPrimaryTextView(label: "Add Expense")
                 }
-                getPrimaryTextView(label: "Add Category")
+                
+                NavigationLink(destination: AddCategoryView(viewModel: AddCategoryViewModel())) {
+                    getPrimaryTextView(label: "Add Category")
+                }
+                
             }
             .navigationTitle("Add Data")
         }

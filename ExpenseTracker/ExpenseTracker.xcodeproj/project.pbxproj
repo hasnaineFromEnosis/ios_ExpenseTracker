@@ -26,6 +26,8 @@
 		1A46F57C2BE8F806007FD30A /* PlusCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5316D92BAB78CD00062171 /* PlusCircleView.swift */; };
 		1A46F5892BEA2C87007FD30A /* AddDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F5882BEA2C87007FD30A /* AddDataView.swift */; };
 		1A46F58A2BEA2CB8007FD30A /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4F7912BC6079B0078447B /* Enums.swift */; };
+		1A46F58C2BEA3FAC007FD30A /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F58B2BEA3FAC007FD30A /* AddCategoryView.swift */; };
+		1A46F58F2BEA3FFB007FD30A /* AddCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */; };
 		1A4EAAC62BB1534E0056C110 /* ExpenseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */; };
 		1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */; };
 		1A4EAAE42BB5AAAE0056C110 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE32BB5AAAE0056C110 /* SettingsView.swift */; };
@@ -101,6 +103,8 @@
 		1A41EFB02BA8E96800CE4FB9 /* ExpenseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRowView.swift; sourceTree = "<group>"; };
 		1A46F5752BE8EDA0007FD30A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1A46F5882BEA2C87007FD30A /* AddDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataView.swift; sourceTree = "<group>"; };
+		1A46F58B2BEA3FAC007FD30A /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
+		1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewModel.swift; sourceTree = "<group>"; };
 		1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseData.swift; sourceTree = "<group>"; };
 		1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentExpenseManager.swift; sourceTree = "<group>"; };
 		1A4EAAE32BB5AAAE0056C110 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 		1A46F5862BEA2C65007FD30A /* Src */ = {
 			isa = PBXGroup;
 			children = (
+				1A46F58D2BEA3FEB007FD30A /* ViewModels */,
 				1A46F5872BEA2C71007FD30A /* Views */,
 			);
 			path = Src;
@@ -178,10 +183,19 @@
 		1A46F5872BEA2C71007FD30A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1ADFF9F22BE8A96800BF90CB /* ContentView.swift */,
 				1A46F5882BEA2C87007FD30A /* AddDataView.swift */,
+				1ADFF9F22BE8A96800BF90CB /* ContentView.swift */,
+				1A46F58B2BEA3FAC007FD30A /* AddCategoryView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1A46F58D2BEA3FEB007FD30A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		1A4EAAFC2BBCB82F0056C110 /* Helpers */ = {
@@ -516,9 +530,11 @@
 				1A46F5772BE8EE3E007FD30A /* ExpenseEditorViewModel.swift in Sources */,
 				1A46F57A2BE8EEEB007FD30A /* ExpenseEditorView.swift in Sources */,
 				1ADFFA002BE8AA0D00BF90CB /* ExpenseTrackerApp.swift in Sources */,
+				1A46F58F2BEA3FFB007FD30A /* AddCategoryViewModel.swift in Sources */,
 				1A46F5712BE8ECE3007FD30A /* ExpenseDetailView.swift in Sources */,
 				1A46F5722BE8ECE6007FD30A /* ExpenseDetailViewModel.swift in Sources */,
 				1A46F56C2BE8CBC4007FD30A /* ExpenseView.swift in Sources */,
+				1A46F58C2BEA3FAC007FD30A /* AddCategoryView.swift in Sources */,
 				1A46F58A2BEA2CB8007FD30A /* Enums.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
