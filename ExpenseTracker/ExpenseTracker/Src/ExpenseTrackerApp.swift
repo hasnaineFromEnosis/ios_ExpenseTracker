@@ -29,9 +29,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct ExpenseTrackerApp: App {
-    #if os(iOS)
+#if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    #endif
+#endif
     
     var body: some Scene {
         WindowGroup {

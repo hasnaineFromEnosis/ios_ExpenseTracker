@@ -32,7 +32,7 @@ struct CategoryManagementView: View {
             }
             .navigationTitle("Category Management")
             .toolbar {
-    #if os(iOS)
+#if os(iOS)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         viewModel.showCreateCategoryPopup = true
@@ -50,7 +50,7 @@ struct CategoryManagementView: View {
                         Text("Create a new category")
                     }
                 }
-    #endif
+#endif
             }
         }
     }
