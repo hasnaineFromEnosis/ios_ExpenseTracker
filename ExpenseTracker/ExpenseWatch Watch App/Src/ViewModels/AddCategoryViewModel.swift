@@ -1,20 +1,16 @@
 //
-//  CategoryManagementViewModel.swift
-//  ExpenseTracker
+//  AddCategoryViewModel.swift
+//  ExpenseWatch Watch App
 //
-//  Created by Shahwat Hasnaine on 30/3/24.
+//  Created by Shahwat Hasnaine on 7/5/24.
 //
 
 import SwiftUI
-import Combine
 
-class CategoryManagementViewModel: ObservableObject {
-    
+class AddCategoryViewModel: ObservableObject {
     private let dataManager = DataManager.shared
     
     @Published var categoryTitle: String = ""
-    
-    @Published var showCreateCategoryPopup: Bool = false
     
     @Published var showInvalidDataAlert: Bool = false
     @Published var alertTitle: String = "Invalid Name"
@@ -26,24 +22,18 @@ class CategoryManagementViewModel: ObservableObject {
         dataManager.categoryList
     }
     
-    private var anyCancellable: AnyCancellable? = nil
-    
-    init() {
-        anyCancellable = dataManager.objectWillChange.sink { [weak self] (_) in
-                    self?.objectWillChange.send()
-                }
-    }
-    
-    func createCategory() {
+    func createCategory() -> Bool {
         for category in categoryDataList {
             if category.title == categoryTitle {
                 showInvalidDataAlert = true
-                return
+                return false
             }
         }
         
         let newCategory = CategoryData(title: categoryTitle, isPredefined: false)
         dataManager.createCategory(categoryData: newCategory)
+        
+        return true
     }
     
     func deleteCategory(categoryData: CategoryData) {
@@ -54,3 +44,5 @@ class CategoryManagementViewModel: ObservableObject {
         categoryTitle = ""
     }
 }
+
+

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseAnalytics
 
 struct ExpenseView: View {
     @ObservedObject var viewModel: ExpenseViewModel
@@ -31,20 +30,24 @@ struct ExpenseView: View {
                 }
                 .animation(.easeInOut)
                 .navigationTitle(viewModel.navigationTitle)
-                .analyticsScreen(name: "\(ExpenseView.self)")
                 .toolbar {
+#if os(iOS)
                     ToolbarItem(placement: .navigationBarTrailing) {
                         filterButton
                     }
+#endif
                 }
+#if os(iOS)
                 if viewModel.viewType == .pendingExpenseView {
                     floatingButton
                 }
+#endif
             }
         }
     }
     
     private var filterButton: some View {
+#if os(iOS)
         Button(action: {
             viewModel.showFilteringPage.toggle()
         }) {
@@ -56,6 +59,9 @@ struct ExpenseView: View {
             FilteringView()
                 .environmentObject(viewModel)
         }
+#else
+        EmptyView()
+#endif
     }
     
     private var floatingButton: some View {
