@@ -9,6 +9,45 @@ import SwiftUI
 import WatchConnectivity
 
 struct ContentView: View {
+    
+    var body: some View {
+        AppGroupTestingView(persistentStore: PersistentStore())
+    }
+}
+
+struct AppGroupTestingView: View {
+    
+    @State var results: [TestModel] = []
+    let persistentStore: PersistentStore
+    
+    var body: some View {
+        VStack {
+            Button {
+                Task {
+                    self.results = self.persistentStore.fetchExpenses()
+                }
+            } label: {
+                Text("Fetch Data")
+            }
+            
+            Button {
+                Task {
+                    self.persistentStore.createExpense()
+                }
+            } label: {
+                Text("Add Data")
+            }
+            
+            ForEach(results) { testModel in
+                Text("\(testModel.counter) + \(testModel.name)")
+            }
+        }
+    }
+}
+
+
+
+struct WatchConnectivityView: View {
     @StateObject var counter = Counter()
     
     var labelStyle: some LabelStyle {
@@ -44,6 +83,13 @@ struct ContentView: View {
         }
     }
 }
+
+struct AppGroupTestingView_Previews: PreviewProvider {
+    static var previews: some View {
+        AppGroupTestingView(persistentStore: PersistentStore(inMemory: true))
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
