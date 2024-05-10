@@ -26,14 +26,14 @@ struct ContentView: View {
             
             HStack {
                 Button {
-                    counter.decreament()
+                    counter.decrement()
                 } label: {
                     Label("Decrement", systemImage: "minus.circle")
                 }
                 .padding()
                 
                 Button {
-                    counter.increament()
+                    counter.increment()
                 } label: {
                     Label("Increment", systemImage: "plus.circle.fill")
                 }

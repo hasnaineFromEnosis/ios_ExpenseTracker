@@ -5,17 +5,38 @@
 //  Created by Shahwat Hasnaine on 10/5/24.
 //
 
-import Foundation
+import Combine
+import WatchConnectivity
 
-class Counter: ObservableObject {
-    var count: Int = 0
+final class Counter: ObservableObject {
+    var session: WCSession
+    let delegate: WCSessionDelegate
+    let subject = PassthroughSubject<Int, Never>()
     
-    func decreament() {
-        count -= 1
+    @Published private(set) var count: Int = 0
+    
+    init(session: WCSession = .default) {
+        self.delegate = SessionDelegater(countSubject: subject)
+        self.session = session
+        self.session.delegate = self.delegate
+        self.session.activate()
+        
+        subject
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$count)
     }
     
-    func increament() {
+    func increment() {
         count += 1
+        session.sendMessage(["count": count], replyHandler: nil) { error in
+            print(error.localizedDescription)
+        }
     }
     
+    func decrement() {
+        count -= 1
+        session.sendMessage(["count": count], replyHandler: nil) { error in
+            print(error.localizedDescription)
+        }
+    }
 }

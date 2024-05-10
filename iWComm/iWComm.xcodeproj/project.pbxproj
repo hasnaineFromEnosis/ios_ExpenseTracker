@@ -18,6 +18,8 @@
 		1A46F6062BED6699007FD30A /* iWCommApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F5CC2BED65B0007FD30A /* iWCommApp.swift */; };
 		1A46F6082BED67C6007FD30A /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6072BED67C6007FD30A /* Counter.swift */; };
 		1A46F6092BED67C6007FD30A /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6072BED67C6007FD30A /* Counter.swift */; };
+		1A46F60B2BED68E1007FD30A /* SessionDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F60A2BED68E1007FD30A /* SessionDelegater.swift */; };
+		1A46F60C2BED68E1007FD30A /* SessionDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F60A2BED68E1007FD30A /* SessionDelegater.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,7 @@
 		1A46F5FA2BED6648007FD30A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A46F5FD2BED6648007FD30A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A46F6072BED67C6007FD30A /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
+		1A46F60A2BED68E1007FD30A /* SessionDelegater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegater.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +103,7 @@
 				1A46F5D02BED65B2007FD30A /* Assets.xcassets */,
 				1A46F5D22BED65B2007FD30A /* Preview Content */,
 				1A46F6072BED67C6007FD30A /* Counter.swift */,
+				1A46F60A2BED68E1007FD30A /* SessionDelegater.swift */,
 			);
 			path = iWComm;
 			sourceTree = "<group>";
@@ -233,6 +237,7 @@
 			files = (
 				1A46F5CF2BED65B0007FD30A /* ContentView.swift in Sources */,
 				1A46F5CD2BED65B0007FD30A /* iWCommApp.swift in Sources */,
+				1A46F60B2BED68E1007FD30A /* SessionDelegater.swift in Sources */,
 				1A46F6082BED67C6007FD30A /* Counter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -243,6 +248,7 @@
 			files = (
 				1A46F6052BED6695007FD30A /* ContentView.swift in Sources */,
 				1A46F6062BED6699007FD30A /* iWCommApp.swift in Sources */,
+				1A46F60C2BED68E1007FD30A /* SessionDelegater.swift in Sources */,
 				1A46F6092BED67C6007FD30A /* Counter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
