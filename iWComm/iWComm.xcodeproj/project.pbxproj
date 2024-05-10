@@ -63,6 +63,8 @@
 		1A46F60A2BED68E1007FD30A /* SessionDelegater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegater.swift; sourceTree = "<group>"; };
 		1A46F60D2BEDFFB3007FD30A /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 		1A46F6112BEE072C007FD30A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		1A46F6142BEE1285007FD30A /* iWComm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iWComm.entitlements; sourceTree = "<group>"; };
+		1A46F6152BEE12F0007FD30A /* iWCommWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iWCommWatch Watch App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 		1A46F5CB2BED65B0007FD30A /* iWComm */ = {
 			isa = PBXGroup;
 			children = (
+				1A46F6142BEE1285007FD30A /* iWComm.entitlements */,
 				1A46F5CC2BED65B0007FD30A /* iWCommApp.swift */,
 				1A46F5CE2BED65B0007FD30A /* ContentView.swift */,
 				1A46F5D02BED65B2007FD30A /* Assets.xcassets */,
@@ -127,6 +130,7 @@
 		1A46F5F52BED6645007FD30A /* iWCommWatch Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				1A46F6152BEE12F0007FD30A /* iWCommWatch Watch App.entitlements */,
 				1A46F5FA2BED6648007FD30A /* Assets.xcassets */,
 				1A46F5FC2BED6648007FD30A /* Preview Content */,
 			);
@@ -401,6 +405,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iWComm/iWComm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iWComm/Preview Content\"";
@@ -431,6 +436,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iWComm/iWComm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iWComm/Preview Content\"";
@@ -460,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "iWCommWatch Watch App/iWCommWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iWCommWatch Watch App/Preview Content\"";
@@ -490,6 +497,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "iWCommWatch Watch App/iWCommWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iWCommWatch Watch App/Preview Content\"";

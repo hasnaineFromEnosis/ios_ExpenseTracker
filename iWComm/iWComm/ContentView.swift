@@ -9,14 +9,12 @@ import SwiftUI
 import WatchConnectivity
 
 struct ContentView: View {
-    
     var body: some View {
         AppGroupTestingView(persistentStore: PersistentStore())
     }
 }
 
 struct AppGroupTestingView: View {
-    
     @State var results: [TestModel] = []
     let persistentStore: PersistentStore
     
