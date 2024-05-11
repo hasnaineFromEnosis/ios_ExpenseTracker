@@ -22,7 +22,7 @@ struct PersistentStore {
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Model")
         
-        let storeURL = URL.storeURL(for: "group.hasnaine.WCRnd", databaseName: "DataModel")
+        let storeURL = URL.storeURL(for: "group.hasnaine.WCRnd", databaseName: "Model")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         container.persistentStoreDescriptions = [storeDescription]
         
