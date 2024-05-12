@@ -30,6 +30,8 @@
 		1A46F58F2BEA3FFB007FD30A /* AddCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */; };
 		1A46F5922BEA47E6007FD30A /* CategoryManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE52BB6DB4B0056C110 /* CategoryManagementView.swift */; };
 		1A46F5932BEA47F0007FD30A /* CategoryManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE92BB7502B0056C110 /* CategoryManagementViewModel.swift */; };
+		1A46F7062BF1668E007FD30A /* PhoneConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F7052BF1668E007FD30A /* PhoneConnectivityManager.swift */; };
+		1A46F7082BF166F5007FD30A /* WatchConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F7072BF166F5007FD30A /* WatchConnectivityManager.swift */; };
 		1A4EAAC62BB1534E0056C110 /* ExpenseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */; };
 		1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */; };
 		1A4EAAE42BB5AAAE0056C110 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4EAAE32BB5AAAE0056C110 /* SettingsView.swift */; };
@@ -107,6 +109,8 @@
 		1A46F5882BEA2C87007FD30A /* AddDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataView.swift; sourceTree = "<group>"; };
 		1A46F58B2BEA3FAC007FD30A /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		1A46F58E2BEA3FFB007FD30A /* AddCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewModel.swift; sourceTree = "<group>"; };
+		1A46F7052BF1668E007FD30A /* PhoneConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneConnectivityManager.swift; sourceTree = "<group>"; };
+		1A46F7072BF166F5007FD30A /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
 		1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseData.swift; sourceTree = "<group>"; };
 		1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrentExpenseManager.swift; sourceTree = "<group>"; };
 		1A4EAAE32BB5AAAE0056C110 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 		1A46F5942BEA4860007FD30A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1A46F7052BF1668E007FD30A /* PhoneConnectivityManager.swift */,
 				1A46F5752BE8EDA0007FD30A /* DataManager.swift */,
 			);
 			path = Managers;
@@ -284,6 +289,7 @@
 				1A53172D2BADF23E00062171 /* DataManager.swift */,
 				1A4EAAE12BB4399C0056C110 /* RecurrentExpenseManager.swift */,
 				1A891FF82BC4494D001FBA3B /* FirebaseManager.swift */,
+				1A46F7072BF166F5007FD30A /* WatchConnectivityManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -496,6 +502,7 @@
 				1A4EAAE82BB7424A0056C110 /* SettingsViewModel.swift in Sources */,
 				1A4EAAE42BB5AAAE0056C110 /* SettingsView.swift in Sources */,
 				1A4EAAE22BB4399C0056C110 /* RecurrentExpenseManager.swift in Sources */,
+				1A46F7082BF166F5007FD30A /* WatchConnectivityManager.swift in Sources */,
 				1A4EAB222BBF45790056C110 /* AuthenticationManager.swift in Sources */,
 				1A5316B92BA96E8D00062171 /* ExpenseDetailView.swift in Sources */,
 				1A891FF92BC4494D001FBA3B /* FirebaseManager.swift in Sources */,
@@ -536,6 +543,7 @@
 				1A46F57C2BE8F806007FD30A /* PlusCircleView.swift in Sources */,
 				1A46F5682BE8C9FD007FD30A /* ExpenseData.swift in Sources */,
 				1A46F56D2BE8EC0D007FD30A /* ExpenseViewModel.swift in Sources */,
+				1A46F7062BF1668E007FD30A /* PhoneConnectivityManager.swift in Sources */,
 				1A46F5892BEA2C87007FD30A /* AddDataView.swift in Sources */,
 				1A46F5702BE8ECCA007FD30A /* PersistentStore.swift in Sources */,
 				1A46F5782BE8EE6E007FD30A /* ExpenseRowView.swift in Sources */,
@@ -763,7 +771,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ExpenseWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hasnaine.ExpenseTracker;
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -794,7 +802,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ExpenseWatch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hasnaine.ExpenseTracker;
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
