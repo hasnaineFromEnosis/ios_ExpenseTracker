@@ -6,12 +6,13 @@
 //
 
 import CoreData
+import CloudKit
 
 struct PersistentStore {
-    let container: NSPersistentContainer
+    let container: NSPersistentCloudKitContainer
     
     private init() {
-        container = NSPersistentContainer(name: "Model")
+        container = NSPersistentCloudKitContainer(name: "Model")
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -20,11 +21,11 @@ struct PersistentStore {
     }
     
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "Model")
+        container = NSPersistentCloudKitContainer(name: "Model")
         
-        let storeURL = URL.storeURL(for: "group.hasnaine.WCRnd", databaseName: "Model")
-        let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        container.persistentStoreDescriptions = [storeDescription]
+//        let storeURL = URL.storeURL(for: "group.hasnaine.WCRnd", databaseName: "Model")
+//        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+//        container.persistentStoreDescriptions = [storeDescription]
         
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
