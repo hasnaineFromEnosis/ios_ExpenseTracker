@@ -37,7 +37,7 @@ final class PhoneConnectivityProvider: NSObject, WCSessionDelegate {
     
     func refreshAllPlants(withCompletionHandler completionHandler: @escaping ([Plant]?) -> Void) {
         guard session.activationState == .activated else {
-            os_log(.debug, log: .phone, "session is not active")
+            os_log(.debug, log: .phone, "session is not active 1")
             completionHandler(nil)
             return
         }

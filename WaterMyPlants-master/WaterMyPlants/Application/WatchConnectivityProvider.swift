@@ -40,7 +40,7 @@ final class WatchConnectivityProvider: NSObject, WCSessionDelegate {
     
     func notePlantsDidChange() {
         guard session.activationState == .activated else {
-            os_log(.debug, log: .watch, "session is not active")
+            os_log(.debug, log: .watch, "session is not active 2")
             return
         }
         

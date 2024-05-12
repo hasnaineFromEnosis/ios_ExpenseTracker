@@ -673,10 +673,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				IBSC_MODULE = WaterMyPlantsWatch_Extension;
 				INFOPLIST_FILE = WaterMyPlantsWatch/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlants.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlants.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -692,10 +692,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				IBSC_MODULE = WaterMyPlantsWatch_Extension;
 				INFOPLIST_FILE = WaterMyPlantsWatch/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlants.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlants.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -711,7 +711,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"WaterMyPlantsWatch Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "WaterMyPlantsWatch Extension/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -719,7 +719,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlants.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlants.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -735,7 +735,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"WaterMyPlantsWatch Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "WaterMyPlantsWatch Extension/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -743,7 +743,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlants.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlants.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -873,14 +873,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"WaterMyPlants/Preview Content\"";
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = WaterMyPlants/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlants;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlants;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -893,14 +893,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"WaterMyPlants/Preview Content\"";
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = WaterMyPlants/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlants;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlants;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -913,7 +913,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				INFOPLIST_FILE = WaterMyPlantsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -921,7 +921,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlantsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlantsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -935,7 +935,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				INFOPLIST_FILE = WaterMyPlantsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -943,7 +943,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlantsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.WaterMyPlantsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -956,14 +956,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				INFOPLIST_FILE = WaterMyPlantsUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlantsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaineWaterMyPlantsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -976,14 +976,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = XJPC47UM3W;
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
 				INFOPLIST_FILE = WaterMyPlantsUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.augmentedcode.WaterMyPlantsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaineWaterMyPlantsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

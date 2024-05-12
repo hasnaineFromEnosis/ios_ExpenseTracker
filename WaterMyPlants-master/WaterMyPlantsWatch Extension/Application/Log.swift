@@ -9,6 +9,6 @@
 import os
 
 extension OSLog {
-    static let subsystem = "com.augmentedcode.WaterMyPlants"
+    static let subsystem = "com.hasnaine.WaterMyPlants"
     static let phone = OSLog(subsystem: OSLog.subsystem, category: "watch>phone")
 }
