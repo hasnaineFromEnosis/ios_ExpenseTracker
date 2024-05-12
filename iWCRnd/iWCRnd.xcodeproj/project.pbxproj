@@ -11,7 +11,38 @@
 		1A46F6D82BF139E5007FD30A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6D72BF139E5007FD30A /* ContentView.swift */; };
 		1A46F6DA2BF139E7007FD30A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A46F6D92BF139E7007FD30A /* Assets.xcassets */; };
 		1A46F6DD2BF139E7007FD30A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A46F6DC2BF139E7007FD30A /* Preview Assets.xcassets */; };
+		1A46F6EE2BF13A07007FD30A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A46F6ED2BF13A07007FD30A /* Assets.xcassets */; };
+		1A46F6F12BF13A07007FD30A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A46F6F02BF13A07007FD30A /* Preview Assets.xcassets */; };
+		1A46F6F42BF13A07007FD30A /* iWCRndWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1A46F6E72BF13A04007FD30A /* iWCRndWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1A46F6FA2BF13A18007FD30A /* iWCRndApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6D52BF139E5007FD30A /* iWCRndApp.swift */; };
+		1A46F6FC2BF13AC1007FD30A /* ViewModelPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6FB2BF13AC1007FD30A /* ViewModelPhone.swift */; };
+		1A46F6FE2BF13B39007FD30A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6FD2BF13B39007FD30A /* ContentView.swift */; };
+		1A46F7012BF13CB7007FD30A /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F7002BF13CB7007FD30A /* ViewModelWatch.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1A46F6F22BF13A07007FD30A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A46F6CA2BF139E5007FD30A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A46F6E62BF13A04007FD30A;
+			remoteInfo = "iWCRndWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1A46F6F82BF13A07007FD30A /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				1A46F6F42BF13A07007FD30A /* iWCRndWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1A46F6D22BF139E5007FD30A /* iWCRnd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWCRnd.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -19,10 +50,23 @@
 		1A46F6D72BF139E5007FD30A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1A46F6D92BF139E7007FD30A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A46F6DC2BF139E7007FD30A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1A46F6E72BF13A04007FD30A /* iWCRndWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iWCRndWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A46F6ED2BF13A07007FD30A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A46F6F02BF13A07007FD30A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1A46F6FB2BF13AC1007FD30A /* ViewModelPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelPhone.swift; sourceTree = "<group>"; };
+		1A46F6FD2BF13B39007FD30A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1A46F7002BF13CB7007FD30A /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1A46F6CF2BF139E5007FD30A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A46F6E42BF13A04007FD30A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -36,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				1A46F6D42BF139E5007FD30A /* iWCRnd */,
+				1A46F6E82BF13A05007FD30A /* iWCRndWatch Watch App */,
 				1A46F6D32BF139E5007FD30A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -44,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				1A46F6D22BF139E5007FD30A /* iWCRnd.app */,
+				1A46F6E72BF13A04007FD30A /* iWCRndWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,6 +101,7 @@
 				1A46F6D72BF139E5007FD30A /* ContentView.swift */,
 				1A46F6D92BF139E7007FD30A /* Assets.xcassets */,
 				1A46F6DB2BF139E7007FD30A /* Preview Content */,
+				1A46F6FB2BF13AC1007FD30A /* ViewModelPhone.swift */,
 			);
 			path = iWCRnd;
 			sourceTree = "<group>";
@@ -63,6 +110,25 @@
 			isa = PBXGroup;
 			children = (
 				1A46F6DC2BF139E7007FD30A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1A46F6E82BF13A05007FD30A /* iWCRndWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				1A46F6FD2BF13B39007FD30A /* ContentView.swift */,
+				1A46F6ED2BF13A07007FD30A /* Assets.xcassets */,
+				1A46F6EF2BF13A07007FD30A /* Preview Content */,
+				1A46F7002BF13CB7007FD30A /* ViewModelWatch.swift */,
+			);
+			path = "iWCRndWatch Watch App";
+			sourceTree = "<group>";
+		};
+		1A46F6EF2BF13A07007FD30A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1A46F6F02BF13A07007FD30A /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -77,14 +143,33 @@
 				1A46F6CE2BF139E5007FD30A /* Sources */,
 				1A46F6CF2BF139E5007FD30A /* Frameworks */,
 				1A46F6D02BF139E5007FD30A /* Resources */,
+				1A46F6F82BF13A07007FD30A /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A46F6F32BF13A07007FD30A /* PBXTargetDependency */,
+			);
+			name = iWCRnd;
+			productName = iWCRnd;
+			productReference = 1A46F6D22BF139E5007FD30A /* iWCRnd.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1A46F6E62BF13A04007FD30A /* iWCRndWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A46F6F52BF13A07007FD30A /* Build configuration list for PBXNativeTarget "iWCRndWatch Watch App" */;
+			buildPhases = (
+				1A46F6E32BF13A04007FD30A /* Sources */,
+				1A46F6E42BF13A04007FD30A /* Frameworks */,
+				1A46F6E52BF13A04007FD30A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = iWCRnd;
-			productName = iWCRnd;
-			productReference = 1A46F6D22BF139E5007FD30A /* iWCRnd.app */;
+			name = "iWCRndWatch Watch App";
+			productName = "iWCRndWatch Watch App";
+			productReference = 1A46F6E72BF13A04007FD30A /* iWCRndWatch Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,6 +183,9 @@
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					1A46F6D12BF139E5007FD30A = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					1A46F6E62BF13A04007FD30A = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
@@ -116,6 +204,7 @@
 			projectRoot = "";
 			targets = (
 				1A46F6D12BF139E5007FD30A /* iWCRnd */,
+				1A46F6E62BF13A04007FD30A /* iWCRndWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -130,6 +219,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1A46F6E52BF13A04007FD30A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A46F6F12BF13A07007FD30A /* Preview Assets.xcassets in Resources */,
+				1A46F6EE2BF13A07007FD30A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -137,12 +235,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A46F6FC2BF13AC1007FD30A /* ViewModelPhone.swift in Sources */,
 				1A46F6D82BF139E5007FD30A /* ContentView.swift in Sources */,
 				1A46F6D62BF139E5007FD30A /* iWCRndApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1A46F6E32BF13A04007FD30A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A46F6FE2BF13B39007FD30A /* ContentView.swift in Sources */,
+				1A46F7012BF13CB7007FD30A /* ViewModelWatch.swift in Sources */,
+				1A46F6FA2BF13A18007FD30A /* iWCRndApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1A46F6F32BF13A07007FD30A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A46F6E62BF13A04007FD30A /* iWCRndWatch Watch App */;
+			targetProxy = 1A46F6F22BF13A07007FD30A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1A46F6DE2BF139E7007FD30A /* Debug */ = {
@@ -197,7 +314,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -254,7 +371,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -267,6 +384,7 @@
 		1A46F6E12BF139E7007FD30A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -280,12 +398,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.RnD..iWCRnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.iWCRnd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -296,6 +415,7 @@
 		1A46F6E22BF139E7007FD30A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -309,16 +429,77 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.RnD..iWCRnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.iWCRnd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1A46F6F62BF13A07007FD30A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"iWCRndWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = iWCRndWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hasnaine.iWCRnd;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.iWCRnd.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Debug;
+		};
+		1A46F6F72BF13A07007FD30A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"iWCRndWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 9G2DU2SAH6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = iWCRndWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hasnaine.iWCRnd;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hasnaine.iWCRnd.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
 			};
 			name = Release;
 		};
@@ -339,6 +520,15 @@
 			buildConfigurations = (
 				1A46F6E12BF139E7007FD30A /* Debug */,
 				1A46F6E22BF139E7007FD30A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A46F6F52BF13A07007FD30A /* Build configuration list for PBXNativeTarget "iWCRndWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A46F6F62BF13A07007FD30A /* Debug */,
+				1A46F6F72BF13A07007FD30A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

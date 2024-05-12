@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    var model = ViewModelPhone()
+    @State var reachable = "No"
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        VStack{
+            Text("Reachable \(reachable)")
+            
+            Button {
+                if self.model.session.isReachable {
+                    self.reachable = "Yes"
+                    print("Yeah, reachable now")
+                } else {
+                    self.reachable = "No"
+                    print("Not reachable. Sorry")
+                }
+                
+            } label: {
+                Text("Update")
+            }
         }
-        .padding()
+        
     }
 }
 
