@@ -8,8 +8,9 @@
 import Foundation
 import WatchConnectivity
 
-class ViewModelWatch : NSObject,  WCSessionDelegate{
+class ViewModelWatch : NSObject,  WCSessionDelegate, ObservableObject {
     var session: WCSession
+    @Published var messageText = ""
     
     init(session: WCSession = .default){
         self.session = session
@@ -22,5 +23,12 @@ class ViewModelWatch : NSObject,  WCSessionDelegate{
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         
     }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        DispatchQueue.main.async {
+            self.messageText = message["message"] as? String ?? "Unknown"
+        }
+    }
+
     
 }
