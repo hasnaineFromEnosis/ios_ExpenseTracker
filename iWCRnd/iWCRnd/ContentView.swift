@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     var model = ViewModelPhone()
     @State var reachable = "No"
-    @State var messageText = ""
     
     var body: some View {
         VStack{
@@ -29,11 +28,8 @@ struct ContentView: View {
                 Text("Update")
             }
             
-            TextField("Input your message", text: $messageText)
             Button(action: {
-                self.model.session.sendMessage(["message" : self.messageText], replyHandler: nil) { (error) in
-                    print(error.localizedDescription)
-                }
+                self.model.sendData(data: modelData(msg1: "Hi", msg2: "Has9"))
             }) {
                 Text("Send Message")
             }

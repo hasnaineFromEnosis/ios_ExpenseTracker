@@ -10,7 +10,7 @@ import WatchConnectivity
 
 class ViewModelWatch : NSObject,  WCSessionDelegate, ObservableObject {
     var session: WCSession
-    @Published var messageText = ""
+    @Published var messageText: modelData = modelData(msg1: "No", msg2: "Message")
     
     init(session: WCSession = .default){
         self.session = session
@@ -26,7 +26,7 @@ class ViewModelWatch : NSObject,  WCSessionDelegate, ObservableObject {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            self.messageText = message["message"] as? String ?? "Unknown"
+            self.messageText = modelData.fromDict(dict: message) ?? modelData(msg1: "Invalid", msg2: "Message")
         }
     }
 

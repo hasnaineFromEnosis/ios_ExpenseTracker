@@ -32,5 +32,9 @@ class ViewModelPhone : NSObject,  WCSessionDelegate {
         
     }
     
-    
+    func sendData(data: modelData) {
+        self.session.sendMessage(modelData.toDict(data: data), replyHandler: nil) { (error) in
+            print("Error message: \(error.localizedDescription)")
+        }
+    }
 }

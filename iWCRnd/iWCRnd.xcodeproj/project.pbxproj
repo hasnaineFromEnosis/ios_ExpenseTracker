@@ -18,6 +18,8 @@
 		1A46F6FC2BF13AC1007FD30A /* ViewModelPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6FB2BF13AC1007FD30A /* ViewModelPhone.swift */; };
 		1A46F6FE2BF13B39007FD30A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F6FD2BF13B39007FD30A /* ContentView.swift */; };
 		1A46F7012BF13CB7007FD30A /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F7002BF13CB7007FD30A /* ViewModelWatch.swift */; };
+		1A46F7032BF15988007FD30A /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F7022BF15988007FD30A /* Enums.swift */; };
+		1A46F7042BF1598A007FD30A /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A46F7022BF15988007FD30A /* Enums.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,7 @@
 		1A46F6FB2BF13AC1007FD30A /* ViewModelPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelPhone.swift; sourceTree = "<group>"; };
 		1A46F6FD2BF13B39007FD30A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1A46F7002BF13CB7007FD30A /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
+		1A46F7022BF15988007FD30A /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 		1A46F6C92BF139E5007FD30A = {
 			isa = PBXGroup;
 			children = (
+				1A46F7022BF15988007FD30A /* Enums.swift */,
 				1A46F6D42BF139E5007FD30A /* iWCRnd */,
 				1A46F6E82BF13A05007FD30A /* iWCRndWatch Watch App */,
 				1A46F6D32BF139E5007FD30A /* Products */,
@@ -237,6 +241,7 @@
 			files = (
 				1A46F6FC2BF13AC1007FD30A /* ViewModelPhone.swift in Sources */,
 				1A46F6D82BF139E5007FD30A /* ContentView.swift in Sources */,
+				1A46F7042BF1598A007FD30A /* Enums.swift in Sources */,
 				1A46F6D62BF139E5007FD30A /* iWCRndApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,6 +252,7 @@
 			files = (
 				1A46F6FE2BF13B39007FD30A /* ContentView.swift in Sources */,
 				1A46F7012BF13CB7007FD30A /* ViewModelWatch.swift in Sources */,
+				1A46F7032BF15988007FD30A /* Enums.swift in Sources */,
 				1A46F6FA2BF13A18007FD30A /* iWCRndApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
