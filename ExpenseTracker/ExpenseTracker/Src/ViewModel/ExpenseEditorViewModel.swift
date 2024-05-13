@@ -57,7 +57,6 @@ class ExpenseEditorViewModel: ObservableObject {
         }
         
         var sourceType: DataSourceType = .other
-        
 #if os(iOS)
         sourceType = .iOS
 #elseif os(watchOS)

@@ -26,7 +26,8 @@ class FirebaseManager: ObservableObject {
         
         let categoryDict: [String: Any] = [
             "title": category.title,
-            "isPredefined": category.isPredefined
+            "isPredefined": category.isPredefined,
+            "sourceType": category.sourceType.rawValue
         ]
         
         categoryRef.setValue(categoryDict)
@@ -50,9 +51,11 @@ class FirebaseManager: ObservableObject {
                    let categoryDict = snapshot.value as? [String: Any],
                    let title = categoryDict["title"] as? String,
                    let isPredefined = categoryDict["isPredefined"] as? Bool,
+                   let sourceTypeString = categoryDict["sourceType"] as? String,
+                   let sourceType = DataSourceType.getTypeFromValue(value: sourceTypeString),
                    let id = UUID(uuidString: snapshot.key) {
                     
-                    let category = CategoryData(id: id, title: title, isPredefined: isPredefined)
+                    let category = CategoryData(id: id, title: title, isPredefined: isPredefined, sourceType: sourceType)
                     categories.append(category)
                 }
             }

@@ -13,7 +13,8 @@ import WatchConnectivity
 class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     var session: WCSession
     
-    var dataReceivedCallback: ((ExpenseData) -> Void)?
+    var createExpenseCallback: ((ExpenseData) -> Void)?
+    var createCategoryCallback: ((CategoryData) -> Void)?
     
     init(session: WCSession = .default){
         self.session = session
@@ -30,14 +31,15 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
             if let data = ExpenseData.fromDict(dict: message) {
-                // send this data to dataManager createExpense method
-                self.dataReceivedCallback?(data)
+                self.createExpenseCallback?(data)
+            } else if let data = CategoryData.fromDict(dict: message) {
+                self.createCategoryCallback?(data)
             }
         }
     }
     
-    func sendData(data: ExpenseData) {
-        self.session.sendMessage(data.toDict(), replyHandler: nil) { (error) in
+    func sendData(data: [String : Any]) {
+        self.session.sendMessage(data, replyHandler: nil) { (error) in
             print("Error message: \(error.localizedDescription)")
         }
     }

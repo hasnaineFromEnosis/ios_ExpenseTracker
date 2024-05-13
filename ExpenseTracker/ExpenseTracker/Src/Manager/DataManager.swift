@@ -27,8 +27,12 @@ class DataManager: ObservableObject {
         initializeData()
         
         // Assign a callback closure to handle received data
-        self.watchConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
+        self.watchConnectivityManager.createExpenseCallback = { [weak self] expenseData in
             self?.createExpense(expenseData: expenseData)
+        }
+        
+        self.watchConnectivityManager.createCategoryCallback = { [weak self] categoryData in
+            self?.createCategory(categoryData: categoryData)
         }
     }
     
@@ -41,7 +45,7 @@ class DataManager: ObservableObject {
         persistentStore.createExpense(expenseData: expenseData)
         firebaseManager.saveExpenseData(expense: expenseData)
         if expenseData.sourceType == .iOS {
-            self.watchConnectivityManager.sendData(data: expenseData)
+            self.watchConnectivityManager.sendData(data: expenseData.toDict())
         }
         
         if expenseData.isBaseRecurrent {
@@ -60,6 +64,9 @@ class DataManager: ObservableObject {
     }
     
     func createCategory(categoryData: CategoryData) {
+        if categoryData.sourceType == .iOS {
+            self.watchConnectivityManager.sendData(data: categoryData.toDict())
+        }
         persistentStore.createCategory(categoryData: categoryData)
         categoryList.append(categoryData)
         firebaseManager.saveCategoryData(category: categoryData)
@@ -86,7 +93,7 @@ class DataManager: ObservableObject {
         firebaseManager.fetchCategories { categoryList in
             self.categoryList = self.mergeCategory(listA: self.categoryList, listB: categoryList)
             if self.categoryList.isEmpty {
-                let categoryData = CategoryData(title: "Others", isPredefined: true)
+                let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other)
                 self.createCategory(categoryData: categoryData)
             }
         }

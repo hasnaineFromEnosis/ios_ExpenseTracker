@@ -25,8 +25,12 @@ class DataManager: ObservableObject {
         initializeData()
         
         // Assign a callback closure to handle received data
-        self.phoneConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
+        self.phoneConnectivityManager.createExpenseCallback = { [weak self] expenseData in
             self?.createExpense(expenseData: expenseData)
+        }
+        
+        self.phoneConnectivityManager.createCategoryCallback = { [weak self] categoryData in
+            self?.createCategory(categoryData: categoryData)
         }
     }
     
@@ -38,7 +42,7 @@ class DataManager: ObservableObject {
     func createExpense(expenseData: ExpenseData) {
         persistentStore.createExpense(expenseData: expenseData)
         if expenseData.sourceType == .watchOS {
-            self.phoneConnectivityManager.sendData(data: expenseData)
+            self.phoneConnectivityManager.sendData(data: expenseData.toDict())
         }
         if expenseData.isBaseRecurrent {
             baseRecurrentExpenseList.append(expenseData)
@@ -56,6 +60,9 @@ class DataManager: ObservableObject {
     }
     
     func createCategory(categoryData: CategoryData) {
+        if categoryData.sourceType == .watchOS {
+            self.phoneConnectivityManager.sendData(data: categoryData.toDict())
+        }
         persistentStore.createCategory(categoryData: categoryData)
         categoryList.append(categoryData)
     }
@@ -70,7 +77,7 @@ class DataManager: ObservableObject {
         categoryList = persistentStore.fetchCategory()
         
         if self.categoryList.isEmpty {
-            let categoryData = CategoryData(title: "Others", isPredefined: true)
+            let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other)
             self.createCategory(categoryData: categoryData)
         }
     }

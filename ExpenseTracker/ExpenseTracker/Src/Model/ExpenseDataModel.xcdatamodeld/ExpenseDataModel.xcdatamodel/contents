@@ -3,6 +3,7 @@
     <entity name="CategoryDataEntity" representedClassName="CategoryDataEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isPredefined" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="sourceType" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="ExpenseDataEntity" representedClassName="ExpenseDataEntity" syncable="YES" codeGenerationType="class">
@@ -13,7 +14,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isBaseRecurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="paidDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="sourceType" optional="YES" attributeType="String"/>
+        <attribute name="sourceType" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
     </entity>
