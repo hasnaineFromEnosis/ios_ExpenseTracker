@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab: TabViewType = .pendingExpenseView
-    var wcManager = PhoneConnectivityManager()
     
     var body: some View {
         TabView(selection: $selectedTab) {

@@ -17,10 +17,17 @@ class DataManager: ObservableObject {
     @Published var categoryList: [CategoryData] = []
     
     private let persistentStore: PersistentStore
+    private let phoneConnectivityManager: PhoneConnectivityManager
     
     private init() {
         self.persistentStore = PersistentStore()
+        self.phoneConnectivityManager = PhoneConnectivityManager()
         initializeData()
+        
+        // Assign a callback closure to handle received data
+        self.phoneConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
+            self?.createExpense(expenseData: expenseData)
+        }
     }
     
     func initializeData() {

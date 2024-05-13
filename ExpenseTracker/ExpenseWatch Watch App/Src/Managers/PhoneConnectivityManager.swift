@@ -13,7 +13,7 @@ import WatchConnectivity
 class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     var session: WCSession
     
-    let dataManager = DataManager.shared
+    var dataReceivedCallback: ((ExpenseData) -> Void)?
     
     init(session: WCSession = .default){
         self.session = session
@@ -30,11 +30,8 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
             if let data = ExpenseData.fromDict(dict: message) {
-                if data.paidDate != nil {
-                    self.dataManager.paidExpensesList.append(data)
-                } else {
-                    self.dataManager.pendingExpensesList.append(data)
-                }
+                // send this data to dataManager createExpense method
+                self.dataReceivedCallback?(data)
             }
         }
     }
