@@ -26,7 +26,7 @@ class DataManager: ObservableObject {
         
         // Assign a callback closure to handle received data
         self.phoneConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
-            self?.createExpense(expenseData: expenseData)
+            self?.createExpense(expenseData: expenseData, cameFromiPhone: true)
         }
     }
     
@@ -35,8 +35,11 @@ class DataManager: ObservableObject {
         fetchCategory()
     }
     
-    func createExpense(expenseData: ExpenseData) {
+    func createExpense(expenseData: ExpenseData, cameFromiPhone: Bool = false) {
         persistentStore.createExpense(expenseData: expenseData)
+        if !cameFromiPhone {
+            self.phoneConnectivityManager.sendData(data: expenseData)
+        }
         if expenseData.isBaseRecurrent {
             baseRecurrentExpenseList.append(expenseData)
             createRecurrentExpenses(from: expenseData)

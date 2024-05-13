@@ -12,6 +12,8 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
     
     var session: WCSession
     
+    var dataReceivedCallback: ((ExpenseData) -> Void)?
+    
     init(session: WCSession = .default){
         self.session = session
         super.init()
@@ -20,7 +22,7 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
         session.activate()
     }
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         
     }
     
@@ -30,6 +32,15 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
     
     func sessionDidDeactivate(_ session: WCSession) {
         
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        DispatchQueue.main.async {
+            if let data = ExpenseData.fromDict(dict: message) {
+                // send this data to dataManager createExpense method
+                self.dataReceivedCallback?(data)
+            }
+        }
     }
     
     func sendData(data: ExpenseData) {

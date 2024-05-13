@@ -18,13 +18,18 @@ class DataManager: ObservableObject {
     
     private let persistentStore: PersistentStore
     private let firebaseManager: FirebaseManager
-    let watchConnectivityManager: WatchConnectivityManager
+    private let watchConnectivityManager: WatchConnectivityManager
     
     private init() {
         self.persistentStore = PersistentStore()
         self.firebaseManager = FirebaseManager()
         self.watchConnectivityManager = WatchConnectivityManager()
         initializeData()
+        
+        // Assign a callback closure to handle received data
+        self.watchConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
+            self?.createExpense(expenseData: expenseData, cameFromWatch: true)
+        }
     }
     
     func initializeData() {
@@ -32,10 +37,13 @@ class DataManager: ObservableObject {
         fetchCategory()
     }
     
-    func createExpense(expenseData: ExpenseData) {
+    func createExpense(expenseData: ExpenseData, cameFromWatch: Bool = false) {
         persistentStore.createExpense(expenseData: expenseData)
         firebaseManager.saveExpenseData(expense: expenseData)
-        self.watchConnectivityManager.sendData(data: expenseData)
+        if !cameFromWatch {
+            self.watchConnectivityManager.sendData(data: expenseData)
+        }
+        
         if expenseData.isBaseRecurrent {
             baseRecurrentExpenseList.append(expenseData)
             createRecurrentExpenses(from: expenseData)

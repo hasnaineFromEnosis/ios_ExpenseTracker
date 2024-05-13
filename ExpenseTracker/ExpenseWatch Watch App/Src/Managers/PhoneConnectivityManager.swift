@@ -35,4 +35,10 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
             }
         }
     }
+    
+    func sendData(data: ExpenseData) {
+        self.session.sendMessage(data.toDict(), replyHandler: nil) { (error) in
+            print("Error message: \(error.localizedDescription)")
+        }
+    }
 }
