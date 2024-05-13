@@ -94,6 +94,7 @@ class FirebaseManager: ObservableObject {
             "amount": expense.amount,
             "category": expense.category,
             "type": expense.type,
+            "sourceType": expense.sourceType.rawValue,
             "isBaseRecurrent": expense.isBaseRecurrent
         ]
         
@@ -133,7 +134,8 @@ class FirebaseManager: ObservableObject {
                                           details: expenseDict["details"] as? String ?? "",
                                           amount: expenseDict["amount"] as? Int ?? 0,
                                           category: expenseDict["category"] as? String ?? "",
-                                          type: expenseDict["type"] as? String ?? "",
+                                          type: expenseDict["type"] as? String ?? "", 
+                                          sourceType: DataSourceType.getTypeFromValue(value: expenseDict["sourceType"] as? String) ?? .other,
                                           creationDate: (expenseDict["creationDate"] as? String)?.toDate() ?? Date(),
                                           paidDate: (expenseDict["paidDate"] as? String)?.toDate(),
                                           isBaseRecurrent: expenseDict["isBaseRecurrent"] as? Bool ?? false)

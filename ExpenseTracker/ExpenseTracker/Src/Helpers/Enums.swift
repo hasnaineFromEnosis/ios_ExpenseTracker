@@ -28,3 +28,22 @@ enum TabViewType {
     case settingsView
     case trendyView
 }
+
+enum DataSourceType: String {
+    case iOS = "iOS"
+    case watchOS = "WatchOS"
+    case other = "other"
+    
+    static func getTypeFromValue(value: String?) -> DataSourceType? {
+        guard let value = value else {
+            return nil
+        }
+        if value == "iOS" {
+            return .iOS
+        } else if value == "WatchOS" {
+            return .watchOS
+        } else {
+            return .other
+        }
+    }
+}

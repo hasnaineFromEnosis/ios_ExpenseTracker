@@ -28,7 +28,7 @@ class DataManager: ObservableObject {
         
         // Assign a callback closure to handle received data
         self.watchConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
-            self?.createExpense(expenseData: expenseData, cameFromWatch: true)
+            self?.createExpense(expenseData: expenseData)
         }
     }
     
@@ -37,10 +37,10 @@ class DataManager: ObservableObject {
         fetchCategory()
     }
     
-    func createExpense(expenseData: ExpenseData, cameFromWatch: Bool = false) {
+    func createExpense(expenseData: ExpenseData) {
         persistentStore.createExpense(expenseData: expenseData)
         firebaseManager.saveExpenseData(expense: expenseData)
-        if !cameFromWatch {
+        if expenseData.sourceType == .iOS {
             self.watchConnectivityManager.sendData(data: expenseData)
         }
         
