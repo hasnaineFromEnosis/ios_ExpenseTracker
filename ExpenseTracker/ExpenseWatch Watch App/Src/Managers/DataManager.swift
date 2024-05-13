@@ -17,10 +17,17 @@ class DataManager: ObservableObject {
     @Published var categoryList: [CategoryData] = []
     
     private let persistentStore: PersistentStore
+    private let phoneConnectivityManager: PhoneConnectivityManager
     
     private init() {
         self.persistentStore = PersistentStore()
+        self.phoneConnectivityManager = PhoneConnectivityManager()
         initializeData()
+        
+        // Assign a callback closure to handle received data
+        self.phoneConnectivityManager.dataReceivedCallback = { [weak self] expenseData in
+            self?.createExpense(expenseData: expenseData, cameFromiPhone: true)
+        }
     }
     
     func initializeData() {
@@ -28,8 +35,11 @@ class DataManager: ObservableObject {
         fetchCategory()
     }
     
-    func createExpense(expenseData: ExpenseData) {
+    func createExpense(expenseData: ExpenseData, cameFromiPhone: Bool = false) {
         persistentStore.createExpense(expenseData: expenseData)
+        if !cameFromiPhone {
+            self.phoneConnectivityManager.sendData(data: expenseData)
+        }
         if expenseData.isBaseRecurrent {
             baseRecurrentExpenseList.append(expenseData)
             createRecurrentExpenses(from: expenseData)

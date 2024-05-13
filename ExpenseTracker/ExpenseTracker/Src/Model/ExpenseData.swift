@@ -55,4 +55,41 @@ struct ExpenseData: Identifiable, Hashable {
         let paidDate = isPaid ? Date() : nil
         return ExpenseData(type: type.rawValue, paidDate: paidDate)
     }
+    
+    func toDict() -> [String: Any] {
+        var dict: [String: Any] = [:]
+        
+        dict["id"] = id.uuidString
+        dict["title"] = title
+        dict["details"] = details
+        dict["creationDate"] = creationDate
+        dict["amount"] = amount
+        dict["category"] = category
+        dict["type"] = type
+        dict["isBaseRecurrent"] = isBaseRecurrent
+        
+        if let paidDate = paidDate {
+            dict["paidDate"] = paidDate
+        }
+        
+        return dict
+    }
+    
+    static func fromDict(dict: [String: Any]) -> ExpenseData? {
+        guard let idString = dict["id"] as? String,
+              let id = UUID(uuidString: idString),
+              let title = dict["title"] as? String,
+              let details = dict["details"] as? String,
+              let creationDate = dict["creationDate"] as? Date,
+              let amount = dict["amount"] as? Int,
+              let category = dict["category"] as? String,
+              let type = dict["type"] as? String,
+              let isBaseRecurrent = dict["isBaseRecurrent"] as? Bool else {
+            return nil
+        }
+        
+        let paidDate = dict["paidDate"] as? Date
+        
+        return ExpenseData(id: id, title: title, details: details, amount: amount, category: category, type: type, creationDate: creationDate, paidDate: paidDate, isBaseRecurrent: isBaseRecurrent)
+    }
 }
