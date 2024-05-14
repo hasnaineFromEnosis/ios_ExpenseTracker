@@ -189,18 +189,6 @@ class DataManager: ObservableObject {
         self.deletePendingExpenseLocally(withID: expenseData.id)
     }
     
-    private func updatePendingListLocally(for updatedExpenseData: ExpenseData) {
-        if let index = self.pendingExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
-            self.pendingExpensesList[index] = updatedExpenseData
-        }
-    }
-    
-    private func updatePaidListLocally(for updatedExpenseData: ExpenseData) {
-        if let index = self.paidExpensesList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
-            self.paidExpensesList[index] = updatedExpenseData
-        }
-    }
-    
     private func updateBaseRecurrentExpenseListLocally(for updatedExpenseData: ExpenseData) {
         if let index = self.baseRecurrentExpenseList.firstIndex(where: { $0.id == updatedExpenseData.id }) {
             self.baseRecurrentExpenseList[index] = updatedExpenseData
