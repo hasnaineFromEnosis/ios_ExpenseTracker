@@ -147,6 +147,7 @@ class DataManager: ObservableObject {
         if categoryData.sourceType == .iOS {
             watchConnectivityManager.sendData(data: categoryData.toDict(), operationType: .delete)
         }
+        
         deleteCategoryLocally(withID: categoryData.id)
         
         persistentStore.deleteCategory(categoryData: categoryData)
