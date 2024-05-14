@@ -116,6 +116,10 @@ class DataManager: ObservableObject {
     }
     
     func deleteExpense(expenseData: ExpenseData) {
+        if expenseData.sourceType == .watchOS {
+            phoneConnectivityManager.sendData(data: expenseData.toDict(), operationType: .delete)
+        }
+        
         deletePaidExpenseLocally(withID: expenseData.id)
         deletePendingExpenseLocally(withID: expenseData.id)
         
@@ -123,6 +127,10 @@ class DataManager: ObservableObject {
     }
     
     func deleteCategory(categoryData: CategoryData) {
+        if categoryData.sourceType == .watchOS {
+            phoneConnectivityManager.sendData(data: categoryData.toDict(), operationType: .delete)
+        }
+        
         deleteCategoryLocally(withID: categoryData.id)
         
         persistentStore.deleteCategory(categoryData: categoryData)

@@ -47,7 +47,10 @@ class CategoryManagementViewModel: ObservableObject {
     }
     
     func deleteCategory(categoryData: CategoryData) {
-        dataManager.deleteCategory(categoryData: categoryData)
+        var updatedCategoryData = categoryData
+        updatedCategoryData.sourceType = DataSourceType.getCurrentSource()
+        
+        dataManager.deleteCategory(categoryData: updatedCategoryData)
     }
     
     func clearState() {

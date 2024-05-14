@@ -79,7 +79,7 @@ class DataManager: ObservableObject {
     
     func createCategory(categoryData: CategoryData) {
         if categoryData.sourceType == .iOS {
-            self.watchConnectivityManager.sendData(data: categoryData.toDict(), operationType: .update)
+            self.watchConnectivityManager.sendData(data: categoryData.toDict(), operationType: .create)
         }
         persistentStore.createCategory(categoryData: categoryData)
         categoryList.append(categoryData)
@@ -133,6 +133,9 @@ class DataManager: ObservableObject {
     }
     
     func deleteExpense(expenseData: ExpenseData) {
+        if expenseData.sourceType == .iOS {
+            watchConnectivityManager.sendData(data: expenseData.toDict(), operationType: .delete)
+        }
         deletePaidExpenseLocally(withID: expenseData.id)
         deletePendingExpenseLocally(withID: expenseData.id)
         
@@ -141,6 +144,9 @@ class DataManager: ObservableObject {
     }
     
     func deleteCategory(categoryData: CategoryData) {
+        if categoryData.sourceType == .iOS {
+            watchConnectivityManager.sendData(data: categoryData.toDict(), operationType: .delete)
+        }
         deleteCategoryLocally(withID: categoryData.id)
         
         persistentStore.deleteCategory(categoryData: categoryData)
