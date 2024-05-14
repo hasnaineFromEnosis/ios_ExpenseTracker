@@ -42,13 +42,7 @@ class CategoryManagementViewModel: ObservableObject {
             }
         }
       
-        var sourceType: DataSourceType = .other
-#if os(iOS)
-        sourceType = .iOS
-#elseif os(watchOS)
-        sourceType = .watchOS
-#endif
-        let newCategory = CategoryData(title: categoryTitle, isPredefined: false, sourceType: sourceType)
+        let newCategory = CategoryData(title: categoryTitle, isPredefined: false, sourceType: DataSourceType.getCurrentSource())
         dataManager.createCategory(categoryData: newCategory)
     }
     

@@ -46,4 +46,14 @@ enum DataSourceType: String {
             return .other
         }
     }
+    
+    static func getCurrentSource() -> DataSourceType {
+#if os(iOS)
+        return DataSourceType.iOS
+#elseif os(watchOS)
+        return DataSourceType.watchOS
+#endif
+        
+        return DataSourceType.other
+    }
 }

@@ -56,19 +56,12 @@ class ExpenseEditorViewModel: ObservableObject {
             return false
         }
         
-        var sourceType: DataSourceType = .other
-#if os(iOS)
-        sourceType = .iOS
-#elseif os(watchOS)
-        sourceType = .watchOS
-#endif
-        
         let newExpense = ExpenseData(title: expenseTitle,
                                      details: expenseDetails,
                                      amount: expenseAmount,
                                      category: expenseCategory,
                                      type: expenseType.rawValue,
-                                     sourceType: sourceType, 
+                                     sourceType: DataSourceType.getCurrentSource(), 
                                      creationDate: creationDate,
                                      paidDate: getPaidDate(),
                                      isBaseRecurrent: expenseType == .recurrent)
