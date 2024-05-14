@@ -31,12 +31,14 @@ class ExpenseDetailViewModel: ObservableObject {
     
     func markAsPaidExpense() {
         expenseData.paidDate = Date()
+        expenseData.sourceType = DataSourceType.getCurrentSource()
         dataManager.updateExpense(expenseData: expenseData)
         updateData()
     }
     
     func markAsPendingExpense() {
         expenseData.paidDate = nil
+        expenseData.sourceType = DataSourceType.getCurrentSource()
         dataManager.updateExpense(expenseData: expenseData)
         updateData()
     }

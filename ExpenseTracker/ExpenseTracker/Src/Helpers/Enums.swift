@@ -53,7 +53,28 @@ enum DataSourceType: String {
 #elseif os(watchOS)
         return DataSourceType.watchOS
 #endif
-        
         return DataSourceType.other
+    }
+}
+
+enum WCOperationType: String {
+    case create = "create"
+    case update = "update"
+    case delete = "delete"
+    
+    static func getTypeFromValue(value: String?) -> WCOperationType? {
+        guard let value = value else {
+            return nil
+        }
+        
+        if value == "create" {
+            return .create
+        } else if value == "update" {
+            return .update
+        } else if value == "delete" {
+            return .delete
+        }
+        
+        return nil
     }
 }

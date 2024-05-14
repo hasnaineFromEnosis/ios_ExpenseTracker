@@ -24,13 +24,27 @@ class DataManager: ObservableObject {
         self.phoneConnectivityManager = PhoneConnectivityManager()
         initializeData()
         
-        // Assign a callback closure to handle received data
-        self.phoneConnectivityManager.createExpenseCallback = { [weak self] expenseData in
-            self?.createExpense(expenseData: expenseData)
+        self.phoneConnectivityManager.expenseOperationCallback = { [weak self] expenseData, operationType in
+            switch operationType {
+            case .create:
+                self?.createExpense(expenseData: expenseData)
+            case .update:
+                self?.updateExpense(expenseData: expenseData)
+            case .delete:
+                self?.deleteExpense(expenseData: expenseData)
+            }
+            
         }
         
-        self.phoneConnectivityManager.createCategoryCallback = { [weak self] categoryData in
-            self?.createCategory(categoryData: categoryData)
+        self.phoneConnectivityManager.categoryOperationCallback = { [weak self] categoryData, operationType in
+            switch operationType {
+            case .create:
+                self?.createCategory(categoryData: categoryData)
+            case .update:
+                fatalError("Wrong operation for category")
+            case .delete:
+                self?.deleteCategory(categoryData: categoryData)
+            }
         }
     }
     
@@ -42,7 +56,7 @@ class DataManager: ObservableObject {
     func createExpense(expenseData: ExpenseData) {
         persistentStore.createExpense(expenseData: expenseData)
         if expenseData.sourceType == .watchOS {
-            self.phoneConnectivityManager.sendData(data: expenseData.toDict())
+            self.phoneConnectivityManager.sendData(data: expenseData.toDict(), operationType: .create)
         }
         if expenseData.isBaseRecurrent {
             baseRecurrentExpenseList.append(expenseData)
@@ -61,7 +75,7 @@ class DataManager: ObservableObject {
     
     func createCategory(categoryData: CategoryData) {
         if categoryData.sourceType == .watchOS {
-            self.phoneConnectivityManager.sendData(data: categoryData.toDict())
+            self.phoneConnectivityManager.sendData(data: categoryData.toDict(), operationType: .create)
         }
         persistentStore.createCategory(categoryData: categoryData)
         categoryList.append(categoryData)
@@ -83,11 +97,15 @@ class DataManager: ObservableObject {
     }
     
     func updateExpense(expenseData: ExpenseData) {
+        if expenseData.sourceType == .watchOS {
+            phoneConnectivityManager.sendData(data: expenseData.toDict(), operationType: .update)
+        }
+        
         if expenseData.isBaseRecurrent {
             updateBaseRecurrentExpenseListLocally(for: expenseData)
         } else {
             deleteExpenseLocally(expenseData: expenseData)
-            if let paidDate = expenseData.paidDate {
+            if expenseData.paidDate != nil {
                 addPaidExpenseLocally(expenseData)
             } else {
                 addPendingExpenseLocally(expenseData)

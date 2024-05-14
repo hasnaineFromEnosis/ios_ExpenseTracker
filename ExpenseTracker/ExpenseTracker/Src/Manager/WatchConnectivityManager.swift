@@ -12,8 +12,8 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
     
     var session: WCSession
     
-    var createExpenseCallback: ((ExpenseData) -> Void)?
-    var createCategoryCallback: ((CategoryData) -> Void)?
+    var expenseOperationCallback: ((ExpenseData, WCOperationType) -> Void)?
+    var categoryOperationCallback: ((CategoryData, WCOperationType) -> Void)?
     
     init(session: WCSession = .default){
         self.session = session
@@ -37,17 +37,22 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
+            guard let operationType = WCOperationType.getTypeFromValue(value: message["operationType"] as? String) else {
+                return
+            }
             if let data = ExpenseData.fromDict(dict: message) {
-                // send this data to dataManager createExpense method
-                self.createExpenseCallback?(data)
+                self.expenseOperationCallback?(data, operationType)
             } else if let data = CategoryData.fromDict(dict: message) {
-                self.createCategoryCallback?(data)
+                self.categoryOperationCallback?(data, operationType)
             }
         }
     }
     
-    func sendData(data: [String:Any]) {
-        self.session.sendMessage(data, replyHandler: nil) { (error) in
+    func sendData(data: [String:Any], operationType: WCOperationType) {
+        var modifiedData = data
+        modifiedData["operationType"] = operationType.rawValue
+        
+        self.session.sendMessage(modifiedData, replyHandler: nil) { (error) in
             print("Error message: \(error.localizedDescription)")
         }
     }

@@ -83,6 +83,7 @@ class ExpenseEditorViewModel: ObservableObject {
         expenseData.category = expenseCategory
         expenseData.amount = amount
         expenseData.type = expenseType.rawValue
+        expenseData.sourceType = DataSourceType.getCurrentSource()
         expenseData.creationDate = creationDate
         expenseData.paidDate = getPaidDate()
         
