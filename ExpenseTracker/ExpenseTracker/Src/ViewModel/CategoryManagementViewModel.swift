@@ -41,13 +41,16 @@ class CategoryManagementViewModel: ObservableObject {
                 return
             }
         }
-        
-        let newCategory = CategoryData(title: categoryTitle, isPredefined: false)
+      
+        let newCategory = CategoryData(title: categoryTitle, isPredefined: false, sourceType: DataSourceType.getCurrentSource())
         dataManager.createCategory(categoryData: newCategory)
     }
     
     func deleteCategory(categoryData: CategoryData) {
-        dataManager.deleteCategory(categoryData: categoryData)
+        var updatedCategoryData = categoryData
+        updatedCategoryData.sourceType = DataSourceType.getCurrentSource()
+        
+        dataManager.deleteCategory(categoryData: updatedCategoryData)
     }
     
     func clearState() {

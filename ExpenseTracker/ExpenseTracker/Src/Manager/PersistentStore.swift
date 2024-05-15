@@ -59,6 +59,7 @@ struct PersistentStore {
         entity.paidDate = expenseData.paidDate
         entity.type = expenseData.type
         entity.isBaseRecurrent = expenseData.isBaseRecurrent
+        entity.sourceType = expenseData.sourceType.rawValue
         saveChanges()
     }
     
@@ -67,6 +68,7 @@ struct PersistentStore {
         entity.id = categoryData.id
         entity.title = categoryData.title
         entity.isPredefined = categoryData.isPredefined
+        entity.sourceType = categoryData.sourceType.rawValue
         
         saveChanges()
     }

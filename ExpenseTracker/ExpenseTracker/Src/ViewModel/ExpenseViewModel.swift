@@ -108,6 +108,9 @@ class ExpenseViewModel: ObservableObject {
     }
     
     func deleteExpense(expenseData: ExpenseData) {
-        dataManager.deleteExpense(expenseData: expenseData)
+        var updatedExpenseData = expenseData
+        updatedExpenseData.sourceType = DataSourceType.getCurrentSource()
+        
+        dataManager.deleteExpense(expenseData: updatedExpenseData)
     }
 }
