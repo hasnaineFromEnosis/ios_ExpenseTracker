@@ -41,6 +41,19 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
         }
     }
     
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
+        DispatchQueue.main.async {
+            guard let operationType = WCOperationType.getTypeFromValue(value: userInfo["operationType"] as? String) else {
+                return
+            }
+            if let data = ExpenseData.fromDict(dict: userInfo) {
+                self.expenseOperationCallback?(data, operationType)
+            } else if let data = CategoryData.fromDict(dict: userInfo) {
+                self.categoryOperationCallback?(data, operationType)
+            }
+        }
+    }
+    
     func sendData(data: [String:Any], operationType: WCOperationType) {
         var modifiedData = data
         modifiedData["operationType"] = operationType.rawValue

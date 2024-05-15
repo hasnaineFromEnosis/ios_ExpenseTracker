@@ -52,8 +52,12 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
         var modifiedData = data
         modifiedData["operationType"] = operationType.rawValue
         
-        self.session.sendMessage(modifiedData, replyHandler: nil) { (error) in
-            print("Error message: \(error.localizedDescription)")
+        if self.session.isReachable {
+            self.session.sendMessage(modifiedData, replyHandler: nil) { (error) in
+                print("Error message: \(error.localizedDescription)")
+            }
+        } else {
+            self.session.transferUserInfo(modifiedData)
         }
     }
 }
