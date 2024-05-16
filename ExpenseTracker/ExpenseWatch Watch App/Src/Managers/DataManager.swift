@@ -91,7 +91,11 @@ class DataManager: ObservableObject {
         categoryList = persistentStore.fetchCategory()
         
         if self.categoryList.isEmpty {
-            let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other)
+            let categoryData = CategoryData(title: "Others",
+                                            isPredefined: true,
+                                            sourceType: .other,
+                                            creationDate: Date(),
+                                            updateDate: Date())
             self.createCategory(categoryData: categoryData)
         }
     }
@@ -148,6 +152,7 @@ class DataManager: ObservableObject {
         }
         var updatedExpense = baseExpense
         updatedExpense.paidDate = Date()
+        updatedExpense.updateDate = Date()
         updateExpense(expenseData: updatedExpense)
     }
     

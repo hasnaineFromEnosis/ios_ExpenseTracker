@@ -12,12 +12,16 @@ struct CategoryData: Identifiable, Hashable {
     var title: String
     var isPredefined: Bool
     var sourceType: DataSourceType
+    var creationDate: Date
+    var updateDate: Date
     
-    init(id: UUID = UUID(), title: String = "Dummy Title", isPredefined: Bool = false, sourceType: DataSourceType) {
+    init(id: UUID = UUID(), title: String = "Dummy Title", isPredefined: Bool = false, sourceType: DataSourceType, creationDate: Date, updateDate: Date) {
         self.id = id
         self.title = title
         self.isPredefined = isPredefined
         self.sourceType = sourceType
+        self.creationDate = creationDate
+        self.updateDate = updateDate
     }
     
     init(entity: CategoryDataEntity) {
@@ -25,10 +29,12 @@ struct CategoryData: Identifiable, Hashable {
         self.title = entity.title ?? "Untitled"
         self.isPredefined = entity.isPredefined
         self.sourceType = DataSourceType.getTypeFromValue(value: entity.sourceType) ?? .other
+        self.creationDate = entity.creationDate ?? Date()
+        self.updateDate = entity.updateDate ?? Date()
     }
     
     static func randomCategoryData() -> CategoryData {
-        return CategoryData(title: "Random Category", sourceType: .other)
+        return CategoryData(title: "Random Category", sourceType: .other, creationDate: Date(), updateDate: Date())
     }
     
     func toDict() -> [String: Any] {
@@ -47,11 +53,13 @@ struct CategoryData: Identifiable, Hashable {
               let id = UUID(uuidString: idString),
               let title = dict["title"] as? String,
               let isPredefined = dict["isPredefined"] as? Bool,
+              let creationDate = dict["creationDate"] as? Date,
+              let updateDate = dict["updateDate"] as? Date,
               let sourceTypeRawValue = dict["sourceType"] as? String,
               let sourceType = DataSourceType(rawValue: sourceTypeRawValue) else {
             return nil
         }
         
-        return CategoryData(id: id, title: title, isPredefined: isPredefined, sourceType: sourceType)
+        return CategoryData(id: id, title: title, isPredefined: isPredefined, sourceType: sourceType, creationDate: creationDate, updateDate: updateDate)
     }
 }

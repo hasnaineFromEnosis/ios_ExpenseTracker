@@ -63,6 +63,7 @@ class ExpenseEditorViewModel: ObservableObject {
                                      type: expenseType.rawValue,
                                      sourceType: DataSourceType.getCurrentSource(), 
                                      creationDate: creationDate,
+                                     updateDate: Date(), 
                                      paidDate: getPaidDate(),
                                      isBaseRecurrent: expenseType == .recurrent)
         
@@ -86,6 +87,7 @@ class ExpenseEditorViewModel: ObservableObject {
         expenseData.sourceType = DataSourceType.getCurrentSource()
         expenseData.creationDate = creationDate
         expenseData.paidDate = getPaidDate()
+        expenseData.updateDate = Date()
         
         dataManager.updateExpense(expenseData: expenseData)
         return true

@@ -30,7 +30,11 @@ class AddCategoryViewModel: ObservableObject {
             }
         }
         
-        let newCategory = CategoryData(title: categoryTitle, isPredefined: false, sourceType: .watchOS)
+        let newCategory = CategoryData(title: categoryTitle, 
+                                       isPredefined: false,
+                                       sourceType: .watchOS, 
+                                       creationDate: Date(),
+                                       updateDate: Date())
         dataManager.createCategory(categoryData: newCategory)
         
         return true

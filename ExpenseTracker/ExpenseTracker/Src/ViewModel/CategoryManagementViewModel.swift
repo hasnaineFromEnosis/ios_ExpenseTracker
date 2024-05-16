@@ -42,7 +42,11 @@ class CategoryManagementViewModel: ObservableObject {
             }
         }
       
-        let newCategory = CategoryData(title: categoryTitle, isPredefined: false, sourceType: DataSourceType.getCurrentSource())
+        let newCategory = CategoryData(title: categoryTitle, 
+                                       isPredefined: false,
+                                       sourceType: DataSourceType.getCurrentSource(),
+                                       creationDate: Date(),
+                                       updateDate: Date())
         dataManager.createCategory(categoryData: newCategory)
     }
     

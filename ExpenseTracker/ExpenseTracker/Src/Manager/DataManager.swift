@@ -107,7 +107,7 @@ class DataManager: ObservableObject {
         firebaseManager.fetchCategories { categoryList in
             self.categoryList = self.mergeCategory(listA: self.categoryList, listB: categoryList)
             if self.categoryList.isEmpty {
-                let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other)
+                let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other, creationDate: Date(), updateDate: Date())
                 self.createCategory(categoryData: categoryData)
             }
         }
@@ -167,6 +167,7 @@ class DataManager: ObservableObject {
         var updatedExpense = baseExpense
         updatedExpense.paidDate = Date()
         updatedExpense.sourceType = DataSourceType.iOS
+        updatedExpense.updateDate = Date()
         updateExpense(expenseData: updatedExpense)
     }
     
