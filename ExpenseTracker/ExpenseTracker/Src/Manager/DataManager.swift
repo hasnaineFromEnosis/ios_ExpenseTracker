@@ -16,6 +16,8 @@ class DataManager: ObservableObject {
     
     @Published var categoryList: [CategoryData] = []
     
+    var deletedUserData: [DeletedUserData] = []
+    
     private let persistentStore: PersistentStore
     private let firebaseManager: FirebaseManager
     private let watchConnectivityManager: WatchConnectivityManager
@@ -121,6 +123,10 @@ class DataManager: ObservableObject {
         }
     }
     
+    func fetchDeletedUserData() {
+        deletedUserData = persistentStore.fetchDeletedUserData()
+    }
+    
     func updateExpense(expenseData: ExpenseData) {
         if expenseData.sourceType == .iOS {
             watchConnectivityManager.sendData(data: expenseData.toDict(), operationType: .update)
@@ -144,10 +150,16 @@ class DataManager: ObservableObject {
         if expenseData.sourceType == .iOS {
             watchConnectivityManager.sendData(data: expenseData.toDict(), operationType: .delete)
         }
+        
+        let userData = DeletedUserData(id: expenseData.id,
+                                       creationDate: expenseData.creationDate,
+                                       deletedDate: Date())
+        deletedUserData.append(userData)
+        persistentStore.createDeletedUserData(userData: userData)
         deletePaidExpenseLocally(withID: expenseData.id)
         deletePendingExpenseLocally(withID: expenseData.id)
         
-        persistentStore.deleteExpense(expenseData: expenseData)
+        persistentStore.deleteExpense(expenseDataID: expenseData.id)
         firebaseManager.deleteExpenseData(expense: expenseData)
     }
     
@@ -156,9 +168,15 @@ class DataManager: ObservableObject {
             watchConnectivityManager.sendData(data: categoryData.toDict(), operationType: .delete)
         }
         
+        let userData = DeletedUserData(id: categoryData.id,
+                                       creationDate: categoryData.creationDate,
+                                       deletedDate: Date())
+        deletedUserData.append(userData)
+        persistentStore.createDeletedUserData(userData: userData)
+        
         deleteCategoryLocally(withID: categoryData.id)
         
-        persistentStore.deleteCategory(categoryData: categoryData)
+        persistentStore.deleteCategory(categoryDataID: categoryData.id)
         firebaseManager.deleteCategoryData(category: categoryData)
     }
     
@@ -283,6 +301,12 @@ class DataManager: ObservableObject {
         for category in self.categoryList {
             if category.creationDate > date {
                 self.watchConnectivityManager.sendData(data: category.toDict(), operationType: .create)
+            }
+        }
+        
+        for userData in deletedUserData {
+            if userData.creationDate <= date && userData.deletedDate > date {
+                self.watchConnectivityManager.sendData(data: userData.toDict(), operationType: .delete)
             }
         }
     }

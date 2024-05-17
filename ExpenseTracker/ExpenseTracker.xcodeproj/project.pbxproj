@@ -67,6 +67,8 @@
 		1A891FF92BC4494D001FBA3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A891FF82BC4494D001FBA3B /* FirebaseManager.swift */; };
 		1A8D0C052BF5E1BC000CA736 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D0C042BF5E1BC000CA736 /* Const.swift */; };
 		1A8D0C062BF5E236000CA736 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D0C042BF5E1BC000CA736 /* Const.swift */; };
+		1A8D0C082BF734CE000CA736 /* DeletedUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D0C072BF734CE000CA736 /* DeletedUserData.swift */; };
+		1A8D0C092BF745BF000CA736 /* DeletedUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8D0C072BF734CE000CA736 /* DeletedUserData.swift */; };
 		1A917DDC2BA87AEB00009A5B /* ExpenseTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A917DDB2BA87AEB00009A5B /* ExpenseTrackerApp.swift */; };
 		1A917DDE2BA87AEB00009A5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A917DDD2BA87AEB00009A5B /* ContentView.swift */; };
 		1A917DE02BA87AED00009A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A917DDF2BA87AED00009A5B /* Assets.xcassets */; };
@@ -143,6 +145,7 @@
 		1A53172D2BADF23E00062171 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1A891FF82BC4494D001FBA3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		1A8D0C042BF5E1BC000CA736 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		1A8D0C072BF734CE000CA736 /* DeletedUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedUserData.swift; sourceTree = "<group>"; };
 		1A917DD82BA87AEB00009A5B /* ExpenseTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpenseTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A917DDB2BA87AEB00009A5B /* ExpenseTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTrackerApp.swift; sourceTree = "<group>"; };
 		1A917DDD2BA87AEB00009A5B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -283,6 +286,7 @@
 				1A5316E52BAC4E4C00062171 /* ExpenseDataModel.xcdatamodeld */,
 				1A4EAAC52BB1534E0056C110 /* ExpenseData.swift */,
 				1A4EAAEB2BB974920056C110 /* CategoryData.swift */,
+				1A8D0C072BF734CE000CA736 /* DeletedUserData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -521,6 +525,7 @@
 				1AA4F7902BC55D9A0078447B /* String + Extension.swift in Sources */,
 				1A41EFB12BA8E96800CE4FB9 /* ExpenseRowView.swift in Sources */,
 				1A917DDE2BA87AEB00009A5B /* ContentView.swift in Sources */,
+				1A8D0C082BF734CE000CA736 /* DeletedUserData.swift in Sources */,
 				1A8D0C052BF5E1BC000CA736 /* Const.swift in Sources */,
 				1A5316DA2BAB78CD00062171 /* PlusCircleView.swift in Sources */,
 				1A917DDC2BA87AEB00009A5B /* ExpenseTrackerApp.swift in Sources */,
@@ -547,6 +552,7 @@
 				1A46F5932BEA47F0007FD30A /* CategoryManagementViewModel.swift in Sources */,
 				1A46F5692BE8CA00007FD30A /* CategoryData.swift in Sources */,
 				1ADFF9F32BE8A96800BF90CB /* ContentView.swift in Sources */,
+				1A8D0C092BF745BF000CA736 /* DeletedUserData.swift in Sources */,
 				1A46F57C2BE8F806007FD30A /* PlusCircleView.swift in Sources */,
 				1A46F5682BE8C9FD007FD30A /* ExpenseData.swift in Sources */,
 				1A46F56D2BE8EC0D007FD30A /* ExpenseViewModel.swift in Sources */,

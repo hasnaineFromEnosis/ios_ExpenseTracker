@@ -15,6 +15,7 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     
     var expenseOperationCallback: ((ExpenseData, WCOperationType) -> Void)?
     var categoryOperationCallback: ((CategoryData, WCOperationType) -> Void)?
+    var deleteUserDataCallBack: ((DeletedUserData, WCOperationType) -> Void)?
     
     init(session: WCSession = .default){
         self.session = session
@@ -47,6 +48,8 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
                 self.expenseOperationCallback?(data, operationType)
             } else if let data = CategoryData.fromDict(dict: message) {
                 self.categoryOperationCallback?(data, operationType)
+            } else if let data = DeletedUserData.fromDict(dict: message) {
+                self.deleteUserDataCallBack?(data, operationType)
             }
         }
     }
