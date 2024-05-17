@@ -44,6 +44,8 @@ struct CategoryData: Identifiable, Hashable {
         dict["title"] = title
         dict["isPredefined"] = isPredefined
         dict["sourceType"] = sourceType.rawValue
+        dict["creationDate"] = creationDate
+        dict["updateDate"] = updateDate
         
         return dict
     }

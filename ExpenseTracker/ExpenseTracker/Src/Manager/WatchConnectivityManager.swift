@@ -14,6 +14,7 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
     
     var expenseOperationCallback: ((ExpenseData, WCOperationType) -> Void)?
     var categoryOperationCallback: ((CategoryData, WCOperationType) -> Void)?
+    var syncDataCallBack: ((Date) -> Void)?
     
     init(session: WCSession = .default){
         self.session = session
@@ -40,6 +41,12 @@ class WatchConnectivityManager: NSObject,  WCSessionDelegate {
             guard let operationType = WCOperationType.getTypeFromValue(value: message["operationType"] as? String) else {
                 return
             }
+            
+            if operationType == .synchronize,
+               let lastSyncTime = message[Const.lastSynchronizeKey] as? Date {
+                self.syncDataCallBack?(lastSyncTime)
+            }
+            
             if let data = ExpenseData.fromDict(dict: message) {
                 self.expenseOperationCallback?(data, operationType)
             } else if let data = CategoryData.fromDict(dict: message) {

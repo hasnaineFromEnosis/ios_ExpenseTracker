@@ -34,6 +34,8 @@ class DataManager: ObservableObject {
                 self?.updateExpense(expenseData: expenseData)
             case .delete:
                 self?.deleteExpense(expenseData: expenseData)
+            case .synchronize:
+                fatalError("Wrong operation for category")
             }
             
         }
@@ -42,10 +44,16 @@ class DataManager: ObservableObject {
             switch operationType {
             case .create:
                 self?.createCategory(categoryData: categoryData)
-            case .update:
-                fatalError("Wrong operation for category")
             case .delete:
                 self?.deleteCategory(categoryData: categoryData)
+            case .update, .synchronize:
+                fatalError("Wrong operation for category")
+            }
+        }
+        
+        self.watchConnectivityManager.syncDataCallBack = { [weak self] lastSyncTime in
+            DispatchQueue.global(qos: .background).async {
+                self?.syncData(for: lastSyncTime)
             }
         }
     }
@@ -245,5 +253,37 @@ class DataManager: ObservableObject {
     
     private func addPaidExpenseLocally(_ newExpense: ExpenseData) {
         self.paidExpensesList.append(newExpense)
+    }
+    
+    private func syncData(for date: Date) {
+        for paidExpense in self.paidExpensesList {
+            if paidExpense.creationDate > date {
+                self.watchConnectivityManager.sendData(data: paidExpense.toDict(), operationType: .create)
+            } else if paidExpense.updateDate > date {
+                self.watchConnectivityManager.sendData(data: paidExpense.toDict(), operationType: .update)
+            }
+        }
+        
+        for pendingExpense in self.pendingExpensesList {
+            if pendingExpense.creationDate > date {
+                self.watchConnectivityManager.sendData(data: pendingExpense.toDict(), operationType: .create)
+            } else if pendingExpense.updateDate > date {
+                self.watchConnectivityManager.sendData(data: pendingExpense.toDict(), operationType: .update)
+            }
+        }
+        
+        for baseRecurrentExpense in self.baseRecurrentExpenseList {
+            if baseRecurrentExpense.creationDate > date {
+                self.watchConnectivityManager.sendData(data: baseRecurrentExpense.toDict(), operationType: .create)
+            } else if baseRecurrentExpense.updateDate > date {
+                self.watchConnectivityManager.sendData(data: baseRecurrentExpense.toDict(), operationType: .update)
+            }
+        }
+        
+        for category in self.categoryList {
+            if category.creationDate > date {
+                self.watchConnectivityManager.sendData(data: category.toDict(), operationType: .create)
+            }
+        }
     }
 }

@@ -32,6 +32,8 @@ class DataManager: ObservableObject {
                 self?.updateExpense(expenseData: expenseData)
             case .delete:
                 self?.deleteExpense(expenseData: expenseData)
+            case .synchronize:
+                fatalError("Wrong operation for category")
             }
             
         }
@@ -40,10 +42,10 @@ class DataManager: ObservableObject {
             switch operationType {
             case .create:
                 self?.createCategory(categoryData: categoryData)
-            case .update:
-                fatalError("Wrong operation for category")
             case .delete:
                 self?.deleteCategory(categoryData: categoryData)
+            case .update, .synchronize:
+                fatalError("Wrong operation for category")
             }
         }
     }
