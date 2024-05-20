@@ -60,6 +60,8 @@ struct PersistentStore {
         entity.type = expenseData.type
         entity.isBaseRecurrent = expenseData.isBaseRecurrent
         entity.sourceType = expenseData.sourceType.rawValue
+        entity.updateDate = expenseData.updateDate
+        
         saveChanges()
     }
     
@@ -69,6 +71,17 @@ struct PersistentStore {
         entity.title = categoryData.title
         entity.isPredefined = categoryData.isPredefined
         entity.sourceType = categoryData.sourceType.rawValue
+        entity.creationDate = categoryData.creationDate
+        entity.updateDate = categoryData.updateDate
+        
+        saveChanges()
+    }
+    
+    func createDeletedUserData(userData: DeletedUserData) {
+        let entity = DeletedUserDataEntity(context: container.viewContext)
+        entity.id = userData.id
+        entity.creationDate = userData.creationDate
+        entity.deletedDate = userData.deletedDate
         
         saveChanges()
     }
@@ -107,8 +120,25 @@ struct PersistentStore {
         return convertCategoryEntityArrayToData(entities: results)
     }
     
+    func fetchDeletedUserData(predicateFormat: String? = nil, fetchLimit: Int? = nil) -> [DeletedUserData] {
+        var results: [DeletedUserDataEntity] = []
+        let request: NSFetchRequest<DeletedUserDataEntity> = DeletedUserDataEntity.fetchRequest()
+        if let predicateFormat = predicateFormat {
+            request.predicate = NSPredicate(format: predicateFormat)
+        }
+        if let fetchLimit = fetchLimit {
+            request.fetchLimit = fetchLimit
+        }
+        do {
+            results = try container.viewContext.fetch(request)
+        } catch {
+            fatalError("Error fetching expenses: \(error)")
+        }
+        return convertDeletedUserDataEntityArrayToData(entities: results)
+    }
+    
     func updateExpense(expenseData: ExpenseData) {
-        guard let entity = getExpenseDataEntity(expenseData: expenseData) else {
+        guard let entity = getExpenseDataEntity(with: expenseData.id) else {
             return
         }
         
@@ -119,24 +149,40 @@ struct PersistentStore {
         entity.type = expenseData.type
         entity.creationDate = expenseData.creationDate
         entity.paidDate = expenseData.paidDate
+        entity.sourceType = expenseData.sourceType.rawValue
+        entity.updateDate = expenseData.updateDate
+        entity.isBaseRecurrent = expenseData.isBaseRecurrent
         
         saveChanges()
     }
     
-    func deleteExpense(expenseData: ExpenseData) {
-        guard let entity = getExpenseDataEntity(expenseData: expenseData) else {
+    func deleteExpense(expenseDataID: UUID) {
+        guard let entity = getExpenseDataEntity(with: expenseDataID) else {
             return
         }
         container.viewContext.delete(entity)
         saveChanges()
     }
     
-    func deleteCategory(categoryData: CategoryData) {
-        guard let entity = getCategoryDataEntity(categoryData: categoryData) else {
+    func deleteCategory(categoryDataID: UUID) {
+        guard let entity = getCategoryDataEntity(with: categoryDataID) else {
             return
         }
         container.viewContext.delete(entity)
         saveChanges()
+    }
+    
+    func deleteUserData(userDataID: UUID) {
+        guard let entity = getUserDataEntity(with: userDataID) else {
+            return
+        }
+        container.viewContext.delete(entity)
+        saveChanges()
+    }
+    
+    func deleteDataFromUserData(id: UUID) {
+        self.deleteExpense(expenseDataID: id)
+        self.deleteCategory(categoryDataID: id)
     }
     
     // MARK: Private Methods
@@ -152,8 +198,8 @@ struct PersistentStore {
         }
     }
     
-    private func getExpenseDataEntity(expenseData: ExpenseData) -> ExpenseDataEntity? {
-        let predicate = NSPredicate(format: "id = %@", expenseData.id as CVarArg)
+    private func getExpenseDataEntity(with id: UUID) -> ExpenseDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", id as CVarArg)
         let result = self.fetchFirst(ExpenseDataEntity.self, predicate: predicate)
         switch result {
         case .success(let managedObject):
@@ -168,8 +214,8 @@ struct PersistentStore {
         }
     }
     
-    private func getCategoryDataEntity(categoryData: CategoryData) -> CategoryDataEntity? {
-        let predicate = NSPredicate(format: "id = %@", categoryData.id as CVarArg)
+    private func getCategoryDataEntity(with id: UUID) -> CategoryDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", id as CVarArg)
         let result = self.fetchFirst(CategoryDataEntity.self, predicate: predicate)
         switch result {
         case .success(let managedObject):
@@ -184,11 +230,31 @@ struct PersistentStore {
         }
     }
     
+    private func getUserDataEntity(with id: UUID) -> DeletedUserDataEntity? {
+        let predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        let result = self.fetchFirst(DeletedUserDataEntity.self, predicate: predicate)
+        switch result {
+        case .success(let managedObject):
+            if let entity = managedObject {
+                return entity
+            } else {
+                return nil
+            }
+        case .failure(let error):
+            print("Error fetching DeletedUserDataEntity: \(error)")
+            return nil
+        }
+    }
+    
     private func convertExpenseEntityArrayToData(entities: [ExpenseDataEntity]) -> [ExpenseData] {
         return entities.map(ExpenseData.init)
     }
     
     private func convertCategoryEntityArrayToData(entities: [CategoryDataEntity]) -> [CategoryData] {
         return entities.map(CategoryData.init)
+    }
+    
+    private func convertDeletedUserDataEntityArrayToData(entities: [DeletedUserDataEntity]) -> [DeletedUserData] {
+        return entities.map(DeletedUserData.init)
     }
 }

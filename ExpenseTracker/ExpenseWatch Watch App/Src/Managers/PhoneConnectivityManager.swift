@@ -15,6 +15,7 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     
     var expenseOperationCallback: ((ExpenseData, WCOperationType) -> Void)?
     var categoryOperationCallback: ((CategoryData, WCOperationType) -> Void)?
+    var deleteUserDataCallBack: ((DeletedUserData, WCOperationType) -> Void)?
     
     init(session: WCSession = .default){
         self.session = session
@@ -28,7 +29,17 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
         
     }
     
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        let lastSyncTime = getLastSyncTime()
+        let dict: [String: Date] = [Const.lastSynchronizeKey: lastSyncTime]
+        
+        if session.isReachable {
+            sendData(data: dict, operationType: .synchronize)
+        }
+    }
+    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        updateSyncTime()
         DispatchQueue.main.async {
             guard let operationType = WCOperationType.getTypeFromValue(value: message["operationType"] as? String) else {
                 return
@@ -37,19 +48,8 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
                 self.expenseOperationCallback?(data, operationType)
             } else if let data = CategoryData.fromDict(dict: message) {
                 self.categoryOperationCallback?(data, operationType)
-            }
-        }
-    }
-    
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
-        DispatchQueue.main.async {
-            guard let operationType = WCOperationType.getTypeFromValue(value: userInfo["operationType"] as? String) else {
-                return
-            }
-            if let data = ExpenseData.fromDict(dict: userInfo) {
-                self.expenseOperationCallback?(data, operationType)
-            } else if let data = CategoryData.fromDict(dict: userInfo) {
-                self.categoryOperationCallback?(data, operationType)
+            } else if let data = DeletedUserData.fromDict(dict: message) {
+                self.deleteUserDataCallBack?(data, operationType)
             }
         }
     }
@@ -57,9 +57,20 @@ class PhoneConnectivityManager: NSObject,  WCSessionDelegate {
     func sendData(data: [String:Any], operationType: WCOperationType) {
         var modifiedData = data
         modifiedData["operationType"] = operationType.rawValue
+        updateSyncTime()
         
         self.session.sendMessage(modifiedData, replyHandler: nil) { (error) in
             print("Error message: \(error.localizedDescription)")
         }
+    }
+    
+    private func updateSyncTime() {
+        let defaults = UserDefaults.standard
+        defaults.set(Date(), forKey: Const.lastSynchronizeKey)
+    }
+    
+    private func getLastSyncTime() -> Date {
+        let defaults = UserDefaults.standard
+        return defaults.object(forKey: Const.lastSynchronizeKey) as? Date ?? Date.distantPast
     }
 }

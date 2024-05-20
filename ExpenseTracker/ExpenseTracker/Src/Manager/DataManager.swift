@@ -16,6 +16,8 @@ class DataManager: ObservableObject {
     
     @Published var categoryList: [CategoryData] = []
     
+    var deletedUserData: [DeletedUserData] = []
+    
     private let persistentStore: PersistentStore
     private let firebaseManager: FirebaseManager
     private let watchConnectivityManager: WatchConnectivityManager
@@ -34,6 +36,8 @@ class DataManager: ObservableObject {
                 self?.updateExpense(expenseData: expenseData)
             case .delete:
                 self?.deleteExpense(expenseData: expenseData)
+            case .synchronize:
+                fatalError("Wrong operation for category")
             }
             
         }
@@ -42,10 +46,16 @@ class DataManager: ObservableObject {
             switch operationType {
             case .create:
                 self?.createCategory(categoryData: categoryData)
-            case .update:
-                fatalError("Wrong operation for category")
             case .delete:
                 self?.deleteCategory(categoryData: categoryData)
+            case .update, .synchronize:
+                fatalError("Wrong operation for category")
+            }
+        }
+        
+        self.watchConnectivityManager.syncDataCallBack = { [weak self] lastSyncTime in
+            DispatchQueue.global(qos: .background).async {
+                self?.syncData(for: lastSyncTime)
             }
         }
     }
@@ -107,10 +117,14 @@ class DataManager: ObservableObject {
         firebaseManager.fetchCategories { categoryList in
             self.categoryList = self.mergeCategory(listA: self.categoryList, listB: categoryList)
             if self.categoryList.isEmpty {
-                let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other)
+                let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other, creationDate: Date(), updateDate: Date())
                 self.createCategory(categoryData: categoryData)
             }
         }
+    }
+    
+    func fetchDeletedUserData() {
+        deletedUserData = persistentStore.fetchDeletedUserData()
     }
     
     func updateExpense(expenseData: ExpenseData) {
@@ -136,10 +150,16 @@ class DataManager: ObservableObject {
         if expenseData.sourceType == .iOS {
             watchConnectivityManager.sendData(data: expenseData.toDict(), operationType: .delete)
         }
+        
+        let userData = DeletedUserData(id: expenseData.id,
+                                       creationDate: expenseData.creationDate,
+                                       deletedDate: Date())
+        deletedUserData.append(userData)
+        persistentStore.createDeletedUserData(userData: userData)
         deletePaidExpenseLocally(withID: expenseData.id)
         deletePendingExpenseLocally(withID: expenseData.id)
         
-        persistentStore.deleteExpense(expenseData: expenseData)
+        persistentStore.deleteExpense(expenseDataID: expenseData.id)
         firebaseManager.deleteExpenseData(expense: expenseData)
     }
     
@@ -148,9 +168,15 @@ class DataManager: ObservableObject {
             watchConnectivityManager.sendData(data: categoryData.toDict(), operationType: .delete)
         }
         
+        let userData = DeletedUserData(id: categoryData.id,
+                                       creationDate: categoryData.creationDate,
+                                       deletedDate: Date())
+        deletedUserData.append(userData)
+        persistentStore.createDeletedUserData(userData: userData)
+        
         deleteCategoryLocally(withID: categoryData.id)
         
-        persistentStore.deleteCategory(categoryData: categoryData)
+        persistentStore.deleteCategory(categoryDataID: categoryData.id)
         firebaseManager.deleteCategoryData(category: categoryData)
     }
     
@@ -167,6 +193,7 @@ class DataManager: ObservableObject {
         var updatedExpense = baseExpense
         updatedExpense.paidDate = Date()
         updatedExpense.sourceType = DataSourceType.iOS
+        updatedExpense.updateDate = Date()
         updateExpense(expenseData: updatedExpense)
     }
     
@@ -244,5 +271,43 @@ class DataManager: ObservableObject {
     
     private func addPaidExpenseLocally(_ newExpense: ExpenseData) {
         self.paidExpensesList.append(newExpense)
+    }
+    
+    private func syncData(for date: Date) {
+        for paidExpense in self.paidExpensesList {
+            if paidExpense.creationDate > date {
+                self.watchConnectivityManager.sendData(data: paidExpense.toDict(), operationType: .create)
+            } else if paidExpense.updateDate > date {
+                self.watchConnectivityManager.sendData(data: paidExpense.toDict(), operationType: .update)
+            }
+        }
+        
+        for pendingExpense in self.pendingExpensesList {
+            if pendingExpense.creationDate > date {
+                self.watchConnectivityManager.sendData(data: pendingExpense.toDict(), operationType: .create)
+            } else if pendingExpense.updateDate > date {
+                self.watchConnectivityManager.sendData(data: pendingExpense.toDict(), operationType: .update)
+            }
+        }
+        
+        for baseRecurrentExpense in self.baseRecurrentExpenseList {
+            if baseRecurrentExpense.creationDate > date {
+                self.watchConnectivityManager.sendData(data: baseRecurrentExpense.toDict(), operationType: .create)
+            } else if baseRecurrentExpense.updateDate > date {
+                self.watchConnectivityManager.sendData(data: baseRecurrentExpense.toDict(), operationType: .update)
+            }
+        }
+        
+        for category in self.categoryList {
+            if category.creationDate > date {
+                self.watchConnectivityManager.sendData(data: category.toDict(), operationType: .create)
+            }
+        }
+        
+        for userData in deletedUserData {
+            if userData.creationDate <= date && userData.deletedDate > date {
+                self.watchConnectivityManager.sendData(data: userData.toDict(), operationType: .delete)
+            }
+        }
     }
 }

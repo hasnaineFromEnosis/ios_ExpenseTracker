@@ -27,7 +27,9 @@ class FirebaseManager: ObservableObject {
         let categoryDict: [String: Any] = [
             "title": category.title,
             "isPredefined": category.isPredefined,
-            "sourceType": category.sourceType.rawValue
+            "sourceType": category.sourceType.rawValue,
+            "updateDate": category.updateDate.description,
+            "creationDate": category.creationDate.description
         ]
         
         categoryRef.setValue(categoryDict)
@@ -43,7 +45,7 @@ class FirebaseManager: ObservableObject {
             .child(user.uid)
             .child("categories")
         
-        categoriesRef.observeSingleEvent(of: .value) { snapshot in
+        categoriesRef.observeSingleEvent(of: .value) { snapshot, arg in
             var categories: [CategoryData] = []
             
             for child in snapshot.children {
@@ -51,11 +53,13 @@ class FirebaseManager: ObservableObject {
                    let categoryDict = snapshot.value as? [String: Any],
                    let title = categoryDict["title"] as? String,
                    let isPredefined = categoryDict["isPredefined"] as? Bool,
+                   let creationDate = categoryDict["creationDate"] as? Date,
+                   let updateDate = categoryDict["updateDate"] as? Date,
                    let sourceTypeString = categoryDict["sourceType"] as? String,
                    let sourceType = DataSourceType.getTypeFromValue(value: sourceTypeString),
                    let id = UUID(uuidString: snapshot.key) {
                     
-                    let category = CategoryData(id: id, title: title, isPredefined: isPredefined, sourceType: sourceType)
+                    let category = CategoryData(id: id, title: title, isPredefined: isPredefined, sourceType: sourceType, creationDate: creationDate, updateDate: updateDate)
                     categories.append(category)
                 }
             }
@@ -93,6 +97,7 @@ class FirebaseManager: ObservableObject {
             "title": expense.title,
             "details": expense.details,
             "creationDate": expense.creationDate.description,
+            "updateDate": expense.updateDate.description,
             "paidDate": expense.paidDate?.description ?? "nil",
             "amount": expense.amount,
             "category": expense.category,
@@ -139,7 +144,8 @@ class FirebaseManager: ObservableObject {
                                           category: expenseDict["category"] as? String ?? "",
                                           type: expenseDict["type"] as? String ?? "", 
                                           sourceType: DataSourceType.getTypeFromValue(value: expenseDict["sourceType"] as? String) ?? .other,
-                                          creationDate: (expenseDict["creationDate"] as? String)?.toDate() ?? Date(),
+                                          creationDate: (expenseDict["creationDate"] as? String)?.toDate() ?? Date(), 
+                                          updateDate: (expenseDict["updateDate"] as? String)?.toDate() ?? Date(),
                                           paidDate: (expenseDict["paidDate"] as? String)?.toDate(),
                                           isBaseRecurrent: expenseDict["isBaseRecurrent"] as? Bool ?? false)
                 

@@ -61,6 +61,7 @@ enum WCOperationType: String {
     case create = "create"
     case update = "update"
     case delete = "delete"
+    case synchronize = "synchronize"
     
     static func getTypeFromValue(value: String?) -> WCOperationType? {
         guard let value = value else {
@@ -73,6 +74,8 @@ enum WCOperationType: String {
             return .update
         } else if value == "delete" {
             return .delete
+        } else if value == "synchronize" {
+            return .synchronize
         }
         
         return nil

@@ -18,6 +18,7 @@ struct ExpenseData: Identifiable, Hashable {
     var type: String
     var sourceType: DataSourceType
     var isBaseRecurrent: Bool
+    var updateDate: Date
     
     init(id: UUID = UUID(),
          title: String = "Dummy Title",
@@ -25,8 +26,9 @@ struct ExpenseData: Identifiable, Hashable {
          amount: Int = Int.random(in: 1...1000),
          category: String = "Dummy Category",
          type: String = ExpenseType.random.rawValue,
-         sourceType: DataSourceType,
+         sourceType: DataSourceType = .other,
          creationDate: Date = Date.distantPast,
+         updateDate: Date = Date.now,
          paidDate: Date? = nil,
          isBaseRecurrent: Bool = false) {
         self.id = id
@@ -37,6 +39,7 @@ struct ExpenseData: Identifiable, Hashable {
         self.type = type
         self.sourceType = sourceType
         self.creationDate = creationDate
+        self.updateDate = updateDate
         self.paidDate = paidDate
         self.isBaseRecurrent = isBaseRecurrent
     }
@@ -46,6 +49,7 @@ struct ExpenseData: Identifiable, Hashable {
         self.title = entity.title ?? "Untitled"
         self.details = entity.details ?? "Invalid details"
         self.creationDate = entity.creationDate ?? Date()
+        self.updateDate = entity.updateDate ?? Date()
         self.paidDate = entity.paidDate
         self.amount = Int(entity.amount)
         self.category = entity.category ?? "Invalid category"
@@ -67,6 +71,7 @@ struct ExpenseData: Identifiable, Hashable {
         dict["title"] = title
         dict["details"] = details
         dict["creationDate"] = creationDate
+        dict["updateDate"] = updateDate
         dict["amount"] = amount
         dict["category"] = category
         dict["type"] = type
@@ -86,6 +91,7 @@ struct ExpenseData: Identifiable, Hashable {
               let title = dict["title"] as? String,
               let details = dict["details"] as? String,
               let creationDate = dict["creationDate"] as? Date,
+              let updateDate = dict["updateDate"] as? Date,
               let amount = dict["amount"] as? Int,
               let category = dict["category"] as? String,
               let type = dict["type"] as? String,
@@ -97,6 +103,6 @@ struct ExpenseData: Identifiable, Hashable {
         
         let paidDate = dict["paidDate"] as? Date
         
-        return ExpenseData(id: id, title: title, details: details, amount: amount, category: category, type: type, sourceType: sourceType, creationDate: creationDate, paidDate: paidDate, isBaseRecurrent: isBaseRecurrent)
+        return ExpenseData(id: id, title: title, details: details, amount: amount, category: category, type: type, sourceType: sourceType, creationDate: creationDate, updateDate: updateDate, paidDate: paidDate, isBaseRecurrent: isBaseRecurrent)
     }
 }

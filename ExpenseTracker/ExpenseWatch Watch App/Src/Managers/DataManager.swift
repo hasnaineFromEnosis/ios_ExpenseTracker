@@ -32,6 +32,8 @@ class DataManager: ObservableObject {
                 self?.updateExpense(expenseData: expenseData)
             case .delete:
                 self?.deleteExpense(expenseData: expenseData)
+            case .synchronize:
+                fatalError("Wrong operation for category")
             }
             
         }
@@ -40,10 +42,19 @@ class DataManager: ObservableObject {
             switch operationType {
             case .create:
                 self?.createCategory(categoryData: categoryData)
-            case .update:
-                fatalError("Wrong operation for category")
             case .delete:
                 self?.deleteCategory(categoryData: categoryData)
+            case .update, .synchronize:
+                fatalError("Wrong operation for category")
+            }
+        }
+        
+        self.phoneConnectivityManager.deleteUserDataCallBack = { [weak self] userData, operationType in
+            switch operationType {
+            case .delete:
+                self?.deleteData(userData: userData)
+            case .create, .update, .synchronize:
+                fatalError("Wrong operation for category")
             }
         }
     }
@@ -89,11 +100,6 @@ class DataManager: ObservableObject {
     
     func fetchCategory() {
         categoryList = persistentStore.fetchCategory()
-        
-        if self.categoryList.isEmpty {
-            let categoryData = CategoryData(title: "Others", isPredefined: true, sourceType: .other)
-            self.createCategory(categoryData: categoryData)
-        }
     }
     
     func updateExpense(expenseData: ExpenseData) {
@@ -123,7 +129,7 @@ class DataManager: ObservableObject {
         deletePaidExpenseLocally(withID: expenseData.id)
         deletePendingExpenseLocally(withID: expenseData.id)
         
-        persistentStore.deleteExpense(expenseData: expenseData)
+        persistentStore.deleteExpense(expenseDataID: expenseData.id)
     }
     
     func deleteCategory(categoryData: CategoryData) {
@@ -133,7 +139,7 @@ class DataManager: ObservableObject {
         
         deleteCategoryLocally(withID: categoryData.id)
         
-        persistentStore.deleteCategory(categoryData: categoryData)
+        persistentStore.deleteCategory(categoryDataID: categoryData.id)
     }
     
     // MARK: Private Methods
@@ -148,6 +154,7 @@ class DataManager: ObservableObject {
         }
         var updatedExpense = baseExpense
         updatedExpense.paidDate = Date()
+        updatedExpense.updateDate = Date()
         updateExpense(expenseData: updatedExpense)
     }
     
@@ -186,6 +193,14 @@ class DataManager: ObservableObject {
     
     private func addPaidExpenseLocally(_ newExpense: ExpenseData) {
         self.paidExpensesList.append(newExpense)
+    }
+    
+    private func deleteData(userData: DeletedUserData) {
+        deletePaidExpenseLocally(withID: userData.id)
+        deletePendingExpenseLocally(withID: userData.id)
+        deleteCategoryLocally(withID: userData.id)
+        
+        persistentStore.deleteDataFromUserData(id: userData.id)
     }
 }
 
