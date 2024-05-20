@@ -100,15 +100,6 @@ class DataManager: ObservableObject {
     
     func fetchCategory() {
         categoryList = persistentStore.fetchCategory()
-        
-        if self.categoryList.isEmpty {
-            let categoryData = CategoryData(title: "Others",
-                                            isPredefined: true,
-                                            sourceType: .other,
-                                            creationDate: Date(),
-                                            updateDate: Date())
-            self.createCategory(categoryData: categoryData)
-        }
     }
     
     func updateExpense(expenseData: ExpenseData) {
